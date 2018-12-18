@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for client/actions/index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">client/actions/</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/41</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/9</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as types from '../constants/actionTypes'
+import store from '../store'
+import * as f from '../tools'
+import rotations from '../tools/rotations'
+&nbsp;
+const nextTurn = <span class="fstat-no" title="function not covered" >(coords) =&gt; {</span>
+  const { interval } = store.getState()
+  clearInterval(interval)
+  store.dispatch(putPiece(coords))
+  const piece = f.newTetriminos()
+<span class="cstat-no" title="statement not covered" >  if (f.isPossible(store.getState().tetris, piece.coords))</span>
+<span class="cstat-no" title="statement not covered" >    store.dispatch(newPiece(piece))</span>
+  else
+    removeEventListener('keydown', addKeyEvents)
+}
+&nbsp;
+const gravity = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+  return setInterval(<span class="fstat-no" title="function not covered" >() =&gt; {</span>
+    const { tetris, coords } = store.getState()
+    const newCoords = coords.map(([x, y]) =&gt; [x, y+1])
+<span class="cstat-no" title="statement not covered" >    if (f.isPossible(tetris, newCoords)) {</span>
+      store.dispatch(movePiece(newCoords))
+    } else {
+      nextTurn(coords)
+    }
+  }, 3000)
+}
+&nbsp;
+const addKeyEvents = <span class="fstat-no" title="function not covered" >({ keyCode }) =&gt; {</span>
+  const { tetris, coords } = store.getState()
+<span class="cstat-no" title="statement not covered" >  if (!coords) r</span>eturn
+<span class="cstat-no" title="statement not covered" >  if (keyCode === 37 || keyCode === 39 || keyCode === 40) {</span>
+    const i = keyCode === 37 ? -1 : (keyCode === 39 ? 1 : 0)
+    const j = keyCode === 40 ? 1 : 0
+    const newCoords = coords.map(([x, y]) =&gt; [x+i, y+j])
+<span class="cstat-no" title="statement not covered" >    if (f.isPossible(tetris, newCoords)) {</span>
+      store.dispatch(movePiece(newCoords))
+    }
+  } else <span class="cstat-no" title="statement not covered" >if (keyCode === 38) {</span>
+    const { rotate, type } = store.getState();
+    const change = rotations[type][rotate];
+    let newCoords = coords.map(([x, y], i) =&gt; [x + change[i][0], y + change[i][1]])
+<span class="cstat-no" title="statement not covered" >    if (f.isPossible(tetris, newCoords) || (newCoords = f.tryTranslation(tetris, newCoords))) {</span>
+      store.dispatch(movePiece(newCoords, (rotate+1)%rotations[type].length))
+    }
+  } else <span class="cstat-no" title="statement not covered" >if (keyCode === 32) {</span>
+    nextTurn(store.getState().ghost)
+  }
+}
+&nbsp;
+export const startGame = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+  addEventListener('keydown', addKeyEvents)
+  return {
+    type: types.START_GAME,
+  }
+}
+&nbsp;
+export const newPiece = <span class="fstat-no" title="function not covered" >(piece=null) =&gt; {</span>
+  piece = piece || f.newTetriminos();
+  return {
+    type: types.NEW_PIECE,
+    piece,
+    interval: gravity(),
+  }
+}
+&nbsp;
+export const movePiece = <span class="fstat-no" title="function not covered" >(coords, rotate=null) =&gt; {</span>
+  return {
+    type: types.MOVE_PIECE,
+    coords,
+    rotate,
+  }
+}
+&nbsp;
+export const movePieceIfPossible = (coords, nextTurn=false) =&gt; <span class="fstat-no" title="function not covered" >(dispatch, getState) =&gt; {</span>
+  const { tetris } = getState()
+}
+&nbsp;
+export const putPiece = <span class="fstat-no" title="function not covered" >(coords) =&gt; {</span>
+  return {
+    type: types.PUT_PIECE,
+    coords,
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 25 2018 15:39:44 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

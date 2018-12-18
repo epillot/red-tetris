@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for client/tools/index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">client/tools/</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/25</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/41</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/25</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const copyTetris = tetris =&gt; tetris.map(line =&gt; line.map(b =&gt; b))
+&nbsp;
+const getTetriminos = <span class="fstat-no" title="function not covered" >(name) =&gt; {</span>
+  //square
+<span class="cstat-no" title="statement not covered" >  if (name === 'square') r</span>eturn {
+    coords: [[0, -1], [0, 0], [1, -1], [1, 0]],
+    rotate: 0,
+    color: 'blue',
+    type: 'square',
+  };
+  //T
+<span class="cstat-no" title="statement not covered" >  if (name === 'T') r</span>eturn {
+    coords: [[0, -1], [0, 0], [-1, 0], [1, 0]],
+    rotate: 0,
+    color: 'red',
+    type: 'T',
+  };
+  //L
+<span class="cstat-no" title="statement not covered" >  if (name === 'L') r</span>eturn {
+    coords: [[0, -2], [0, -1], [0, 0], [1, 0]],
+    rotate: 0,
+    color: 'yellow',
+    type: 'L',
+  };
+  //reverse L
+<span class="cstat-no" title="statement not covered" >  if (name === 'revL') r</span>eturn {
+    coords: [[0, 0], [0, -1], [0, -2], [1, -2]],
+    rotate: 0,
+    color: 'green',
+    type: 'revL',
+  };
+  //ligne
+<span class="cstat-no" title="statement not covered" >  if (name === 'line') r</span>eturn {
+    coords: [[0, -3], [0, -2], [0, -1], [0, 0]],
+    rotate: 0,
+    color: 'purple',
+    type: 'line',
+  };
+  //Z
+<span class="cstat-no" title="statement not covered" >  if (name === 'Z') r</span>eturn {
+    coords: [[1, -1], [0, -1], [0, 0], [-1, 0]],
+    rotate: 0,
+    color: 'orange',
+    type: 'Z',
+  };
+  //reverse Z
+<span class="cstat-no" title="statement not covered" >  if (name === 'revZ') r</span>eturn {
+    coords: [[-1, -1], [0, -1], [0, 0], [1, 0]],
+    rotate: 0,
+    color: 'pink',
+    type: 'revZ',
+  };
+}
+&nbsp;
+export const newTetriminos = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+  const items = ['line', 'L', 'revL', 'Z', 'revZ', 'T', 'square']
+  let name = items[Math.floor(Math.random()*items.length)]
+  const t = getTetriminos(name)
+  const startx = 4
+<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 4; i++) {</span>
+    t.coords[i][0] += startx
+  }
+&nbsp;
+  return t
+}
+&nbsp;
+export const putPiece = <span class="fstat-no" title="function not covered" >(tetris, coords, color) =&gt; {</span>
+  let newTetris = copyTetris(tetris)
+  coords.forEach(<span class="fstat-no" title="function not covered" >([x, y]) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (y &gt;= 0)</span>
+      newTetris[x][y] = color
+  });
+  const lines = getCompleteLines(newTetris)
+<span class="cstat-no" title="statement not covered" >  if (lines)</span>
+    newTetris = removeLines(newTetris, lines)
+  return newTetris
+}
+&nbsp;
+//check si un nouveau block se retrouve a la même position qu'un ancien
+const checkBlock = <span class="fstat-no" title="function not covered" >(tetris, prevCoords, newCoord) =&gt; {</span>
+  const [x, y] = newCoord
+<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 4; i++) {</span>
+    let [x2, y2] = prevCoords[i]
+<span class="cstat-no" title="statement not covered" >    if (x === x2 &amp;&amp; y === y2)</span>
+      return true
+  }
+  return false
+}
+&nbsp;
+&nbsp;
+export const isPossible = <span class="fstat-no" title="function not covered" >(tetris, coords) =&gt; {</span>
+  let possible = true;
+<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 4; i++) {</span>
+    let [x, y] = coords[i]
+<span class="cstat-no" title="statement not covered" >    if (x &lt; 0 || x &gt; 9 || y &gt; 19 || (y &gt;= 0 &amp;&amp; tetris[x][y] !== ''))</span>
+      possible = false
+  }
+  return possible
+}
+&nbsp;
+export const tryTranslation = <span class="fstat-no" title="function not covered" >(tetris, coords) =&gt; {</span>
+  const translations = [ [1, 0], [-1, 0], [2, 0], [-2, 0], [0, 1], [0, 2] ]
+  let newCoords
+<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; translations.length; i++) {</span>
+    const [x2, y2] = translations[i]
+    newCoords = coords.map(([x, y]) =&gt; [x + x2, y + y2])
+<span class="cstat-no" title="statement not covered" >    if (isPossible(tetris, newCoords))</span>
+      return newCoords
+  }
+  return null
+}
+&nbsp;
+export const getCompleteLines = <span class="fstat-no" title="function not covered" >(tetris) =&gt; {</span>
+  const output = []
+  let isComplete
+<span class="cstat-no" title="statement not covered" >  for (let y = 19; y &gt;= 0; y--) {</span>
+    isComplete = true
+<span class="cstat-no" title="statement not covered" >    for (let x = 0; x &lt; 10; x++) {</span>
+<span class="cstat-no" title="statement not covered" >      if (tetris[x][y] === '') {</span>
+        isComplete = false
+        break
+      }
+    }
+<span class="cstat-no" title="statement not covered" >    if (isComplete)</span>
+      output.push(y)
+  }
+  return output.length ? output : 0
+}
+&nbsp;
+const getRevGrid = <span class="fstat-no" title="function not covered" >(grid) =&gt; {</span>
+  const output = []
+<span class="cstat-no" title="statement not covered" >  for (let y = 0; y &lt; grid[0].length; y++) {</span>
+    output[y] = []
+<span class="cstat-no" title="statement not covered" >    for (let x = 0; x &lt; grid.length; x++) {</span>
+      output[y][x] = grid[x][y]
+    }
+  }
+  return output
+}
+&nbsp;
+&nbsp;
+export const removeLines = <span class="fstat-no" title="function not covered" >(tetris, lines) =&gt; {</span>
+  const newTetris = getRevGrid(tetris)
+  lines.reverse().forEach(<span class="fstat-no" title="function not covered" >line =&gt; {</span>
+    newTetris.splice(line, 1);
+    newTetris.unshift(['', '', '', '', '', '', '', '', '', '']);
+  })
+  return getRevGrid(newTetris)
+}
+&nbsp;
+export const getPieceGhost = <span class="fstat-no" title="function not covered" >(tetris, coords) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  if (!coords) r</span>eturn null
+  const newCoords = coords.map(([x, y]) =&gt; [x, y])
+<span class="cstat-no" title="statement not covered" >  while (true) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!isPossible(tetris, newCoords))</span>
+      break
+    newCoords.forEach(block =&gt; (block[1])++)
+  }
+  newCoords.forEach(block =&gt; (block[1])--)
+  return newCoords
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 25 2018 15:39:44 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
