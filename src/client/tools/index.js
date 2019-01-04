@@ -159,7 +159,7 @@ export const removeLines = (tetris, lines) => {
   return getRevGrid(newTetris)
 }
 
-export const getPieceGhost = (tetris, coords) => {
+export const getPieceProjection = (tetris, coords) => {
   if (!coords) return null
   const newCoords = coords.map(([x, y]) => [x, y])
   while (true) {

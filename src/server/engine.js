@@ -1,4 +1,5 @@
 import io from 'socket.io'
+import Game from './game'
 
 export default class Engine {
 

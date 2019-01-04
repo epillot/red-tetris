@@ -30,41 +30,24 @@ const reducer = (state = {} , action) => {
     case types.EDIT_NAME:
       return copyState(state, {nickname: action.value.trim().substr(0, 15).trim()})
 
-    // case types.NEW_PIECE:
-    //   return copyState(state, {
-    //     ...action.piece,
-    //     tetris: f.putPiece(f.copyTetris(state.tetris), action.piece.coords, action.piece.color),
-    //     ghost: f.getPieceGhost(state.tetris, action.piece.coords)
-    //   })
 
     case types.NEW_PIECE:
       return copyState(state, {
         ...action.piece,
         interval: action.interval,
-        ghost: f.getPieceGhost(state.tetris, action.piece.coords),
       })
 
-    // case types.MOVE_PIECE:
-    //   const newGrid = f.movePiece(f.copyTetris(state.tetris), state.coords, action.coords, state.color)
-    //   return copyState(state, {
-    //     tetris: newGrid,
-    //     coords: action.coords,
-    //     rotate: action.rotate !== null ? action.rotate : state.rotate,
-    //     ghost: f.getPieceGhost(newGrid, action.coords)
-    //   })
 
     case types.MOVE_PIECE:
       return copyState(state, {
         coords: action.coords,
         rotate: action.rotate !== null ? action.rotate : state.rotate,
-        ghost: f.getPieceGhost(state.tetris, action.coords)
       })
 
     case types.UPDATE_TETRIS:
       return copyState(state, {
         tetris: action.tetris,
         coords: null,
-        ghost: null,
         ...defaultAnimationState,
       })
 

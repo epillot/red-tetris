@@ -1,14 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
-import Board from '../components/board/'
+import Room from '../components/room/'
 import css from './app.css'
 
 const App = ({ tetris, startGame, hash, nickname, editName }) => {
   return (
     <div className='appContainer'>
       {tetris !== null ?
-      <Board/> :
+      <Room/> :
       <div className='homeContainer'>
         <div className='home'>
           <h1>RED TETRIS</h1>
@@ -26,11 +26,11 @@ const App = ({ tetris, startGame, hash, nickname, editName }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     startGame: () => {
-      dispatch(actions.startGame())
-      dispatch(actions.newPiece())
+      dispatch(actions.server.startGame())
+      //dispatch(actions.newPiece())
     },
     createRoom: () => {
-      dispatch(actions.createRoom())
+      dispatch(actions.server.createRoom())
     },
     editName: (e) => {
       dispatch(actions.editName(e.target.value))

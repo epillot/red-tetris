@@ -1,8 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { getPieceProjection } from '../../tools/'
 import './style.css'
 
-const getBlocks = (tetris, piece, ghost, pieceColor, getStyle) => {
+const getBlocks = (tetris, piece, pieceColor, getStyle) => {
+  const ghost = getPieceProjection(tetris, piece)
   return tetris.map((col, i) => {
     return col.map((color, j) => {
       if (color) color += ' colored'
@@ -18,17 +20,15 @@ const getBlocks = (tetris, piece, ghost, pieceColor, getStyle) => {
   });
 }
 
-const board = ({ tetris, coords, ghost, color, getStyle }) => (
+const board = ({ tetris, coords, color, getStyle }) => (
   <div className='board'>
-    {getBlocks(tetris, coords, ghost, color, getStyle)}
+    {getBlocks(tetris, coords, color, getStyle)}
   </div>
 )
 
 const mapStateToProps = (state) => {
   return {
     tetris: state.tetris,
-    message: state.message,
-    ghost: state.ghost,
     coords: state.coords,
     color: state.color,
     getStyle: state.getStyle,

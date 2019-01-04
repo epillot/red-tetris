@@ -3,6 +3,9 @@ import store from '../store'
 import * as f from '../tools'
 import rotations from '../tools/rotations'
 import { lineAnimation, spaceAnimation, translateAnimation, pieceAnimation } from './animations'
+import * as server from './server'
+
+export {server}
 
 const gravity = () => {
   return setInterval(() => {
@@ -23,7 +26,7 @@ const gravity = () => {
 const keyEvents = ({ keyCode }) => store.dispatch(keyEvent(keyCode))
 
 const keyEvent = keyCode => (dispatch, getState) => {
-  const { tetris, coords, rotate, type, ghost, interval } = getState()
+  const { tetris, coords, rotate, type, interval } = getState()
   if (keyCode === 37 || keyCode === 39 || keyCode === 40) {
     const i = keyCode === 37 ? -1 : (keyCode === 39 ? 1 : 0)
     const j = keyCode === 40 ? 1 : 0
@@ -40,8 +43,9 @@ const keyEvent = keyCode => (dispatch, getState) => {
   } else if (keyCode === 32) {
     clearInterval(interval)
     removeEventListener('keydown', keyEvents)
-    dispatch(spaceAnimation(coords, ghost)).then(() => {
-      dispatch(nextTurn(ghost))
+    const proj = f.getPieceProjection(tetris, coords)
+    dispatch(spaceAnimation(coords, proj)).then(() => {
+      dispatch(nextTurn(proj))
     })
   }
 }
@@ -74,17 +78,6 @@ export const editName = (value) => {
   }
 }
 
-export const startGame = () => {
-  return {
-    type: types.START_GAME,
-  }
-}
-
-export const createRoom = () => {
-  return {
-    type: types.CREATE_ROOM,
-  }
-}
 
 export const newPiece = (piece=null) => {
   addEventListener('keydown', keyEvents)
