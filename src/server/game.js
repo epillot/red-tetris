@@ -1,3 +1,4 @@
+import Room from './room'
 
 class Game {
 

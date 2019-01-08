@@ -12,8 +12,9 @@ export const startGame = () => {
   }
 }
 
-export const createRoom = () => {
+export const createRoom = (nickname) => {
   return {
     type: types.CREATE_ROOM,
+    nickname,
   }
 }

@@ -6,8 +6,19 @@ import {storeStateMiddleWare} from '../middleware/storeStateMiddleWare'
 import reducer from '../reducers'
 import params from '../../../params'
 
+const newTetris = () => {
+  const tetris = [];
+  for (let i = 0; i < 10; i++) {
+    tetris.push([]);
+    for (var j = 0; j < 20; j++) {
+      tetris[i][j] = '';
+    }
+  }
+  return tetris;
+}
+
 const initialState = {
-  tetris: null,
+  tetris: newTetris(),
   coords: null,
   color: null,
   rotate: 0,
@@ -17,12 +28,15 @@ const initialState = {
   hash: window.location.hash,
   room: null,
   nickname: '',
+  nicknameError: '',
 }
 
 const socketIoMiddleWare = socket => ({dispatch, getState}) => {
   if(socket) socket.on('action', dispatch)
   return next => action => {
     if(socket && action.type && action.type.indexOf('server/') === 0) socket.emit('action', action)
+    if (action.hash)
+      window.location.hash = action.hash
     return next(action)
   }
 }

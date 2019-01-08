@@ -9,4 +9,28 @@
   height: 800px;
   flex: 1;
   background-color: #B0C4DE;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.roomHeader {
+  font-size: 30px;
+  margin: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.roomHeader p {
+  margin: 5px;
+}
+
+.roomId {
+  color: #770000;
+}
+
+.codeHint {
+  font-size: 18px;
+  font-style: italic;
 }

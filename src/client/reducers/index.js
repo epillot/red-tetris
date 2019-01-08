@@ -1,17 +1,6 @@
 import * as types from '../constants/actionTypes'
 import * as f from '../tools'
 
-const newTetris = () => {
-  const tetris = [];
-  for (let i = 0; i < 10; i++) {
-    tetris.push([]);
-    for (var j = 0; j < 20; j++) {
-      tetris[i][j] = '';
-    }
-  }
-  return tetris;
-}
-
 const copyState = (state, newState) => Object.assign({}, state, newState)
 
 const defaultAnimationState = {
@@ -21,8 +10,8 @@ const defaultAnimationState = {
 const reducer = (state = {} , action) => {
   switch(action.type){
 
-    case types.START_GAME:
-      return copyState(state, {tetris: newTetris()})
+    // case types.START_GAME:
+    //   return copyState(state, {tetris: newTetris()})
 
     case types.CREATE_ROOM:
       return copyState(state, {room: null})
@@ -59,6 +48,16 @@ const reducer = (state = {} , action) => {
     case types.ANIMATION_OVER:
       return copyState(state, {
         getStyle: false,
+      })
+
+    case 'ROOM_CREATED':
+      return copyState(state, {
+        room: action.id,
+      })
+
+    case 'NICKNAME_ERROR':
+      return copyState(state, {
+        nicknameError: 'Please enter a nickname',
       })
 
     default:

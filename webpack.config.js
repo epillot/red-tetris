@@ -23,5 +23,13 @@ module.exports = {
         loaders: ['style-loader', 'css-loader', 'postcss-loader'],
       }
     ]
-  }
+  },
+
+  devServer: {
+
+    compress: true,
+
+    disableHostCheck: true,   // That solved it
+
+ } 
 };

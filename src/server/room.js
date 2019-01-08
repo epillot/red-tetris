@@ -1,5 +1,5 @@
 
-class Room {
+export default class Room {
 
   constructor(id, master) {
     this.id = id

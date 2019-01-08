@@ -68,6 +68,20 @@ h1 {
   align-items: center;
 }
 
+.formError {
+  border: 1px solid red;
+}
+
+.nameContainer {
+  height: 110px;
+}
+
+.nicknameError {
+  font-size: 20px;
+  padding: 0 15px;
+  color: red;
+}
+
 #nickname {
   width:         300px;
   height:        55px;

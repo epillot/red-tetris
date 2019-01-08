@@ -109,3 +109,10 @@ const updateTetris = (tetris) => {
     tetris,
   }
 }
+
+
+export const nicknamError = () => {
+  return {
+    type: 'NICKNAME_ERROR',
+  }
+}
