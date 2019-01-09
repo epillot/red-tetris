@@ -29,6 +29,7 @@ const initialState = {
   room: null,
   nickname: '',
   nicknameError: '',
+  partyCode: '',
 }
 
 const socketIoMiddleWare = socket => ({dispatch, getState}) => {

@@ -4,7 +4,7 @@ import * as actions from '../actions'
 import Room from '../components/room/'
 import css from './app.css'
 
-const App = ({ tetris, startGame, hash, nickname, nicknameError, editName, createRoom, room }) => {
+const App = ({ nickname, nicknameError, partyCode, room, editName, editCode, createRoom, joinRoom}) => {
   return (
     <div className='appContainer'>
       {room !== null ?
@@ -17,8 +17,11 @@ const App = ({ tetris, startGame, hash, nickname, nicknameError, editName, creat
             <p className='nicknameError'>{nicknameError}</p>
           </div>
           <div className='home-form'>
-            <button className='createbutton' onClick={createRoom}>Créer une partie</button>
-            <button className='startbutton'>Rejoindre une partie</button>
+            <button className='createbutton' onClick={createRoom}>Create a game</button>
+            <div className='joinForm'>
+              <button className='joinbutton' onClick={joinRoom}>Join a game</button>
+              <input id='partyCode' value={partyCode} placeholder='Party code' onChange={editCode}/>
+            </div>
           </div>
         </div>
       </div>}
@@ -28,28 +31,31 @@ const App = ({ tetris, startGame, hash, nickname, nicknameError, editName, creat
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    startGame: () => {
-      dispatch(actions.server.startGame())
-      dispatch(actions.newPiece())
-    },
     createRoom: () => dispatch((_, getState) => {
       const { nickname } = getState()
-      if (!nickname) dispatch(actions.nicknamError())
+      if (!nickname) dispatch(actions.nicknameError())
       else dispatch(actions.server.createRoom(nickname))
+    }),
+    joinRoom: () => dispatch((_, getState) => {
+      const { nickname, partyCode } = getState()
+      if (!nickname) dispatch(actions.nicknameError())
+      else dispatch(actions.server.joinRoom(partyCode, nickname))
     }),
     editName: (e) => {
       dispatch(actions.editName(e.target.value))
     },
+    editCode: (e) => {
+      dispatch(actions.editCode(e.target.value))
+    }
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    tetris: state.tetris,
     nickname: state.nickname,
-    room: state.room,
-    hash: state.hash,
     nicknameError: state.nicknameError,
+    partyCode: state.partyCode,
+    room: state.room,
   }
 }
 

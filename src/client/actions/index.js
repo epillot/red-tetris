@@ -78,6 +78,12 @@ export const editName = (value) => {
   }
 }
 
+export const editCode = (value) => {
+  return {
+    type: types.EDIT_CODE,
+    value,
+  }
+}
 
 export const newPiece = (piece=null) => {
   addEventListener('keydown', keyEvents)
@@ -111,7 +117,7 @@ const updateTetris = (tetris) => {
 }
 
 
-export const nicknamError = () => {
+export const nicknameError = () => {
   return {
     type: 'NICKNAME_ERROR',
   }

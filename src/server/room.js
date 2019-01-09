@@ -7,5 +7,18 @@ export default class Room {
     this.users = [master]
   }
 
+  getData() {
+    return {
+      id: this.id,
+      master: this.master.getData(),
+      users: this.users.map(user => user.getData()),
+    }
+  }
 
+  addUser(user) {
+    if (this.users.length >= 5)
+      return false
+    this.users.push(user)
+    return true
+  }
 }

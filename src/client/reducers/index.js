@@ -19,6 +19,8 @@ const reducer = (state = {} , action) => {
     case types.EDIT_NAME:
       return copyState(state, {nickname: action.value.trim().substr(0, 15).trim()})
 
+    case types.EDIT_CODE:
+      return copyState(state, {partyCode: action.value.trim().substr(0, 5).trim()})
 
     case types.NEW_PIECE:
       return copyState(state, {
@@ -50,14 +52,19 @@ const reducer = (state = {} , action) => {
         getStyle: false,
       })
 
-    case 'ROOM_CREATED':
-      return copyState(state, {
-        room: action.id,
-      })
-
     case 'NICKNAME_ERROR':
       return copyState(state, {
         nicknameError: 'Please enter a nickname',
+      })
+
+    case 'ROOM_CREATED':
+      return copyState(state, {
+        room: action.room,
+      })
+
+    case 'NEW_ROOM_USER':
+      return copyState(state, {
+        room: action.room,
       })
 
     default:

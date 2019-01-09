@@ -12,15 +12,46 @@ export default class Engine {
       console.log('Socket connected: ' + socket.id)
       const user = new User(socket)
       socket.on('action', (action) => {
+
+        if (action.nickname)
+          user.name = action.nickname
+
         //console.log(action)
         if(action.type === 'server/ping')
           socket.emit('action', {type: 'pong'})
-        if (action.type === 'server/CREATE_ROOM') {
-          const id = Game.createRoom(user)
-          user.name = action.nickname
+
+        else if (action.type === 'server/CREATE_ROOM') {
+          const room = Game.createRoom(user)
           //console.log(Game.rooms[0].master.name)
-          user.sendAction({type: 'ROOM_CREATED', id, hash: id + '[' + user.name + ']'})
+          socket.join(room.id)
+          user.sendAction({
+            type: 'ROOM_CREATED',
+            room: room.getData(),
+            hash: room.id + '[' + user.name + ']',
+          })
         }
+
+        else if (action.type === 'server/JOIN_ROOM') {
+          const room = Game.getRoomById(action.id)
+          let error
+          if (room) {
+            if (room.addUser(user)) {
+              socket.join(room.id)
+              user.sendActionToRoom(room.id, {
+                type: 'NEW_ROOM_USER',
+                room: room.getData(),
+                hash: room.id + '[' + user.name + ']',
+              })
+            } else error = 'The room is full'
+          } else error = 'This room doesn\'t exist'
+          if (error) {
+            user.sendAction({
+              type: 'JOIN_ROOM_ERROR',
+              error,
+            })
+          }
+        }
+
       })
     })
 

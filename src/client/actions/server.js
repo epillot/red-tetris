@@ -18,3 +18,11 @@ export const createRoom = (nickname) => {
     nickname,
   }
 }
+
+export const joinRoom = (id, nickname) => {
+  return {
+    type: types.JOIN_ROOM,
+    id,
+    nickname,
+  }
+}

@@ -12,17 +12,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-.roomHeader {
+.roomSideTop {
   font-size: 30px;
-  margin: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: 20%;
 }
 
-.roomHeader p {
+.roomSideTop p {
   margin: 5px;
 }
 
@@ -33,4 +37,19 @@
 .codeHint {
   font-size: 18px;
   font-style: italic;
+}
+
+.roomSideMiddle {
+  height: 60%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.roomSideBottom {
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

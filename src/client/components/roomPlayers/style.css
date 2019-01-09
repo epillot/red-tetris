@@ -1,0 +1,37 @@
+.roomPlayers {
+  width: 80%;
+}
+
+.roomPlayers table {
+  width: 100%;
+  border-spacing: 0;
+}
+
+.roomPlayers td {
+  border: 1px solid #D0D0D0;
+  padding: 20px;
+}
+
+.playerNum {
+  text-align: center;
+  width: 60px;
+  box-sizing: border-box;
+  font-weight: bold;
+}
+
+.emptyRow {
+  opacity: 0.6;
+  background-color: #EAEAEA;
+}
+
+.emptyText {
+  font-style: italic;
+}
+
+.playerRow {
+  background-color: #E0E0E0;
+}
+
+.playerName {
+  font-size: 20px;
+}

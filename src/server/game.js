@@ -6,10 +6,14 @@ class Game {
     this.rooms = []
   }
 
-  createRoom(socketId) {
-    const room = new Room(this.newRoomId(), socketId)
+  createRoom(master) {
+    const room = new Room(this.newRoomId(), master)
     this.rooms.push(room)
-    return room.id
+    return room
+  }
+
+  getRoomById(id) {
+    return this.rooms.find(room => room.id === id)
   }
 
   newRoomId() {
