@@ -4,7 +4,18 @@ import * as actions from '../actions'
 import Room from '../components/room/'
 import css from './app.css'
 
-const App = ({ nickname, nicknameError, partyCode, room, editName, editCode, createRoom, joinRoom}) => {
+
+
+const App = ({ nickname, nicknameError, partyCode, room, roomError, editName, editCode, createRoom, joinRoom, removeError, connecting}) => {
+  if (connecting) {
+    return (
+      <div className='appContainer'>
+        <div className='connecting'>
+          <p>Connecting...</p>
+        </div>
+      </div>
+    )
+  }
   return (
     <div className='appContainer'>
       {room !== null ?
@@ -13,14 +24,17 @@ const App = ({ nickname, nicknameError, partyCode, room, editName, editCode, cre
         <div className='home'>
           <h1>RED TETRIS</h1>
           <div className='nameContainer'>
-            <input id='nickname' className={nicknameError ? 'formError' : ''} placeholder='Nickname' value={nickname} onChange={editName} autoFocus='autofocus'/>
+            <input id='nickname' className={nicknameError ? 'formError' : ''} placeholder='Nickname' value={nickname} onSelect={removeError('nicknameError')} onChange={editName} autoFocus='autofocus'/>
             <p className='nicknameError'>{nicknameError}</p>
           </div>
           <div className='home-form'>
             <button className='createbutton' onClick={createRoom}>Create a game</button>
-            <div className='joinForm'>
-              <button className='joinbutton' onClick={joinRoom}>Join a game</button>
-              <input id='partyCode' value={partyCode} placeholder='Party code' onChange={editCode}/>
+            <div className='joinFormContainer'>
+              <div className='joinForm'>
+                <button className='joinbutton' onClick={joinRoom}>Join a game</button>
+                <input id='partyCode' className={roomError ? 'formError' : ''} value={partyCode} onSelect={removeError('roomError')} placeholder='Party code' onChange={editCode}/>
+              </div>
+              <p className='roomError'>{roomError}</p>
             </div>
           </div>
         </div>
@@ -46,6 +60,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     editCode: (e) => {
       dispatch(actions.editCode(e.target.value))
+    },
+    removeError: (name) => () => {
+      dispatch(actions.removeError(name))
     }
   }
 }
@@ -56,6 +73,8 @@ const mapStateToProps = (state) => {
     nicknameError: state.nicknameError,
     partyCode: state.partyCode,
     room: state.room,
+    roomError: state.roomError,
+    connecting: state.connecting,
   }
 }
 

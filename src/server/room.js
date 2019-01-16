@@ -5,6 +5,7 @@ export default class Room {
     this.id = id
     this.master = master
     this.users = [master]
+    master.joinRoom(id)
   }
 
   getData() {
@@ -19,6 +20,7 @@ export default class Room {
     if (this.users.length >= 5)
       return false
     this.users.push(user)
+    user.joinRoom(this.id)
     return true
   }
 }

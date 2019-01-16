@@ -11,6 +11,16 @@ export default class Engine {
     this.io.on('connection', (socket) => {
       console.log('Socket connected: ' + socket.id)
       const user = new User(socket)
+      const { roomId, name } = socket.handshake.query
+      // if (roomId && name) {
+      //   const room = Game.addUserToRoom(roomId, user)
+      //   if (room) {
+      //
+      //   }
+      // }
+      user.sendAction({
+        type: 'USER_CONNECTED',
+      })
       socket.on('action', (action) => {
 
         if (action.nickname)
@@ -23,31 +33,29 @@ export default class Engine {
         else if (action.type === 'server/CREATE_ROOM') {
           const room = Game.createRoom(user)
           //console.log(Game.rooms[0].master.name)
-          socket.join(room.id)
           user.sendAction({
-            type: 'ROOM_CREATED',
+            type: 'ROOM_JOINED',
             room: room.getData(),
             hash: room.id + '[' + user.name + ']',
           })
         }
 
         else if (action.type === 'server/JOIN_ROOM') {
-          const room = Game.getRoomById(action.id)
-          let error
+          const room = Game.addUserToRoom(action.id, user)
           if (room) {
-            if (room.addUser(user)) {
-              socket.join(room.id)
-              user.sendActionToRoom(room.id, {
-                type: 'NEW_ROOM_USER',
-                room: room.getData(),
-                hash: room.id + '[' + user.name + ']',
-              })
-            } else error = 'The room is full'
-          } else error = 'This room doesn\'t exist'
-          if (error) {
+            user.sendAction({
+              type: 'ROOM_JOINED',
+              room: room.getData(),
+              hash: room.id + '[' + user.name + ']',
+            })
+            user.sendActionToRoom(room.id, {
+              type: 'NEW_ROOM_USER',
+              room: room.getData(),
+            })
+          } else {
             user.sendAction({
               type: 'JOIN_ROOM_ERROR',
-              error,
+              error: Game.currentError,
             })
           }
         }
@@ -59,6 +67,10 @@ export default class Engine {
 
   stop(cb = () => {}) {
     this.io.close(cb)
+  }
+
+  sendActionToRoom(roomId, action) {
+    this.io.to(roomId).emit('action', action)
   }
 
 }

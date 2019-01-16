@@ -25,11 +25,12 @@ const initialState = {
   type: null,
   Isplaying: false,
   animation: false,
-  hash: window.location.hash,
   room: null,
   nickname: '',
   nicknameError: '',
+  roomError: '',
   partyCode: '',
+  connecting: true,
 }
 
 const socketIoMiddleWare = socket => ({dispatch, getState}) => {
@@ -42,7 +43,19 @@ const socketIoMiddleWare = socket => ({dispatch, getState}) => {
   }
 }
 
-const socket = io(params.server.url)
+const parseHash = hash => {
+  if (hash[6] !== '[' || hash[hash.length - 1] !== ']' || hash.length - 8 > 15)
+    return null
+  const roomId = hash.substr(1, 5);
+  const name = hash.substr(7, hash.length - 8)
+  return {roomId, name}
+}
+
+const data = parseHash(window.location.hash)
+const query = Object.assign({}, parseHash(window.location.hash))
+//console.log(roomId, name)
+console.log(query)
+const socket = io(params.server.url, {query})
 
 const store = createStore(
   reducer,

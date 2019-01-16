@@ -30,6 +30,18 @@ class Game {
     }
   }
 
+  addUserToRoom(roomId, user) {
+    const room = this.getRoomById(roomId)
+    if (room) {
+      if (room.addUser(user))
+        return room
+      this.currentError = 'This room is full'
+      return false
+    }
+    this.currentError = 'This room doesn\'t exist'
+    return false
+  }
+
 }
 
 export default new Game()

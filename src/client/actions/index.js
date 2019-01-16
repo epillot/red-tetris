@@ -122,3 +122,10 @@ export const nicknameError = () => {
     type: 'NICKNAME_ERROR',
   }
 }
+
+export const removeError = (name) => {
+  return {
+    type: 'REMOVE_ERROR',
+    name,
+  }
+}

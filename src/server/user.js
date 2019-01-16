@@ -4,6 +4,14 @@ export default class User {
     this.socket = socket
   }
 
+  joinRoom(roomId) {
+    this.socket.join(roomId)
+  }
+
+  leaveRoom(roomId) {
+    this.socket.leave(roomId)
+  }
+
   sendAction(action) {
     this.socket.emit('action', action)
   }

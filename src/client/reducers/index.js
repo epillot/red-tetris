@@ -52,12 +52,27 @@ const reducer = (state = {} , action) => {
         getStyle: false,
       })
 
+    case 'USER_CONNECTED':
+      return copyState(state, {
+        connecting: false,
+      })
+
     case 'NICKNAME_ERROR':
       return copyState(state, {
         nicknameError: 'Please enter a nickname',
       })
 
-    case 'ROOM_CREATED':
+    case 'JOIN_ROOM_ERROR':
+      return copyState(state, {
+        roomError: action.error,
+      })
+
+    case 'REMOVE_ERROR':
+      return copyState(state, {
+        [action.name]: '',
+      })
+
+    case 'ROOM_JOINED':
       return copyState(state, {
         room: action.room,
       })
