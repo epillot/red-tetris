@@ -2,14 +2,17 @@ export default class User {
 
   constructor(socket) {
     this.socket = socket
+    this.room = false
   }
 
   joinRoom(roomId) {
     this.socket.join(roomId)
+    this.room = roomId
   }
 
   leaveRoom(roomId) {
     this.socket.leave(roomId)
+    this.room = false
   }
 
   sendAction(action) {

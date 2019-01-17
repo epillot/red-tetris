@@ -12,6 +12,10 @@ class Game {
     return room
   }
 
+  deleteRoom(room) {
+    this.rooms = this.rooms.filter(r => r !== room)
+  }
+
   getRoomById(id) {
     return this.rooms.find(room => room.id === id)
   }
@@ -40,6 +44,16 @@ class Game {
     }
     this.currentError = 'This room doesn\'t exist'
     return false
+  }
+
+  removeUserFromRoom(roomId, user) {
+    const room = this.getRoomById(roomId)
+    if (room) {
+      room.removeUser(user)
+      if (!room.users.length)
+        this.deleteRoom(room)
+    }
+    return this.getRoomById(roomId)
   }
 
 }

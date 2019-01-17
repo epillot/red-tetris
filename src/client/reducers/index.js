@@ -72,12 +72,7 @@ const reducer = (state = {} , action) => {
         [action.name]: '',
       })
 
-    case 'ROOM_JOINED':
-      return copyState(state, {
-        room: action.room,
-      })
-
-    case 'NEW_ROOM_USER':
+    case 'UPDATE_ROOM':
       return copyState(state, {
         room: action.room,
       })

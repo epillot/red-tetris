@@ -37,11 +37,19 @@ const socketIoMiddleWare = socket => ({dispatch, getState}) => {
   if(socket) socket.on('action', dispatch)
   return next => action => {
     if(socket && action.type && action.type.indexOf('server/') === 0) socket.emit('action', action)
-    if (action.hash)
-      window.location.hash = action.hash
+    if (action.hash && action.hash.to === socket.id)
+      window.location.hash = action.hash.hash
     return next(action)
   }
 }
+
+// const connectingMiddleWare = store => next => action => {
+//   let result = next(action)
+//   if (action.connected) {
+//     store.dispatch({type: 'USER_CONNECTED'})
+//   }
+//   return result
+// }
 
 const parseHash = hash => {
   if (hash[6] !== '[' || hash[hash.length - 1] !== ']' || hash.length - 8 > 15)
@@ -54,7 +62,7 @@ const parseHash = hash => {
 const data = parseHash(window.location.hash)
 const query = Object.assign({}, parseHash(window.location.hash))
 //console.log(roomId, name)
-console.log(query)
+//console.log(query)
 const socket = io(params.server.url, {query})
 
 const store = createStore(

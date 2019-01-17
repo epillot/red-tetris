@@ -12,15 +12,18 @@ export default class Engine {
       console.log('Socket connected: ' + socket.id)
       const user = new User(socket)
       const { roomId, name } = socket.handshake.query
-      // if (roomId && name) {
-      //   const room = Game.addUserToRoom(roomId, user)
-      //   if (room) {
-      //
-      //   }
-      // }
+      if (roomId && name) {
+        user.name = name
+        this.addUserToRoom(roomId, user)
+      }
       user.sendAction({
         type: 'USER_CONNECTED',
       })
+
+      socket.on('disconnect', () => {
+        this.disconnectUser(user)
+      })
+
       socket.on('action', (action) => {
 
         if (action.nickname)
@@ -34,30 +37,14 @@ export default class Engine {
           const room = Game.createRoom(user)
           //console.log(Game.rooms[0].master.name)
           user.sendAction({
-            type: 'ROOM_JOINED',
+            type: 'UPDATE_ROOM',
             room: room.getData(),
-            hash: room.id + '[' + user.name + ']',
+            hash: room.getHash(user)
           })
         }
 
         else if (action.type === 'server/JOIN_ROOM') {
-          const room = Game.addUserToRoom(action.id, user)
-          if (room) {
-            user.sendAction({
-              type: 'ROOM_JOINED',
-              room: room.getData(),
-              hash: room.id + '[' + user.name + ']',
-            })
-            user.sendActionToRoom(room.id, {
-              type: 'NEW_ROOM_USER',
-              room: room.getData(),
-            })
-          } else {
-            user.sendAction({
-              type: 'JOIN_ROOM_ERROR',
-              error: Game.currentError,
-            })
-          }
+          this.addUserToRoom(action.id, user)
         }
 
       })
@@ -67,6 +54,38 @@ export default class Engine {
 
   stop(cb = () => {}) {
     this.io.close(cb)
+  }
+
+  disconnectUser(user) {
+    if (user.room) {
+      const room = Game.removeUserFromRoom(user.room, user)
+      if (room) {
+        this.sendActionToRoom(room.id, {
+          type: 'UPDATE_ROOM',
+          room: room.getData(),
+        })
+      }
+    }
+  }
+
+  addUserToRoom(roomId, user) {
+    const room = Game.addUserToRoom(roomId, user)
+    if (room) {
+      this.sendActionToRoom(room.id, {
+        type: 'UPDATE_ROOM',
+        room: room.getData(),
+        hash: room.getHash(user),
+      })
+    } else {
+      user.sendAction({
+        type: 'JOIN_ROOM_ERROR',
+        error: Game.currentError,
+        hash: {
+          to: user.socket.id,
+          hash: '',
+        }
+      })
+    }
   }
 
   sendActionToRoom(roomId, action) {

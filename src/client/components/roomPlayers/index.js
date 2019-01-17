@@ -4,13 +4,15 @@ import './style.css'
 
 
 const PlayerRow = props => (
-  props.player ? <ActivePlayer player={props.player} num={props.num}/> : <EmptyPlayer num={props.num}/>
+  props.player ?
+  <ActivePlayer player={props.player} num={props.num} isMaster={props.player.id === props.master.id}/> :
+  <EmptyPlayer num={props.num}/>
 )
 
 const ActivePlayer = props => (
   <tr className='playerRow'>
     <td className='playerNum'>{props.num}</td>
-    <td className='playerName'>{props.player.name}</td>
+    <td className='playerName'>{props.player.name + (props.isMaster ? ' (master)' : '')}</td>
   </tr>
 )
 
@@ -25,7 +27,14 @@ const roomPlayers = ({ master, players }) => (
   <div className='roomPlayers'>
     <table>
       <tbody>
-        {[1, 2, 3, 4, 5].map(num => <PlayerRow player={players[num-1]} num={num} key={num}/>)}
+        {[1, 2, 3, 4, 5].map(num =>
+          <PlayerRow
+            player={players[num-1]}
+            master={master}
+            num={num}
+            key={num}
+          />
+        )}
       </tbody>
     </table>
   </div>

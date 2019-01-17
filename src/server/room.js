@@ -23,4 +23,18 @@ export default class Room {
     user.joinRoom(this.id)
     return true
   }
+
+  removeUser(user) {
+    user.leaveRoom(this.id)
+    this.users = this.users.filter(u => u.socket.id !== user.socket.id)
+    if (this.users.length && this.master === this.user)
+      this.master = this.users[0]
+  }
+
+  getHash(user) {
+    return {
+      to: user.socket.id,
+      hash: this.id + '[' + user.name + ']',
+    }
+  }
 }
