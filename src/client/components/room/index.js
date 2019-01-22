@@ -6,7 +6,7 @@ import * as actions from '../../actions'
 
 import './style.css'
 
-const room = ({ room, startGame }) => (
+const room = ({ room, isMaster, startGame }) => (
   <div className='roomContainer'>
     <div className='roomSide'>
       <div className='roomSideTop'>
@@ -17,7 +17,10 @@ const room = ({ room, startGame }) => (
         <RoomPlayers/>
       </div>
       <div className='roomSideBottom'>
-        <button className='' onClick={startGame}>Start game</button>
+        {isMaster ?
+          <button className='startbutton' onClick={startGame}>Start game</button> :
+          <p className='waitingMaster'>Waiting for the master to start the game...</p>
+        }
       </div>
     </div>
     <Board/>
@@ -28,6 +31,7 @@ const room = ({ room, startGame }) => (
 const mapStateToProps = (state) => {
   return {
     room: state.room,
+    isMaster: state.playerID === state.room.master.id,
   }
 }
 

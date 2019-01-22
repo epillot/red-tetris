@@ -18,6 +18,7 @@ export default class Engine {
       }
       user.sendAction({
         type: 'USER_CONNECTED',
+        id: socket.id,
       })
 
       socket.on('disconnect', () => {

@@ -55,6 +55,7 @@ const reducer = (state = {} , action) => {
     case 'USER_CONNECTED':
       return copyState(state, {
         connecting: false,
+        playerID: action.id,
       })
 
     case 'NICKNAME_ERROR':
@@ -65,6 +66,7 @@ const reducer = (state = {} , action) => {
     case 'JOIN_ROOM_ERROR':
       return copyState(state, {
         roomError: action.error,
+        room: null,
       })
 
     case 'REMOVE_ERROR':

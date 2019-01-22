@@ -30,6 +30,11 @@
 
 .playerRow {
   background-color: #E0E0E0;
+  filter : brightness(95%);
+}
+
+.selfRow {
+  filter : brightness(100%);
 }
 
 .playerName {

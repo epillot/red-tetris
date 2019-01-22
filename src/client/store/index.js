@@ -17,27 +17,19 @@ const newTetris = () => {
   return tetris;
 }
 
-const initialState = {
-  tetris: newTetris(),
-  coords: null,
-  color: null,
-  rotate: 0,
-  type: null,
-  Isplaying: false,
-  animation: false,
-  room: null,
-  nickname: '',
-  nicknameError: '',
-  roomError: '',
-  partyCode: '',
-  connecting: true,
-}
-
 const socketIoMiddleWare = socket => ({dispatch, getState}) => {
-  if(socket) socket.on('action', dispatch)
+  if (socket)
+    socket.on('action', dispatch)
   return next => action => {
-    if(socket && action.type && action.type.indexOf('server/') === 0) socket.emit('action', action)
-    if (action.hash && action.hash.to === socket.id)
+    if (socket && action.type && action.type.indexOf('server/') === 0)
+      socket.emit('action', action)
+    // const { playerID } = getState()
+    // if (socket && !playerID)
+    //   dispatch({
+    //     type: 'SET_PLAYER_ID',
+    //     id: socket.id,
+    //   })
+    if (socket && action.hash && action.hash.to === socket.id)
       window.location.hash = action.hash.hash
     return next(action)
   }
@@ -64,6 +56,22 @@ const query = Object.assign({}, parseHash(window.location.hash))
 //console.log(roomId, name)
 //console.log(query)
 const socket = io(params.server.url, {query})
+
+const initialState = {
+  tetris: newTetris(),
+  coords: null,
+  color: null,
+  rotate: 0,
+  type: null,
+  Isplaying: false,
+  animation: false,
+  room: null,
+  nickname: '',
+  nicknameError: '',
+  roomError: '',
+  partyCode: '',
+  connecting: true,
+}
 
 const store = createStore(
   reducer,

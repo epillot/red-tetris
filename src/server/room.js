@@ -3,9 +3,9 @@ export default class Room {
 
   constructor(id, master) {
     this.id = id
-    this.master = master
-    this.users = [master]
-    master.joinRoom(id)
+    this.users = []
+    // this.master = master
+    // master.joinRoom(id)
   }
 
   getData() {
@@ -16,10 +16,16 @@ export default class Room {
     }
   }
 
+  setMaster(user) {
+    this.master = user
+  }
+
   addUser(user) {
     if (this.users.length >= 5)
       return false
     this.users.push(user)
+    if (this.users.length === 1)
+      this.setMaster(user)
     user.joinRoom(this.id)
     return true
   }
@@ -27,8 +33,8 @@ export default class Room {
   removeUser(user) {
     user.leaveRoom(this.id)
     this.users = this.users.filter(u => u.socket.id !== user.socket.id)
-    if (this.users.length && this.master === this.user)
-      this.master = this.users[0]
+    if (this.users.length && this.master === user)
+      this.setMaster(this.users[0])
   }
 
   getHash(user) {

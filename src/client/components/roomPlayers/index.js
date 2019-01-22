@@ -5,12 +5,17 @@ import './style.css'
 
 const PlayerRow = props => (
   props.player ?
-  <ActivePlayer player={props.player} num={props.num} isMaster={props.player.id === props.master.id}/> :
+  <ActivePlayer
+    player={props.player}
+    num={props.num}
+    isMaster={props.isMaster}
+    isSelf={props.isSelf}
+  /> :
   <EmptyPlayer num={props.num}/>
 )
 
 const ActivePlayer = props => (
-  <tr className='playerRow'>
+  <tr className={'playerRow' + (props.isSelf ? ' selfRow' : '')}>
     <td className='playerNum'>{props.num}</td>
     <td className='playerName'>{props.player.name + (props.isMaster ? ' (master)' : '')}</td>
   </tr>
@@ -23,14 +28,15 @@ const EmptyPlayer = props => (
   </tr>
 )
 
-const roomPlayers = ({ master, players }) => (
+const roomPlayers = ({ master, players, playerID }) => (
   <div className='roomPlayers'>
     <table>
       <tbody>
         {[1, 2, 3, 4, 5].map(num =>
           <PlayerRow
             player={players[num-1]}
-            master={master}
+            isMaster={players[num-1] && players[num-1].id === master.id}
+            isSelf={players[num-1] && players[num-1].id === playerID}
             num={num}
             key={num}
           />
@@ -44,6 +50,7 @@ const mapStateToProps = (state) => {
   return {
     master: state.room.master,
     players: state.room.users,
+    playerID: state.playerID,
   }
 }
 

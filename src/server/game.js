@@ -6,9 +6,11 @@ class Game {
     this.rooms = []
   }
 
-  createRoom(master) {
-    const room = new Room(this.newRoomId(), master)
+  createRoom(user) {
+    const room = new Room(this.newRoomId())
+    room.addUser(user)
     this.rooms.push(room)
+    console.log(this.rooms)
     return room
   }
 
@@ -40,18 +42,20 @@ class Game {
       if (room.addUser(user))
         return room
       this.currentError = 'This room is full'
-      return false
+      return null
     }
     this.currentError = 'This room doesn\'t exist'
-    return false
+    return null
   }
 
   removeUserFromRoom(roomId, user) {
     const room = this.getRoomById(roomId)
     if (room) {
       room.removeUser(user)
-      if (!room.users.length)
-        this.deleteRoom(room)
+      setTimeout(() => {
+        if (!room.users.length)
+          this.deleteRoom(room)
+      }, 60000)
     }
     return this.getRoomById(roomId)
   }

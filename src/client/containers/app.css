@@ -129,6 +129,7 @@ h1 {
 }
 
 .joinbutton {
+  cursor: pointer;
   background:    #ff0000;
   background:    -webkit-linear-gradient(#660000, #ff0000 50%, #660000);
   background:    linear-gradient(#660000, #ff0000 50%, #660000);
