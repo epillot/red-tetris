@@ -48,6 +48,12 @@ export default class Engine {
           this.addUserToRoom(action.id, user)
         }
 
+        else if (action.type === 'server/START_GAME') {
+          const room = Game.getRoomByMaster(user)
+          console.log('user', user.name)
+          console.log('room', room.id)
+        }
+
       })
     })
 

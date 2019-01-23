@@ -7,49 +7,49 @@ const getTetriminos = (name) => {
     rotate: 0,
     color: 'red',
     type: 'square',
-  };
+  }
   //T
   if (name === 'T') return {
     coords: [[0, -1], [0, 0], [-1, 0], [1, 0]],
     rotate: 0,
     color: 'blue',
     type: 'T',
-  };
+  }
   //L
   if (name === 'L') return {
     coords: [[0, -2], [0, -1], [0, 0], [1, 0]],
     rotate: 0,
     color: 'yellow',
     type: 'L',
-  };
+  }
   //reverse L
   if (name === 'revL') return {
     coords: [[0, 0], [0, -1], [0, -2], [1, -2]],
     rotate: 0,
     color: 'green',
     type: 'revL',
-  };
+  }
   //ligne
   if (name === 'line') return {
     coords: [[0, -3], [0, -2], [0, -1], [0, 0]],
     rotate: 0,
     color: 'purple',
     type: 'line',
-  };
+  }
   //Z
   if (name === 'Z') return {
     coords: [[1, -1], [0, -1], [0, 0], [-1, 0]],
     rotate: 0,
     color: 'pink',
     type: 'Z',
-  };
+  }
   //reverse Z
   if (name === 'revZ') return {
     coords: [[-1, -1], [0, -1], [0, 0], [1, 0]],
     rotate: 0,
     color: 'orange',
     type: 'revZ',
-  };
+  }
 }
 
 export const newTetriminos = () => {

@@ -14,7 +14,10 @@ const reducer = (state = {} , action) => {
     //   return copyState(state, {tetris: newTetris()})
 
     case types.CREATE_ROOM:
-      return copyState(state, {room: null})
+    case types.JOIN_ROOM:
+      return copyState(state, {
+        connecting: true
+      })
 
     case types.EDIT_NAME:
       return copyState(state, {nickname: action.value.trim().substr(0, 15).trim()})
@@ -56,6 +59,11 @@ const reducer = (state = {} , action) => {
       return copyState(state, {
         connecting: false,
         playerID: action.id,
+      })
+
+    case 'CONNECTING':
+      return copyState(state, {
+        connecting: action.connecting,
       })
 
     case 'NICKNAME_ERROR':

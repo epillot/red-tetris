@@ -1,9 +1,11 @@
+import Tetris from './tetris'
 
 export default class Room {
 
   constructor(id, master) {
     this.id = id
     this.users = []
+    this.nextPieces = []
     // this.master = master
     // master.joinRoom(id)
   }
@@ -43,4 +45,18 @@ export default class Room {
       hash: this.id + '[' + user.name + ']',
     }
   }
+
+  initGame() {
+    for (let i = 0; i < 3; i++) {
+      this.nextPieces.push(Tetris.newTetriminos())
+    }
+  }
+
+  getNextPiece() {
+    const piece = this.nextPieces.shift()
+    this.nextPieces.push(Tetris.newTetriminos())
+    return piece
+  }
+
+
 }

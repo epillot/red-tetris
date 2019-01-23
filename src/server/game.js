@@ -22,6 +22,10 @@ class Game {
     return this.rooms.find(room => room.id === id)
   }
 
+  getRoomByMaster(master) {
+    return this.rooms.find(room => room.master && room.master.socket.id === master.socket.id)
+  }
+
   newRoomId() {
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
     let id = ""

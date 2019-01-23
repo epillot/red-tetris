@@ -19,9 +19,19 @@ const newTetris = () => {
 
 const socketIoMiddleWare = socket => ({dispatch, getState}) => {
   if (socket)
-    socket.on('action', dispatch)
+    socket.on('action', action => {
+      dispatch(action)
+      const { connecting } = getState()
+      if (connecting)
+        dispatch({type: 'CONNECTING', connecting: false})
+      if (action.type === 'NEW_PIECE') {
+        
+      }
+
+    })
   return next => action => {
     if (socket && action.type && action.type.indexOf('server/') === 0)
+      //dispatch({type: 'CONNECTING', connecting: true})
       socket.emit('action', action)
     // const { playerID } = getState()
     // if (socket && !playerID)

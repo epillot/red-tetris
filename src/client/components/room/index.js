@@ -17,10 +17,9 @@ const room = ({ room, isMaster, startGame }) => (
         <RoomPlayers/>
       </div>
       <div className='roomSideBottom'>
-        {isMaster ?
-          <button className='startbutton' onClick={startGame}>Start game</button> :
-          <p className='waitingMaster'>Waiting for the master to start the game...</p>
-        }
+        {isMaster
+          ? <button className='startbutton' onClick={startGame}>Start game</button>
+          : <p className='waitingMaster'>Waiting for the master to start the game...</p>}
       </div>
     </div>
     <Board/>
@@ -38,7 +37,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     startGame: () => {
-      dispatch(actions.newPiece())
+      dispatch(actions.server.startGame())
     },
     createRoom: () => dispatch((_, getState) => {
       const { nickname } = getState()
