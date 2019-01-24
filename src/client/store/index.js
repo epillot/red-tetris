@@ -5,6 +5,7 @@ import io from 'socket.io-client'
 import {storeStateMiddleWare} from '../middleware/storeStateMiddleWare'
 import reducer from '../reducers'
 import params from '../../../params'
+import { gravity, keyEvents } from '../actions'
 
 const newTetris = () => {
   const tetris = [];
@@ -25,33 +26,18 @@ const socketIoMiddleWare = socket => ({dispatch, getState}) => {
       if (connecting)
         dispatch({type: 'CONNECTING', connecting: false})
       if (action.type === 'NEW_PIECE') {
-        
+        addEventListener('keydown', keyEvents)
+        dispatch({type: 'GRAVITY', interval: gravity()})
       }
-
     })
   return next => action => {
     if (socket && action.type && action.type.indexOf('server/') === 0)
-      //dispatch({type: 'CONNECTING', connecting: true})
       socket.emit('action', action)
-    // const { playerID } = getState()
-    // if (socket && !playerID)
-    //   dispatch({
-    //     type: 'SET_PLAYER_ID',
-    //     id: socket.id,
-    //   })
     if (socket && action.hash && action.hash.to === socket.id)
       window.location.hash = action.hash.hash
     return next(action)
   }
 }
-
-// const connectingMiddleWare = store => next => action => {
-//   let result = next(action)
-//   if (action.connected) {
-//     store.dispatch({type: 'USER_CONNECTED'})
-//   }
-//   return result
-// }
 
 const parseHash = hash => {
   if (hash[6] !== '[' || hash[hash.length - 1] !== ']' || hash.length - 8 > 15)
@@ -63,8 +49,6 @@ const parseHash = hash => {
 
 const data = parseHash(window.location.hash)
 const query = Object.assign({}, parseHash(window.location.hash))
-//console.log(roomId, name)
-//console.log(query)
 const socket = io(params.server.url, {query})
 
 const initialState = {
@@ -88,33 +72,5 @@ const store = createStore(
   initialState,
   applyMiddleware(socketIoMiddleWare(socket), thunk, createLogger())
 )
-
-// const logger = store => {
-//   return next => {
-//     return action => {
-//       console.log('dispatching', action)
-//       let result = next(action)
-//       console.log('next state', store.getState())
-//       return result
-//     }
-//   }
-// }
-//
-// const lol = store => next => action => {
-//   console.log('lolilol ;P XD');
-//   return next(action)
-// }
-//
-// function myApplyMiddleware(store, middlewares) {
-//   middlewares = middlewares.slice()
-//   middlewares.reverse()
-//   let dispatch = store.dispatch
-//   middlewares.forEach(middleware =>
-//     dispatch = middleware(store)(dispatch)
-//   )
-//   return Object.assign({}, store, { dispatch })
-// }
-//
-// store = myApplyMiddleware(store, [lol, logger])
 
 export default store

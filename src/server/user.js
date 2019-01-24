@@ -3,6 +3,7 @@ export default class User {
   constructor(socket) {
     this.socket = socket
     this.room = false
+    this.indexPiece = 0
   }
 
   joinRoom(roomId) {

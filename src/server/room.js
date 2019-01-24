@@ -5,7 +5,7 @@ export default class Room {
   constructor(id, master) {
     this.id = id
     this.users = []
-    this.nextPieces = []
+    this.pieces = []
     // this.master = master
     // master.joinRoom(id)
   }
@@ -48,13 +48,13 @@ export default class Room {
 
   initGame() {
     for (let i = 0; i < 3; i++) {
-      this.nextPieces.push(Tetris.newTetriminos())
+      this.pieces.push(Tetris.newTetriminos())
     }
   }
 
-  getNextPiece() {
-    const piece = this.nextPieces.shift()
-    this.nextPieces.push(Tetris.newTetriminos())
+  getNextPiece(i) {
+    const piece = this.pieces[i]
+    this.pieces.push(Tetris.newTetriminos())
     return piece
   }
 

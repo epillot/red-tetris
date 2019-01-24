@@ -28,9 +28,13 @@ const reducer = (state = {} , action) => {
     case types.NEW_PIECE:
       return copyState(state, {
         ...action.piece,
-        interval: action.interval,
+        //interval: action.interval,
       })
 
+    case 'GRAVITY':
+      return copyState(state, {
+        interval: action.interval,
+      })
 
     case types.MOVE_PIECE:
       return copyState(state, {

@@ -7,7 +7,7 @@ import * as server from './server'
 
 export {server}
 
-const gravity = () => {
+export const gravity = () => {
   return setInterval(() => {
     store.dispatch((dispatch, getState) => {
       const { tetris, coords, interval } = getState()
@@ -23,7 +23,7 @@ const gravity = () => {
   }, 700)
 }
 
-const keyEvents = ({ keyCode }) => store.dispatch(keyEvent(keyCode))
+export const keyEvents = ({ keyCode }) => store.dispatch(keyEvent(keyCode))
 
 const keyEvent = keyCode => (dispatch, getState) => {
   const { tetris, coords, rotate, type, interval } = getState()
@@ -63,9 +63,9 @@ const nextTurn = (coords) => (dispatch, getState) => {
       dispatch(updateTetris(f.removeLinesFirst(newTetris, lines)))
       dispatch(translateAnimation(newTetris, lines)).then(() => {
         dispatch(updateTetris(f.removeLines(newTetris, lines)))
-        const piece = f.newTetriminos()
-        if (f.isPossible(newTetris, piece.coords))
-          dispatch(newPiece(piece))
+        // const piece = f.newTetriminos()
+        // if (f.isPossible(newTetris, piece.coords))
+        //   dispatch(newPiece(piece))
       })
     })
   })
