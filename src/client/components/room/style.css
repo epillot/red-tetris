@@ -63,6 +63,10 @@
   align-items: center;
 }
 
+.roomPlayers {
+  width: 80%;
+}
+
 .roomSideBottom {
   height: 20%;
   display: flex;

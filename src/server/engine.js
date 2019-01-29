@@ -70,7 +70,7 @@ export default class Engine {
               type: 'NEW_PIECE',
               piece: room.getNextPiece(user.indexPiece),
             })
-            
+
           }
         }
 
@@ -102,6 +102,10 @@ export default class Engine {
         type: 'UPDATE_ROOM',
         room: room.getData(),
         hash: room.getHash(user),
+      })
+      user.sendAction({
+        type: 'UPDATE_GHOSTS',
+        ghosts: room.getGhosts(),
       })
     } else {
       user.sendAction({

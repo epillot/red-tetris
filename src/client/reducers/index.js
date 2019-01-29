@@ -3,6 +3,18 @@ import * as f from '../tools'
 
 const copyState = (state, newState) => Object.assign({}, state, newState)
 
+const updateGhosts = (prevGhosts, newGhosts) => {
+  const output = prevGhosts.slice()
+  newGhosts.forEach(ghost => {
+    const i = prevGhosts.findIndex(g => g.player.id === ghost.player.id)
+    if (i === -1)
+      output.push(ghost)
+    else
+      output[i] = ghost
+  })
+  return output
+}
+
 const defaultAnimationState = {
   getStyle: false
 }
@@ -90,6 +102,11 @@ const reducer = (state = {} , action) => {
     case 'UPDATE_ROOM':
       return copyState(state, {
         room: action.room,
+      })
+
+    case 'UPDATE_GHOSTS':
+      return copyState(state, {
+        playersGhosts: updateGhosts(state.playersGhosts, action.ghosts)
       })
 
     default:

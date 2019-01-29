@@ -19,8 +19,8 @@ export default class Room {
     }
   }
 
-  getGhosts() {
-    return this.users.map(user => user.getGhost())
+  getGhosts(user) {
+    return this.users.map(u => u.getGhost()).filter(g => g.player.id !== user.id)
   }
 
   setMaster(user) {

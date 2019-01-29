@@ -71,7 +71,7 @@ const initialState = {
   roomError: '',
   partyCode: '',
   connecting: true,
-  playersGhosts: {},
+  playersGhosts: [],
 }
 
 const store = createStore(

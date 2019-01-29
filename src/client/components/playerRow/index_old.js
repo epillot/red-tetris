@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import './style.css'
 
 
-const PlayerRow = props => console.log('MMMMMMMMMMMM') || (
+export const PlayerRow = props => console.log('MMMMMMMMMMMM') || (
   props.player ?
   <ActivePlayer
     player={props.player}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Board from '../board/'
-import RoomPlayers from '../roomPlayers/'
+import PlayerRow from '../playerRow'
 import PlayerGhost from '../playerGhost'
 import * as actions from '../../actions'
 
@@ -9,7 +9,7 @@ import './style.css'
 
 // const TetrisGhost=
 
-const room = ({ roomId, isMaster, startGame }) => (
+const room = ({ roomId, isMaster, startGame }) => console.log('------room is rendered----') || (
   <div className='roomContainer'>
 
     <div className='roomSide roomSideLeft'>
@@ -19,7 +19,18 @@ const room = ({ roomId, isMaster, startGame }) => (
       </div>
       <div className='roomSideMiddle'>
 
-        <RoomPlayers/>
+        <div className='roomPlayers'>
+          <table>
+            <tbody>
+              {[1, 2, 3, 4, 5].map(num =>
+                <PlayerRow
+                  num={num}
+                  key={num}
+                />
+              )}
+            </tbody>
+          </table>
+        </div>
 
       </div>
       <div className='roomSideBottom'>
@@ -34,13 +45,13 @@ const room = ({ roomId, isMaster, startGame }) => (
     <div className='roomSide roomSideRight'>
 
       <div className='row'>
-        <PlayerGhost/>
-        <PlayerGhost/>
+        <PlayerGhost num={0}/>
+        <PlayerGhost num={1}/>
       </div>
 
       <div className='row'>
-        <PlayerGhost/>
-        <PlayerGhost/>
+        <PlayerGhost num={2}/>
+        <PlayerGhost num={3}/>
       </div>
 
     </div>

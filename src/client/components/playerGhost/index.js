@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import './style.css'
 
-const playerGhost = ({ tetris }) => (
+const playerGhost = ({ tetris }) => console.log('-------playerGhost is rendered----------') || (
   <div className='ghostContainer'>
     <span className='ghostPlayerName'>lol</span>
     <div className='boardGhost'>
