@@ -6,6 +6,8 @@ import {storeStateMiddleWare} from '../middleware/storeStateMiddleWare'
 import reducer from '../reducers'
 import params from '../../../params'
 import { gravity, keyEvents } from '../actions'
+import { isPossible } from '../tools'
+
 
 const newTetris = () => {
   const tetris = [];
@@ -21,14 +23,18 @@ const newTetris = () => {
 const socketIoMiddleWare = socket => ({dispatch, getState}) => {
   if (socket)
     socket.on('action', action => {
+      if (action.type === 'NEW_PIECE' && action.piece) {
+        if (isPossible(getState().tetris, action.piece.coords)) {
+          dispatch(action)
+          addEventListener('keydown', keyEvents)
+          dispatch({type: 'GRAVITY', interval: gravity()})
+        }
+        return
+      }
       dispatch(action)
       const { connecting } = getState()
       if (connecting)
         dispatch({type: 'CONNECTING', connecting: false})
-      if (action.type === 'NEW_PIECE') {
-        addEventListener('keydown', keyEvents)
-        dispatch({type: 'GRAVITY', interval: gravity()})
-      }
     })
   return next => action => {
     if (socket && action.type && action.type.indexOf('server/') === 0)
@@ -65,6 +71,7 @@ const initialState = {
   roomError: '',
   partyCode: '',
   connecting: true,
+  playersGhosts: {},
 }
 
 const store = createStore(

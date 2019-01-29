@@ -6,6 +6,7 @@ export default class Room {
     this.id = id
     this.users = []
     this.pieces = []
+    this.isPlaying = false
     // this.master = master
     // master.joinRoom(id)
   }
@@ -16,6 +17,10 @@ export default class Room {
       master: this.master.getData(),
       users: this.users.map(user => user.getData()),
     }
+  }
+
+  getGhosts() {
+    return this.users.map(user => user.getGhost())
   }
 
   setMaster(user) {
@@ -50,6 +55,10 @@ export default class Room {
     for (let i = 0; i < 3; i++) {
       this.pieces.push(Tetris.newTetriminos())
     }
+    this.users.forEach(user => {
+
+    })
+    this.isPlaying = true
   }
 
   getNextPiece(i) {

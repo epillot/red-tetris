@@ -26,3 +26,10 @@ export const joinRoom = (id, nickname) => {
     nickname,
   }
 }
+
+export const updateTetris = (tetris) => {
+  return {
+    type: 'server/UPDATE_TETRIS',
+    tetris,
+  }
+}

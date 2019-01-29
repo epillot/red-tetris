@@ -50,7 +50,7 @@ export default class Engine {
 
         else if (action.type === 'server/START_GAME') {
           const room = Game.getRoomByMaster(user)
-          if (room) {
+          if (room && !room.isPlaying) {
             room.initGame()
             this.sendActionToRoom(room.id, {
               type: 'NEW_PIECE',
@@ -60,13 +60,17 @@ export default class Engine {
         }
 
         else if (action.type === 'server/UPDATE_TETRIS') {
+
           const room = Game.getRoomById(user.room)
+
           if (room) {
+            user.tetris = action.tetris
             user.indexPiece++
             user.sendAction({
               type: 'NEW_PIECE',
               piece: room.getNextPiece(user.indexPiece),
             })
+            
           }
         }
 

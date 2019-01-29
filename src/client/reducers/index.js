@@ -42,6 +42,7 @@ const reducer = (state = {} , action) => {
         rotate: action.rotate !== null ? action.rotate : state.rotate,
       })
 
+    case 'server/UPDATE_TETRIS':
     case types.UPDATE_TETRIS:
       return copyState(state, {
         tetris: action.tetris,

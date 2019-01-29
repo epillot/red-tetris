@@ -9,12 +9,28 @@
   height: 800px;
   flex: 1;
   background-color: #B0C4DE;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.roomSideLeft {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
-  box-sizing: border-box;
+}
+
+.roomSideRight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 }
 
 .roomSideTop {

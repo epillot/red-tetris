@@ -62,7 +62,7 @@ const nextTurn = (coords) => (dispatch, getState) => {
     dispatch(lineAnimation(lines)).then(() => {
       dispatch(updateTetris(f.removeLinesFirst(newTetris, lines)))
       dispatch(translateAnimation(newTetris, lines)).then(() => {
-        dispatch(updateTetris(f.removeLines(newTetris, lines)))
+        dispatch(server.updateTetris(f.removeLines(newTetris, lines)))
         // const piece = f.newTetriminos()
         // if (f.isPossible(newTetris, piece.coords))
         //   dispatch(newPiece(piece))

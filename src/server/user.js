@@ -31,4 +31,11 @@ export default class User {
     }
   }
 
+  getGhost() {
+    return {
+      player: this.getData(),
+      ghost: this.tetris,
+    }
+  }
+
 }
