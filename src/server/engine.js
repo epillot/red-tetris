@@ -11,15 +11,15 @@ export default class Engine {
     this.io.on('connection', (socket) => {
       console.log('Socket connected: ' + socket.id)
       const user = new User(socket)
+      user.sendAction({
+        type: 'USER_CONNECTED',
+        id: socket.id,
+      })
       const { roomId, name } = socket.handshake.query
       if (roomId && name) {
         user.name = name
         this.addUserToRoom(roomId, user)
       }
-      user.sendAction({
-        type: 'USER_CONNECTED',
-        id: socket.id,
-      })
 
       socket.on('disconnect', () => {
         this.disconnectUser(user)
@@ -66,6 +66,10 @@ export default class Engine {
           if (room) {
             user.tetris = action.tetris
             user.indexPiece++
+            user.sendActionToRoom(room.id, {
+              type: 'UPDATE_ROOM',
+              room: room.getData(),
+            })
             user.sendAction({
               type: 'NEW_PIECE',
               piece: room.getNextPiece(user.indexPiece),
@@ -98,15 +102,24 @@ export default class Engine {
   addUserToRoom(roomId, user) {
     const room = Game.addUserToRoom(roomId, user)
     if (room) {
-      this.sendActionToRoom(room.id, {
-        type: 'UPDATE_ROOM',
-        room: room.getData(),
-        hash: room.getHash(user),
-      })
-      user.sendAction({
-        type: 'UPDATE_GHOSTS',
-        ghosts: room.getGhosts(),
-      })
+      setTimeout(() => {
+        this.sendActionToRoom(room.id, {
+          type: 'UPDATE_ROOM',
+          room: room.getData(),
+          hash: room.getHash(user),
+          //ghosts: room.getGhosts(),
+        })
+      }, 1000)
+      // this.sendActionToRoom(room.id, {
+      //   type: 'UPDATE_ROOM',
+      //   room: room.getData(),
+      //   hash: room.getHash(user),
+      //   ghosts: room.getGhosts(),
+      // })
+      // user.sendAction({
+      //   type: 'UPDATE_GHOSTS',
+      //   ghosts: room.getGhosts(user),
+      // })
     } else {
       user.sendAction({
         type: 'JOIN_ROOM_ERROR',

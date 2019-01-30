@@ -4,7 +4,7 @@ export default class User {
     this.socket = socket
     this.room = false
     this.indexPiece = 0
-    //this.tetris = false
+    this.tetris = null
   }
 
   joinRoom(roomId) {
@@ -29,13 +29,14 @@ export default class User {
     return {
       name: this.name,
       id: this.socket.id,
+      tetris: this.tetris,
     }
   }
 
   getGhost() {
     return {
       player: this.getData(),
-      ghost: this.tetris,
+      tetris: this.tetris,
     }
   }
 

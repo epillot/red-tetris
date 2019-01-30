@@ -20,7 +20,7 @@ const getBlocks = (tetris, piece, pieceColor, getStyle) => {
   });
 }
 
-const board = ({ tetris, coords, color, getStyle }) => console.log('------board is rendered------') || (
+const board = ({ tetris, coords, color, getStyle }) => (
   <div className='board'>
     {getBlocks(tetris, coords, color, getStyle)}
   </div>

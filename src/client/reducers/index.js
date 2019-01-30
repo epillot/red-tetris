@@ -3,14 +3,23 @@ import * as f from '../tools'
 
 const copyState = (state, newState) => Object.assign({}, state, newState)
 
-const updateGhosts = (prevGhosts, newGhosts) => {
+const updateGhosts = (state, newGhosts) => {
+  const { playersGhosts: prevGhosts, playerID } = state
   const output = prevGhosts.slice()
-  newGhosts.forEach(ghost => {
+  newGhosts.filter(g => g.player.id !== playerID).forEach(ghost => {
     const i = prevGhosts.findIndex(g => g.player.id === ghost.player.id)
     if (i === -1)
       output.push(ghost)
     else
       output[i] = ghost
+  })
+  return output
+}
+
+const getPlayersGhosts = (room, playerID) => {
+  const output = {}
+  room.users.filter(user => user.id !== playerID).forEach(user => {
+    output[user.id] = user.tetris
   })
   return output
 }
@@ -74,7 +83,7 @@ const reducer = (state = {} , action) => {
 
     case 'USER_CONNECTED':
       return copyState(state, {
-        connecting: false,
+        //connecting: false,
         playerID: action.id,
       })
 
@@ -102,6 +111,7 @@ const reducer = (state = {} , action) => {
     case 'UPDATE_ROOM':
       return copyState(state, {
         room: action.room,
+        playersGhosts: getPlayersGhosts(action.room, state.playerID),
       })
 
     case 'UPDATE_GHOSTS':

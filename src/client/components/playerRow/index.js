@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import './style.css'
 
 
-const PlayerRow = ({ isEmpty, playerName, playerID, selfId, num }) => console.log('MMMMMMMMMMMM') || (
+const PlayerRow = ({ isEmpty, playerName, playerID, selfId, num }) => (
   !isEmpty ?
   <ActivePlayer
     name={playerName}

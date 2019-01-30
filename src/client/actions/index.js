@@ -20,7 +20,7 @@ export const gravity = () => {
         dispatch(nextTurn(coords))
       }
     })
-  }, 700)
+  }, 3000)
 }
 
 export const keyEvents = ({ keyCode }) => store.dispatch(keyEvent(keyCode))

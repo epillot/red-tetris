@@ -2,21 +2,24 @@ import React from 'react'
 import { connect } from 'react-redux'
 import './style.css'
 
-const playerGhost = ({ tetris }) => console.log('-------playerGhost is rendered----------') || (
+const playerGhost = ({ name, ghost, num }) => console.log(`-------${name || num} ghost is rendered----------`) || (
   <div className='ghostContainer'>
-    <span className='ghostPlayerName'>lol</span>
+    <span className='ghostPlayerName'>{name}</span>
     <div className='boardGhost'>
-     {tetris.map((col, i) => col.map((c, j) => (
-       <div key={`${i}${j}`} className={'blockGhost' + (c ? ' plain' : '')}></div>
-     )))
-     }
+       {ghost === null && <p>waiting for player</p>}
+       {ghost === undefined && <p>READY</p>}
+       {ghost && ghost.map((col, i) => col.map((c, j) => (
+         <div key={`${i}${j}`} className={'blockGhost' + (c ? ' plain' : '')}></div>
+      )))}
     </div>
   </div>
 )
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const user = state.room.users.filter(user => user.id !== state.playerID)[ownProps.num]
   return {
-    tetris: state.tetris
+    name: user ? user.name : '',
+    ghost: user ? user.tetris : null
   }
 }
 

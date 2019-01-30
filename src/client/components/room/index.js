@@ -9,7 +9,7 @@ import './style.css'
 
 // const TetrisGhost=
 
-const room = ({ roomId, isMaster, startGame }) => console.log('------room is rendered----') || (
+const room = ({ roomId, isMaster, startGame }) => (
   <div className='roomContainer'>
 
     <div className='roomSide roomSideLeft'>
