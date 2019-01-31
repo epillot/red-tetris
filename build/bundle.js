@@ -64,7 +64,7 @@
 
 	var _store2 = _interopRequireDefault(_store);
 
-	var _alert = __webpack_require__(293);
+	var _alert = __webpack_require__(299);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23880,7 +23880,7 @@
 
 	var _room2 = _interopRequireDefault(_room);
 
-	var _app = __webpack_require__(291);
+	var _app = __webpack_require__(297);
 
 	var _app2 = _interopRequireDefault(_app);
 
@@ -23889,15 +23889,33 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var App = function App(_ref) {
-	  var tetris = _ref.tetris,
-	      startGame = _ref.startGame,
-	      hash = _ref.hash,
-	      nickname = _ref.nickname,
+	  var nickname = _ref.nickname,
 	      nicknameError = _ref.nicknameError,
+	      partyCode = _ref.partyCode,
+	      room = _ref.room,
+	      roomError = _ref.roomError,
 	      editName = _ref.editName,
+	      editCode = _ref.editCode,
 	      createRoom = _ref.createRoom,
-	      room = _ref.room;
+	      joinRoom = _ref.joinRoom,
+	      removeError = _ref.removeError,
+	      connecting = _ref.connecting;
 
+	  if (connecting) {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'appContainer' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'connecting' },
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          'Connecting...'
+	        )
+	      )
+	    );
+	  }
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'appContainer' },
@@ -23915,7 +23933,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'nameContainer' },
-	          _react2.default.createElement('input', { id: 'nickname', className: nicknameError ? 'formError' : '', placeholder: 'Nickname', value: nickname, onChange: editName, autoFocus: 'autofocus' }),
+	          _react2.default.createElement('input', { id: 'nickname', className: nicknameError ? 'formError' : '', placeholder: 'Nickname', value: nickname, onSelect: removeError('nicknameError'), onChange: editName, autoFocus: 'autofocus' }),
 	          _react2.default.createElement(
 	            'p',
 	            { className: 'nicknameError' },
@@ -23928,12 +23946,26 @@
 	          _react2.default.createElement(
 	            'button',
 	            { className: 'createbutton', onClick: createRoom },
-	            'Cr\xE9er une partie'
+	            'Create a game'
 	          ),
 	          _react2.default.createElement(
-	            'button',
-	            { className: 'startbutton' },
-	            'Rejoindre une partie'
+	            'div',
+	            { className: 'joinFormContainer' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'joinForm' },
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'joinbutton', onClick: joinRoom },
+	                'Join a game'
+	              ),
+	              _react2.default.createElement('input', { id: 'partyCode', className: roomError ? 'formError' : '', value: partyCode, onSelect: removeError('roomError'), placeholder: 'Party code', onChange: editCode })
+	            ),
+	            _react2.default.createElement(
+	              'p',
+	              { className: 'roomError' },
+	              roomError
+	            )
 	          )
 	        )
 	      )
@@ -23943,31 +23975,45 @@
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
-	    startGame: function startGame() {
-	      dispatch(actions.server.startGame());
-	      dispatch(actions.newPiece());
-	    },
 	    createRoom: function createRoom() {
 	      return dispatch(function (_, getState) {
 	        var _getState = getState(),
 	            nickname = _getState.nickname;
 
-	        if (!nickname) dispatch(actions.nicknamError());else dispatch(actions.server.createRoom(nickname));
+	        if (!nickname) dispatch(actions.nicknameError());else dispatch(actions.server.createRoom(nickname));
+	      });
+	    },
+	    joinRoom: function joinRoom() {
+	      return dispatch(function (_, getState) {
+	        var _getState2 = getState(),
+	            nickname = _getState2.nickname,
+	            partyCode = _getState2.partyCode;
+
+	        if (!nickname) dispatch(actions.nicknameError());else dispatch(actions.server.joinRoom(partyCode, nickname));
 	      });
 	    },
 	    editName: function editName(e) {
 	      dispatch(actions.editName(e.target.value));
+	    },
+	    editCode: function editCode(e) {
+	      dispatch(actions.editCode(e.target.value));
+	    },
+	    removeError: function removeError(name) {
+	      return function () {
+	        dispatch(actions.removeError(name));
+	      };
 	    }
 	  };
 	};
 
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
-	    tetris: state.tetris,
 	    nickname: state.nickname,
+	    nicknameError: state.nicknameError,
+	    partyCode: state.partyCode,
 	    room: state.room,
-	    hash: state.hash,
-	    nicknameError: state.nicknameError
+	    roomError: state.roomError,
+	    connecting: state.connecting
 	  };
 	};
 
@@ -23982,7 +24028,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.nicknamError = exports.movePiece = exports.newPiece = exports.editName = exports.server = undefined;
+	exports.removeError = exports.nicknameError = exports.movePiece = exports.newPiece = exports.editCode = exports.editName = exports.keyEvents = exports.gravity = exports.server = undefined;
 
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -24013,9 +24059,7 @@
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	exports.server = server;
-
-
-	var gravity = function gravity() {
+	var gravity = exports.gravity = function gravity() {
 	  return setInterval(function () {
 	    _store2.default.dispatch(function (dispatch, getState) {
 	      var _getState = getState(),
@@ -24041,7 +24085,7 @@
 	  }, 700);
 	};
 
-	var keyEvents = function keyEvents(_ref3) {
+	var keyEvents = exports.keyEvents = function keyEvents(_ref3) {
 	  var keyCode = _ref3.keyCode;
 	  return _store2.default.dispatch(keyEvent(keyCode));
 	};
@@ -24110,9 +24154,10 @@
 	      dispatch((0, _animations.lineAnimation)(lines)).then(function () {
 	        dispatch(updateTetris(f.removeLinesFirst(newTetris, lines)));
 	        dispatch((0, _animations.translateAnimation)(newTetris, lines)).then(function () {
-	          dispatch(updateTetris(f.removeLines(newTetris, lines)));
-	          var piece = f.newTetriminos();
-	          if (f.isPossible(newTetris, piece.coords)) dispatch(newPiece(piece));
+	          dispatch(server.updateTetris(f.removeLines(newTetris, lines), lines.length - 1));
+	          // const piece = f.newTetriminos()
+	          // if (f.isPossible(newTetris, piece.coords))
+	          //   dispatch(newPiece(piece))
 	        });
 	      });
 	    });
@@ -24122,6 +24167,13 @@
 	var editName = exports.editName = function editName(value) {
 	  return {
 	    type: types.EDIT_NAME,
+	    value: value
+	  };
+	};
+
+	var editCode = exports.editCode = function editCode(value) {
+	  return {
+	    type: types.EDIT_CODE,
 	    value: value
 	  };
 	};
@@ -24157,13 +24209,21 @@
 	var updateTetris = function updateTetris(tetris) {
 	  return {
 	    type: types.UPDATE_TETRIS,
-	    tetris: tetris
+	    tetris: tetris,
+	    newPiece: true
 	  };
 	};
 
-	var nicknamError = exports.nicknamError = function nicknamError() {
+	var nicknameError = exports.nicknameError = function nicknameError() {
 	  return {
 	    type: 'NICKNAME_ERROR'
+	  };
+	};
+
+	var removeError = exports.removeError = function removeError(name) {
+	  return {
+	    type: 'REMOVE_ERROR',
+	    name: name
 	  };
 	};
 
@@ -24177,14 +24237,16 @@
 	  value: true
 	});
 	var EDIT_NAME = exports.EDIT_NAME = 'EDIT_NAME';
+	var EDIT_CODE = exports.EDIT_CODE = 'EDIT_CODE';
 	var NEW_PIECE = exports.NEW_PIECE = 'NEW_PIECE';
 	var MOVE_PIECE = exports.MOVE_PIECE = 'MOVE_PIECE';
-	var UPDATE_TETRIS = exports.UPDATE_TETRIS = 'UPDATE_TETRIS';
 	var ANIMATION_STEP = exports.ANIMATION_STEP = 'ANIMATION_STEP';
 	var ANIMATION_OVER = exports.ANIMATION_OVER = 'ANIMATION_OVER';
+	var UPDATE_TETRIS = exports.UPDATE_TETRIS = 'UPDATE_TETRIS';
 
 	var START_GAME = exports.START_GAME = 'server/START_GAME';
 	var CREATE_ROOM = exports.CREATE_ROOM = 'server/CREATE_ROOM';
+	var JOIN_ROOM = exports.JOIN_ROOM = 'server/JOIN_ROOM';
 
 /***/ }),
 /* 218 */
@@ -24220,6 +24282,10 @@
 
 	var _params2 = _interopRequireDefault(_params);
 
+	var _actions = __webpack_require__(216);
+
+	var _tools = __webpack_require__(277);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var newTetris = function newTetris() {
@@ -24233,6 +24299,58 @@
 	  return tetris;
 	};
 
+	var socketIoMiddleWare = function socketIoMiddleWare(socket) {
+	  return function (_ref) {
+	    var dispatch = _ref.dispatch,
+	        getState = _ref.getState;
+
+	    if (socket) socket.on('action', function (action) {
+	      if (action.type === 'NEW_PIECE' && action.piece) {
+	        if ((0, _tools.isPossible)(getState().tetris, action.piece.coords)) {
+	          dispatch(action);
+	          addEventListener('keydown', _actions.keyEvents);
+	          dispatch({ type: 'GRAVITY', interval: (0, _actions.gravity)() });
+	        }
+	        return;
+	      } else if (action.type === 'UPDATE_GHOST' && action.lines > 0) {
+	        dispatch(action);
+	        //const { interval } = getState()
+	        //clearInterval(interval)
+	        //removeEventListener('keydown', keyEvents)
+	        dispatch(_actions.server.updateTetris((0, _tools.addBlackLines)(getState().tetris, action.lines), 0, false));
+	        //addEventListener('keydown', keyEvents)
+	        //dispatch({type: 'GRAVITY', interval: gravity()})
+	        return;
+	      }
+
+	      dispatch(action);
+
+	      var _getState = getState(),
+	          connecting = _getState.connecting;
+
+	      if (connecting) dispatch({ type: 'CONNECTING', connecting: false });
+	    });
+	    return function (next) {
+	      return function (action) {
+	        if (socket && action.type && action.type.indexOf('server/') === 0) socket.emit('action', action);
+	        if (socket && action.hash && action.hash.to === socket.id) window.location.hash = action.hash.hash;
+	        return next(action);
+	      };
+	    };
+	  };
+	};
+
+	var parseHash = function parseHash(hash) {
+	  if (hash[6] !== '[' || hash[hash.length - 1] !== ']' || hash.length - 8 > 15) return null;
+	  var roomId = hash.substr(1, 5);
+	  var name = hash.substr(7, hash.length - 8);
+	  return { roomId: roomId, name: name };
+	};
+
+	var data = parseHash(window.location.hash);
+	var query = Object.assign({}, parseHash(window.location.hash));
+	var socket = (0, _socket2.default)(_params2.default.server.url, { query: query });
+
 	var initialState = {
 	  tetris: newTetris(),
 	  coords: null,
@@ -24241,59 +24359,16 @@
 	  type: null,
 	  Isplaying: false,
 	  animation: false,
-	  hash: window.location.hash,
 	  room: null,
 	  nickname: '',
-	  nicknameError: ''
+	  nicknameError: '',
+	  roomError: '',
+	  partyCode: '',
+	  connecting: true,
+	  playersGhosts: []
 	};
-
-	var socketIoMiddleWare = function socketIoMiddleWare(socket) {
-	  return function (_ref) {
-	    var dispatch = _ref.dispatch,
-	        getState = _ref.getState;
-
-	    if (socket) socket.on('action', dispatch);
-	    return function (next) {
-	      return function (action) {
-	        if (socket && action.type && action.type.indexOf('server/') === 0) socket.emit('action', action);
-	        if (action.hash) window.location.hash = action.hash;
-	        return next(action);
-	      };
-	    };
-	  };
-	};
-
-	var socket = (0, _socket2.default)(_params2.default.server.url);
 
 	var store = (0, _redux.createStore)(_reducers2.default, initialState, (0, _redux.applyMiddleware)(socketIoMiddleWare(socket), _reduxThunk2.default, (0, _reduxLogger2.default)()));
-
-	// const logger = store => {
-	//   return next => {
-	//     return action => {
-	//       console.log('dispatching', action)
-	//       let result = next(action)
-	//       console.log('next state', store.getState())
-	//       return result
-	//     }
-	//   }
-	// }
-	//
-	// const lol = store => next => action => {
-	//   console.log('lolilol ;P XD');
-	//   return next(action)
-	// }
-	//
-	// function myApplyMiddleware(store, middlewares) {
-	//   middlewares = middlewares.slice()
-	//   middlewares.reverse()
-	//   let dispatch = store.dispatch
-	//   middlewares.forEach(middleware =>
-	//     dispatch = middleware(store)(dispatch)
-	//   )
-	//   return Object.assign({}, store, { dispatch })
-	// }
-	//
-	// store = myApplyMiddleware(store, [lol, logger])
 
 	exports.default = store;
 
@@ -33372,8 +33447,48 @@
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	var copyState = function copyState(state, newState) {
 	  return Object.assign({}, state, newState);
+	};
+
+	var updateGhost = function updateGhost(action, state) {
+	  var output = Object.assign({}, state.playersGhosts);
+	  output[action.id] = action.tetris;
+	  //console.log(output)
+	  return output;
+	};
+
+	var getPlayersGhostsOld = function getPlayersGhostsOld(room, playerID) {
+	  var output = {};
+	  room.users.filter(function (user) {
+	    return user.id !== playerID;
+	  }).forEach(function (user) {
+	    output[user.id] = user.tetris;
+	  });
+	  return output;
+	};
+
+	var getPlayersGhosts = function getPlayersGhosts(room, _ref) {
+	  var playerID = _ref.playerID,
+	      playersGhosts = _ref.playersGhosts;
+
+	  var output = Object.assign({}, playersGhosts);
+	  var users = room.users.filter(function (user) {
+	    return user.id !== playerID;
+	  });
+
+	  Object.keys(output).forEach(function (id) {
+	    if (!users.find(function (user) {
+	      return user.id === id;
+	    })) delete output[id];
+	  });
+
+	  users.forEach(function (user) {
+	    if (!output[user.id]) output[user.id] = user.tetris;
+	  });
+	  return output;
 	};
 
 	var defaultAnimationState = {
@@ -33390,15 +33505,27 @@
 	    //   return copyState(state, {tetris: newTetris()})
 
 	    case types.CREATE_ROOM:
-	      return copyState(state, { room: null });
+	    case types.JOIN_ROOM:
+	      return copyState(state, {
+	        connecting: true
+	      });
 
 	    case types.EDIT_NAME:
 	      return copyState(state, { nickname: action.value.trim().substr(0, 15).trim() });
 
+	    case types.EDIT_CODE:
+	      return copyState(state, { partyCode: action.value.trim().substr(0, 5).trim() });
+
 	    case types.NEW_PIECE:
 	      return copyState(state, _extends({}, action.piece, {
-	        interval: action.interval
+	        isPlaying: true
+	        //interval: action.interval,
 	      }));
+
+	    case 'GRAVITY':
+	      return copyState(state, {
+	        interval: action.interval
+	      });
 
 	    case types.MOVE_PIECE:
 	      return copyState(state, {
@@ -33406,10 +33533,11 @@
 	        rotate: action.rotate !== null ? action.rotate : state.rotate
 	      });
 
+	    case 'server/UPDATE_TETRIS':
 	    case types.UPDATE_TETRIS:
 	      return copyState(state, _extends({
 	        tetris: action.tetris,
-	        coords: null
+	        coords: action.newPiece ? null : state.coords
 	      }, defaultAnimationState));
 
 	    case types.ANIMATION_STEP:
@@ -33422,14 +33550,40 @@
 	        getStyle: false
 	      });
 
-	    case 'ROOM_CREATED':
+	    case 'USER_CONNECTED':
 	      return copyState(state, {
-	        room: action.id
+	        //connecting: false,
+	        playerID: action.id
+	      });
+
+	    case 'CONNECTING':
+	      return copyState(state, {
+	        connecting: action.connecting
 	      });
 
 	    case 'NICKNAME_ERROR':
 	      return copyState(state, {
 	        nicknameError: 'Please enter a nickname'
+	      });
+
+	    case 'JOIN_ROOM_ERROR':
+	      return copyState(state, {
+	        roomError: action.error,
+	        room: null
+	      });
+
+	    case 'REMOVE_ERROR':
+	      return copyState(state, _defineProperty({}, action.name, ''));
+
+	    case 'UPDATE_ROOM':
+	      return copyState(state, {
+	        room: action.room,
+	        playersGhosts: getPlayersGhosts(action.room, state)
+	      });
+
+	    case 'UPDATE_GHOST':
+	      return copyState(state, {
+	        playersGhosts: updateGhost(action, state)
 	      });
 
 	    default:
@@ -33468,44 +33622,38 @@
 	    rotate: 0,
 	    color: 'red',
 	    type: 'square'
-	  };
-	  //T
-	  if (name === 'T') return {
+	    //T
+	  };if (name === 'T') return {
 	    coords: [[0, -1], [0, 0], [-1, 0], [1, 0]],
 	    rotate: 0,
 	    color: 'blue',
 	    type: 'T'
-	  };
-	  //L
-	  if (name === 'L') return {
+	    //L
+	  };if (name === 'L') return {
 	    coords: [[0, -2], [0, -1], [0, 0], [1, 0]],
 	    rotate: 0,
 	    color: 'yellow',
 	    type: 'L'
-	  };
-	  //reverse L
-	  if (name === 'revL') return {
+	    //reverse L
+	  };if (name === 'revL') return {
 	    coords: [[0, 0], [0, -1], [0, -2], [1, -2]],
 	    rotate: 0,
 	    color: 'green',
 	    type: 'revL'
-	  };
-	  //ligne
-	  if (name === 'line') return {
+	    //ligne
+	  };if (name === 'line') return {
 	    coords: [[0, -3], [0, -2], [0, -1], [0, 0]],
 	    rotate: 0,
 	    color: 'purple',
 	    type: 'line'
-	  };
-	  //Z
-	  if (name === 'Z') return {
+	    //Z
+	  };if (name === 'Z') return {
 	    coords: [[1, -1], [0, -1], [0, 0], [-1, 0]],
 	    rotate: 0,
 	    color: 'pink',
 	    type: 'Z'
-	  };
-	  //reverse Z
-	  if (name === 'revZ') return {
+	    //reverse Z
+	  };if (name === 'revZ') return {
 	    coords: [[-1, -1], [0, -1], [0, 0], [1, 0]],
 	    rotate: 0,
 	    color: 'orange',
@@ -33601,7 +33749,7 @@
 	  for (var y = 19; y >= 0; y--) {
 	    isComplete = true;
 	    for (var x = 0; x < 10; x++) {
-	      if (tetris[x][y] === '') {
+	      if (tetris[x][y] === '' || tetris[x][y] === 'black') {
 	        isComplete = false;
 	        break;
 	      }
@@ -33665,6 +33813,15 @@
 	  return newCoords;
 	};
 
+	var addBlackLines = exports.addBlackLines = function addBlackLines(tetris, lines) {
+	  var newTetris = getRevGrid(tetris);
+	  for (var i = 0; i < lines; i++) {
+	    newTetris.splice(0, 1);
+	    newTetris.push(['black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black']);
+	  }
+	  return getRevGrid(newTetris);
+	};
+
 /***/ }),
 /* 278 */
 /***/ (function(module, exports) {
@@ -33673,7 +33830,7 @@
 
 	var params = {
 	  server: {
-	    host: 'e3r10p10',
+	    host: 'e3r8p5',
 	    port: 3004,
 	    get url() {
 	      return 'http://' + this.host + ':' + this.port;
@@ -33904,7 +34061,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.createRoom = exports.startGame = exports.ping = undefined;
+	exports.updateTetris = exports.joinRoom = exports.createRoom = exports.startGame = exports.ping = undefined;
 
 	var _actionTypes = __webpack_require__(217);
 
@@ -33931,6 +34088,26 @@
 	  };
 	};
 
+	var joinRoom = exports.joinRoom = function joinRoom(id, nickname) {
+	  return {
+	    type: types.JOIN_ROOM,
+	    id: id,
+	    nickname: nickname
+	  };
+	};
+
+	var updateTetris = exports.updateTetris = function updateTetris(tetris) {
+	  var lines = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+	  var newPiece = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+	  return {
+	    type: 'server/UPDATE_TETRIS',
+	    tetris: tetris,
+	    lines: lines,
+	    newPiece: newPiece
+	  };
+	};
+
 /***/ }),
 /* 282 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -33951,21 +34128,40 @@
 
 	var _board2 = _interopRequireDefault(_board);
 
-	__webpack_require__(289);
+	var _playerRow = __webpack_require__(289);
+
+	var _playerRow2 = _interopRequireDefault(_playerRow);
+
+	var _playerGhost = __webpack_require__(292);
+
+	var _playerGhost2 = _interopRequireDefault(_playerGhost);
+
+	var _actions = __webpack_require__(216);
+
+	var actions = _interopRequireWildcard(_actions);
+
+	__webpack_require__(295);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// const TetrisGhost=
+
 	var room = function room(_ref) {
-	  var room = _ref.room;
+	  var roomId = _ref.roomId,
+	      isMaster = _ref.isMaster,
+	      isPlaying = _ref.isPlaying,
+	      startGame = _ref.startGame;
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'roomContainer' },
 	    _react2.default.createElement(
 	      'div',
-	      { className: 'roomSide' },
+	      { className: 'roomSide roomSideLeft' },
 	      _react2.default.createElement(
 	        'div',
-	        { className: 'roomHeader' },
+	        { className: 'roomSideTop' },
 	        _react2.default.createElement(
 	          'p',
 	          null,
@@ -33977,7 +34173,7 @@
 	          _react2.default.createElement(
 	            'span',
 	            { className: 'roomId' },
-	            room
+	            roomId
 	          )
 	        ),
 	        _react2.default.createElement(
@@ -33985,20 +34181,95 @@
 	          { className: 'codeHint' },
 	          'Share this code with your friends !'
 	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'roomSideMiddle' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'roomPlayers' },
+	          _react2.default.createElement(
+	            'table',
+	            null,
+	            _react2.default.createElement(
+	              'tbody',
+	              null,
+	              [1, 2, 3, 4, 5].map(function (num) {
+	                return _react2.default.createElement(_playerRow2.default, {
+	                  num: num,
+	                  key: num
+	                });
+	              })
+	            )
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'roomSideBottom' },
+	        !isPlaying ? isMaster ? _react2.default.createElement(
+	          'button',
+	          { className: 'startbutton', onClick: startGame },
+	          'Start game'
+	        ) : _react2.default.createElement(
+	          'p',
+	          { className: 'waitingMaster' },
+	          'Waiting for the master to start the game...'
+	        ) : _react2.default.createElement(
+	          'p',
+	          { className: 'waitingMaster' },
+	          'A game is in progress !'
+	        )
 	      )
 	    ),
 	    _react2.default.createElement(_board2.default, null),
-	    _react2.default.createElement('div', { className: 'roomSide' })
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'roomSide roomSideRight' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(_playerGhost2.default, { num: 0 }),
+	        _react2.default.createElement(_playerGhost2.default, { num: 1 })
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(_playerGhost2.default, { num: 2 }),
+	        _react2.default.createElement(_playerGhost2.default, { num: 3 })
+	      )
+	    )
 	  );
 	};
 
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
-	    room: state.room
+	    roomId: state.room.id,
+	    isMaster: state.playerID === state.room.master.id,
+	    isPlaying: state.room.isPlaying || state.isPlaying
 	  };
 	};
 
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(room);
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    startGame: function startGame() {
+	      dispatch(actions.server.startGame());
+	    },
+	    createRoom: function createRoom() {
+	      return dispatch(function (_, getState) {
+	        var _getState = getState(),
+	            nickname = _getState.nickname;
+
+	        if (!nickname) dispatch(actions.nicknamError());else dispatch(actions.server.createRoom(nickname));
+	      });
+	    },
+	    editName: function editName(e) {
+	      dispatch(actions.editName(e.target.value));
+	    }
+	  };
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(room);
 
 /***/ }),
 /* 283 */
@@ -34132,7 +34403,7 @@
 
 
 	// module
-	exports.push([module.id, ".board {\n  margin: 0 20px;\n  height: 800px;\n  width: 400px;\n  /* border-bottom: 20px solid #8bb0da; */\n  /* border-left: 120px solid #8bb0da;\n  border-right: 120px solid #8bb0da; */\n  /* border-top: 48px inset black; */\n  display: flex;\n  flex-wrap: wrap;\n  flex-direction: column;\n  background-color: #ffe6e6;\n  border-radius: 5px;\n}\n\n.block {\n  width: 40px;\n  height: 40px;\n  box-sizing: border-box;\n  /* border-radius: 1px; */\n  position: relative;\n}\n\n.colored {\n  border: 0.3px solid #F0F0F0;\n  -webkit-filter : brightness(90%);\n          filter : brightness(90%);\n}\n\n.red {\n  background-color: #ff4236;\n}\n\n.red1 {\n  background-color: #ff0000;\n}\n\n.red2 {\n  background-color: #990000;\n}\n\n.red3 {\n  background-color: #AA0000;\n}\n\n.red4 {\n  background-color: #BB0000;\n}\n\n.red5 {\n  background-color: #CC0000;\n}\n\n.red6 {\n  background-color: #DD0000;\n}\n\n.red7 {\n  background-color: #EE0000;\n}\n\n.blue {\n  background-color: #4c51fb;\n}\n\n.yellow {\n  background-color: #ffe800;\n}\n\n.green {\n  background-color: #00cc00;\n}\n\n.purple {\n  background-color: #cc00aa;\n}\n\n.pink {\n  background-color: pink;\n}\n\n.orange {\n  background-color: #ff8c1a;\n}\n\n.ghost {\n  background-color: #FFF;\n  opacity: 0.4;\n  -webkit-filter : brightness(80%);\n          filter : brightness(80%);\n}\n", ""]);
+	exports.push([module.id, ".board {\n  margin: 0 20px;\n  height: 800px;\n  width: 400px;\n  /* border-bottom: 20px solid #8bb0da; */\n  /* border-left: 120px solid #8bb0da;\n  border-right: 120px solid #8bb0da; */\n  /* border-top: 48px inset black; */\n  display: flex;\n  flex-wrap: wrap;\n  flex-direction: column;\n  background-color: #ffe6e6;\n  border-radius: 5px;\n}\n\n.block {\n  width: 40px;\n  height: 40px;\n  box-sizing: border-box;\n  /* border-radius: 1px; */\n  position: relative;\n}\n\n.colored {\n  border: 0.3px solid #F0F0F0;\n  -webkit-filter : brightness(90%);\n          filter : brightness(90%);\n}\n\n.red {\n  background-color: #ff4236;\n}\n\n.red1 {\n  background-color: #ff0000;\n}\n\n.red2 {\n  background-color: #990000;\n}\n\n.red3 {\n  background-color: #AA0000;\n}\n\n.red4 {\n  background-color: #BB0000;\n}\n\n.red5 {\n  background-color: #CC0000;\n}\n\n.red6 {\n  background-color: #DD0000;\n}\n\n.red7 {\n  background-color: #EE0000;\n}\n\n.blue {\n  background-color: #4c51fb;\n}\n\n.yellow {\n  background-color: #ffe800;\n}\n\n.green {\n  background-color: #00cc00;\n}\n\n.purple {\n  background-color: #cc00aa;\n}\n\n.pink {\n  background-color: pink;\n}\n\n.orange {\n  background-color: #ff8c1a;\n}\n\n.black {\n  background-color: black;\n}\n\n.ghost {\n  background-color: #FFF;\n  opacity: 0.4;\n  -webkit-filter : brightness(80%);\n          filter : brightness(80%);\n}\n", ""]);
 
 	// exports
 
@@ -34722,8 +34993,88 @@
 /* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(184);
+
+	__webpack_require__(290);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var PlayerRow = function PlayerRow(_ref) {
+	  var isEmpty = _ref.isEmpty,
+	      playerName = _ref.playerName,
+	      playerID = _ref.playerID,
+	      selfId = _ref.selfId,
+	      num = _ref.num;
+	  return !isEmpty ? _react2.default.createElement(ActivePlayer, {
+	    name: playerName,
+	    num: num,
+	    isMaster: num === 1,
+	    isSelf: playerID === selfId
+	  }) : _react2.default.createElement(EmptyPlayer, { num: num });
+	};
+
+	var ActivePlayer = function ActivePlayer(props) {
+	  return _react2.default.createElement(
+	    'tr',
+	    { className: 'playerRow' + (props.isSelf ? ' selfRow' : '') },
+	    _react2.default.createElement(
+	      'td',
+	      { className: 'playerNum' },
+	      props.num
+	    ),
+	    _react2.default.createElement(
+	      'td',
+	      { className: 'playerName' },
+	      props.name + (props.isMaster ? ' (master)' : '')
+	    )
+	  );
+	};
+
+	var EmptyPlayer = function EmptyPlayer(props) {
+	  return _react2.default.createElement(
+	    'tr',
+	    { className: 'emptyRow' },
+	    _react2.default.createElement(
+	      'td',
+	      { className: 'playerNum' },
+	      props.num
+	    ),
+	    _react2.default.createElement(
+	      'td',
+	      { className: 'emptyText' },
+	      'Waiting for player...'
+	    )
+	  );
+	};
+
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  var player = state.room.users[ownProps.num - 1];
+	  return {
+	    isEmpty: player === undefined,
+	    playerName: player ? player.name : '',
+	    playerID: player ? player.id : '',
+	    selfId: state.playerID
+	  };
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(PlayerRow);
+
+/***/ }),
+/* 290 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	
-	var content = __webpack_require__(290);
+	var content = __webpack_require__(291);
 
 	if(typeof content === 'string') content = [[module.id, content, '']];
 
@@ -34769,7 +35120,7 @@
 	}
 
 /***/ }),
-/* 290 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(286)(false);
@@ -34777,17 +35128,220 @@
 
 
 	// module
-	exports.push([module.id, ".roomContainer {\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.roomSide {\n  height: 800px;\n  flex: 1;\n  background-color: #B0C4DE;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.roomHeader {\n  font-size: 30px;\n  margin: 15px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.roomHeader p {\n  margin: 5px;\n}\n\n.roomId {\n  color: #770000;\n}\n\n.codeHint {\n  font-size: 18px;\n  font-style: italic;\n}\n", ""]);
+	exports.push([module.id, ".roomPlayers table {\n  width: 100%;\n  border-spacing: 0;\n}\n\n.roomPlayers td {\n  border: 1px solid #D0D0D0;\n  padding: 20px;\n}\n\n.playerNum {\n  text-align: center;\n  width: 60px;\n  box-sizing: border-box;\n  font-weight: bold;\n}\n\n.emptyRow {\n  opacity: 0.6;\n  background-color: #EAEAEA;\n}\n\n.emptyText {\n  font-style: italic;\n}\n\n.playerRow {\n  background-color: #E0E0E0;\n  -webkit-filter : brightness(95%);\n          filter : brightness(95%);\n}\n\n.selfRow {\n  -webkit-filter : brightness(100%);\n          filter : brightness(100%);\n}\n\n.playerName {\n  font-size: 20px;\n}\n", ""]);
 
 	// exports
 
 
 /***/ }),
-/* 291 */
+/* 292 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(184);
+
+	__webpack_require__(293);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var getBoardClassName = function getBoardClassName(ghost) {
+	  var boardClass = 'boardGhost';
+	  if (!ghost) {
+	    boardClass += ' emptyGhost';
+	    if (ghost === null) boardClass += ' waitingGhost';else boardClass += ' readyGhost';
+	  } else boardClass += ' plainGhost';
+	  return boardClass;
+	};
+
+	var playerGhost = function playerGhost(_ref) {
+	  var name = _ref.name,
+	      ghost = _ref.ghost,
+	      num = _ref.num;
+	  return console.log('-------' + (name || num) + ' ghost is rendered----------') || _react2.default.createElement(
+	    'div',
+	    { className: 'ghostContainer' },
+	    _react2.default.createElement(
+	      'span',
+	      { className: 'ghostPlayerName' },
+	      name
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: getBoardClassName(ghost) },
+	      ghost === null && _react2.default.createElement(
+	        'p',
+	        null,
+	        'Waiting for player'
+	      ),
+	      ghost === undefined && _react2.default.createElement(
+	        'p',
+	        null,
+	        'READY'
+	      ),
+	      ghost && ghost.map(function (col, i) {
+	        return col.map(function (c, j) {
+	          return _react2.default.createElement('div', { key: '' + i + j, className: 'blockGhost' + (c === 'black' ? ' black' : c ? ' plain' : '') });
+	        });
+	      })
+	    )
+	  );
+	};
+
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  var user = state.room.users.filter(function (user) {
+	    return user.id !== state.playerID;
+	  })[ownProps.num];
+	  return {
+	    name: user ? user.name : '',
+	    ghost: user ? state.playersGhosts[user.id] : null
+	  };
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(playerGhost);
+
+/***/ }),
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
-	var content = __webpack_require__(292);
+	var content = __webpack_require__(294);
+
+	if(typeof content === 'string') content = [[module.id, content, '']];
+
+	var transform;
+	var insertInto;
+
+
+
+	var options = {"hmr":true}
+
+	options.transform = transform
+	options.insertInto = undefined;
+
+	var update = __webpack_require__(287)(content, options);
+
+	if(content.locals) module.exports = content.locals;
+
+	if(false) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/src/index.js!./style.css", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/src/index.js!./style.css");
+
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+			var locals = (function(a, b) {
+				var key, idx = 0;
+
+				for(key in a) {
+					if(!b || a[key] !== b[key]) return false;
+					idx++;
+				}
+
+				for(key in b) idx--;
+
+				return idx === 0;
+			}(content.locals, newContent.locals));
+
+			if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+			update(newContent);
+		});
+
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 294 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(286)(false);
+	// imports
+
+
+	// module
+	exports.push([module.id, ".ghostContainer {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-end;\n  /* height: 300px; */\n}\n\n.ghostPlayerName {\n  margin: 10px;\n  font-weight: bold;\n  font-size: 20px;\n}\n\n.boardGhost {\n  height: 240px;\n  width: 120px;\n  border: 2px solid black;\n  background-color: #E0E0E0;\n}\n\n.emptyGhost {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.plainGhost {\n  display: flex;\n  flex-wrap: wrap;\n  flex-direction: column;\n}\n\n.boardGhost p {\n  -webkit-transform: rotate(-60deg);\n          transform: rotate(-60deg);\n  margin: 0;\n  white-space: nowrap;\n}\n\n.waitingGhost {\n  opacity: 0.5;\n}\n\n.waitingGhost p {\n  font-style: italic;\n}\n\n.readyGhost {\n  -webkit-filter: brightness(70%);\n          filter: brightness(70%);\n}\n\n.readyGhost p {\n  font-size: 20px;\n}\n\n.blockGhost {\n  width: 12px;\n  height: 12px;\n}\n\n.plain {\n  background-color: #770000;\n}\n", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 295 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	
+	var content = __webpack_require__(296);
+
+	if(typeof content === 'string') content = [[module.id, content, '']];
+
+	var transform;
+	var insertInto;
+
+
+
+	var options = {"hmr":true}
+
+	options.transform = transform
+	options.insertInto = undefined;
+
+	var update = __webpack_require__(287)(content, options);
+
+	if(content.locals) module.exports = content.locals;
+
+	if(false) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/src/index.js!./style.css", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/src/index.js!./style.css");
+
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+			var locals = (function(a, b) {
+				var key, idx = 0;
+
+				for(key in a) {
+					if(!b || a[key] !== b[key]) return false;
+					idx++;
+				}
+
+				for(key in b) idx--;
+
+				return idx === 0;
+			}(content.locals, newContent.locals));
+
+			if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+			update(newContent);
+		});
+
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 296 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(286)(false);
+	// imports
+
+
+	// module
+	exports.push([module.id, ".roomContainer {\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.roomSide {\n  height: 800px;\n  flex: 1;\n  background-color: #B0C4DE;\n  padding: 20px;\n  box-sizing: border-box;\n}\n\n.roomSideLeft {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-between;\n}\n\n.roomSideRight {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-around;\n}\n\n.row {\n  width: 100%;\n  display: flex;\n  justify-content: space-around;\n}\n\n.roomSideTop {\n  font-size: 30px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 20%;\n}\n\n.roomSideTop p {\n  margin: 5px;\n}\n\n.roomId {\n  color: #770000;\n}\n\n.codeHint {\n  font-size: 18px;\n  font-style: italic;\n}\n\n.roomSideMiddle {\n  height: 60%;\n  width: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.roomPlayers {\n  width: 80%;\n}\n\n.roomSideBottom {\n  height: 20%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.startbutton {\n  cursor: pointer;\n  background:    #ff0000;\n  background:    linear-gradient(#660000, #ff0000 50%, #660000);\n  /* box-shadow:    0 4px #000000; */\n  width:         295px;\n  height:        55px;\n  color:         #ffffff;\n  display:       inline-block;\n  font:          normal 700 25px/45px \"Roboto\", sans-serif;\n  text-align:    center;\n  text-shadow:   3px 3px #000000;\n  margin-bottom: 10px;\n}\n\n.startbutton:hover {\n  background:    linear-gradient(#ff0000, #660000 50%, #ff0000);\n}\n\n.waitingMaster {\n  font-style: italic;\n  font-size: 22px;\n}\n", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 297 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	
+	var content = __webpack_require__(298);
 
 	if(typeof content === 'string') content = [[module.id, content, '']];
 
@@ -34833,7 +35387,7 @@
 	}
 
 /***/ }),
-/* 292 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(286)(false);
@@ -34841,13 +35395,13 @@
 
 
 	// module
-	exports.push([module.id, "html {\n  height: 100%;\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n  font-family: sans-serif;\n  height: 100%;\n}\n\n#tetris {\n  height: 100%;\n}\n\n.appContainer {\n  height: 100%;\n  background-color: #03224C;\n}\n\n\n.homeContainer {\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  /* border-right: 20% solid  #00264d;\n  border-left: 10% solid  #00264d; */\n}\n\n.colpad {\n  flex: 1;\n  height: 800px;\n  background-color: #B0C4DE;\n  border-radius: 10px;\n}\n\n.home {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n  height: 80%;\n  width:40%;\n  min-width: 630px;\n  background-color: #B0C4DE;\n}\n\n/* .home-title {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 50%;\n} */\n\nh1 {\n  font-family: \"Roboto\", sans-serif;\n  font-size: 80px;\n  color: #770000;\n  margin: 0;\n}\n\n.home-form {\n  /* height: 50%; */\n  display: flex;\n  flex-direction: column;\n  /* justify-content: center; */\n  align-items: center;\n}\n\n.formError {\n  border: 1px solid red;\n}\n\n.nameContainer {\n  height: 110px;\n}\n\n.nicknameError {\n  font-size: 20px;\n  padding: 0 15px;\n  color: red;\n}\n\n#nickname {\n  width:         300px;\n  height:        55px;\n  font-size: 30px;\n  padding: 5px 15px;\n}\n\n.createbutton {\n  cursor: pointer;\n  background:    #660000;\n  background:    linear-gradient(#ff0000, #660000 50%, #ff0000);\n  border-radius: 1000px;\n  box-shadow:    0 2px #000;\n  width:         400px;\n  height:        55px;\n  color:         #ffffff;\n  display:       inline-block;\n  font:          normal 700 31px/55px \"Roboto\", sans-serif;\n  text-align:    center;\n  text-shadow:   3px 3px #000000;\n  margin-bottom: 20px;\n}\n\n.createbutton:hover {\n  box-shadow:    0 5px #000;\n}\n\n.startbutton {\n  cursor: not-allowed;\n  background:    #ff0000;\n  background:    linear-gradient(#660000, #ff0000 50%, #660000);\n  border-radius: 1000px;\n  /* box-shadow:    0 4px #000000; */\n  width:         400px;\n  height:        55px;\n  color:         #ffffff;\n  display:       inline-block;\n  font:          normal 700 31px/55px \"Roboto\", sans-serif;\n  text-align:    center;\n  text-shadow:   3px 3px #000000;\n  margin-bottom: 10px;\n  opacity: 0.5;\n}\n", ""]);
+	exports.push([module.id, "html {\n  height: 100%;\n}\n\nbody {\n  margin: 0;\n  padding: 0;\n  font-family: sans-serif;\n  height: 100%;\n}\n\n#tetris {\n  height: 100%;\n}\n\n.appContainer {\n  height: 100%;\n  background-color: #03224C;\n}\n\n.connecting {\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.connecting p {\n  font-size: 50px;\n  color: #fff;\n}\n\n.homeContainer {\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  /* border-right: 20% solid  #00264d;\n  border-left: 10% solid  #00264d; */\n}\n\n.colpad {\n  flex: 1;\n  height: 800px;\n  background-color: #B0C4DE;\n  border-radius: 10px;\n}\n\n.home {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n  height: 80%;\n  width:40%;\n  min-width: 630px;\n  background-color: #B0C4DE;\n}\n\n/* .home-title {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 50%;\n} */\n\nh1 {\n  font-family: \"Roboto\", sans-serif;\n  font-size: 80px;\n  color: #770000;\n  margin: 0;\n}\n\n.home-form {\n  /* height: 50%; */\n  display: flex;\n  flex-direction: column;\n  /* justify-content: center; */\n  align-items: center;\n}\n\n.formError {\n  border: 1px solid red;\n}\n\n.nameContainer {\n  height: 110px;\n}\n\n.nicknameError {\n  font-size: 20px;\n  padding: 0 15px;\n  color: red;\n}\n\n#nickname {\n  width: 300px;\n  height: 55px;\n  font-size: 30px;\n  padding: 5px 15px;\n}\n\n.createbutton {\n  cursor: pointer;\n  background:    #660000;\n  background:    linear-gradient(#ff0000, #660000 50%, #ff0000);\n  width:         400px;\n  height:        55px;\n  color:         #ffffff;\n  display:       inline-block;\n  font:          normal 700 25px/45px \"Roboto\", sans-serif;\n  text-align:    center;\n  text-shadow:   3px 3px #000000;\n  margin-bottom: 20px;\n}\n\n.createbutton:hover {\n  background:    linear-gradient(#660000, #ff0000 50%, #660000);\n}\n\n.joinFormContainer {\n  height: 110px;\n}\n\n.joinForm {\n  display: flex;\n}\n\n.joinbutton {\n  cursor: pointer;\n  background:    #ff0000;\n  background:    linear-gradient(#660000, #ff0000 50%, #660000);\n  /* box-shadow:    0 4px #000000; */\n  width:         295px;\n  height:        55px;\n  color:         #ffffff;\n  display:       inline-block;\n  font:          normal 700 25px/45px \"Roboto\", sans-serif;\n  text-align:    center;\n  text-shadow:   3px 3px #000000;\n  margin-bottom: 10px;\n}\n\n.joinbutton:hover {\n  background:    linear-gradient(#ff0000, #660000 50%, #ff0000);\n}\n\n#partyCode {\n  box-sizing: border-box;\n  width: 100px;\n  height: 55px;\n  font-size: 15px;\n  padding: 5px 5px;\n  margin: 0px 0px 0px 5px;\n}\n\n.roomError {\n  font-size: 20px;\n  color: red;\n  text-align: center;\n  margin: 10px 0;\n}\n", ""]);
 
 	// exports
 
 
 /***/ }),
-/* 293 */
+/* 299 */
 /***/ (function(module, exports) {
 
 	'use strict';

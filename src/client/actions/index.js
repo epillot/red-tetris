@@ -20,7 +20,7 @@ export const gravity = () => {
         dispatch(nextTurn(coords))
       }
     })
-  }, 3000)
+  }, 700)
 }
 
 export const keyEvents = ({ keyCode }) => store.dispatch(keyEvent(keyCode))
@@ -62,7 +62,7 @@ const nextTurn = (coords) => (dispatch, getState) => {
     dispatch(lineAnimation(lines)).then(() => {
       dispatch(updateTetris(f.removeLinesFirst(newTetris, lines)))
       dispatch(translateAnimation(newTetris, lines)).then(() => {
-        dispatch(server.updateTetris(f.removeLines(newTetris, lines)))
+        dispatch(server.updateTetris(f.removeLines(newTetris, lines), lines.length - 1))
         // const piece = f.newTetriminos()
         // if (f.isPossible(newTetris, piece.coords))
         //   dispatch(newPiece(piece))
@@ -113,6 +113,7 @@ const updateTetris = (tetris) => {
   return {
     type: types.UPDATE_TETRIS,
     tetris,
+    newPiece: true,
   }
 }
 

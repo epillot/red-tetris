@@ -67,13 +67,17 @@ export default class Engine {
             user.tetris = action.tetris
             user.indexPiece++
             user.sendActionToRoom(room.id, {
-              type: 'UPDATE_ROOM',
-              room: room.getData(),
+              type: 'UPDATE_GHOST',
+              id: user.socket.id,
+              tetris: user.tetris,
+              lines: action.lines,
             })
-            user.sendAction({
-              type: 'NEW_PIECE',
-              piece: room.getNextPiece(user.indexPiece),
-            })
+            if (action.newPiece) {
+              user.sendAction({
+                type: 'NEW_PIECE',
+                piece: room.getNextPiece(user.indexPiece),
+              })
+            }
 
           }
         }

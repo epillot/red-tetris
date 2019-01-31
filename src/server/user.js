@@ -4,7 +4,7 @@ export default class User {
     this.socket = socket
     this.room = false
     this.indexPiece = 0
-    this.tetris = null
+    //this.tetris = null
   }
 
   joinRoom(roomId) {

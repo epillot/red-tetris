@@ -9,7 +9,7 @@ import './style.css'
 
 // const TetrisGhost=
 
-const room = ({ roomId, isMaster, startGame }) => (
+const room = ({ roomId, isMaster, isPlaying, startGame }) => (
   <div className='roomContainer'>
 
     <div className='roomSide roomSideLeft'>
@@ -34,9 +34,10 @@ const room = ({ roomId, isMaster, startGame }) => (
 
       </div>
       <div className='roomSideBottom'>
-        {isMaster
+        {!isPlaying ? (isMaster
           ? <button className='startbutton' onClick={startGame}>Start game</button>
-          : <p className='waitingMaster'>Waiting for the master to start the game...</p>}
+          : <p className='waitingMaster'>Waiting for the master to start the game...</p>)
+        : <p className='waitingMaster'>A game is in progress !</p>}
       </div>
     </div>
 
@@ -63,6 +64,7 @@ const mapStateToProps = (state) => {
   return {
     roomId: state.room.id,
     isMaster: state.playerID === state.room.master.id,
+    isPlaying: state.room.isPlaying || state.isPlaying
   }
 }
 

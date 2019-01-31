@@ -5,8 +5,8 @@ import io from 'socket.io-client'
 import {storeStateMiddleWare} from '../middleware/storeStateMiddleWare'
 import reducer from '../reducers'
 import params from '../../../params'
-import { gravity, keyEvents } from '../actions'
-import { isPossible } from '../tools'
+import { gravity, keyEvents, server } from '../actions'
+import { isPossible, addBlackLines } from '../tools'
 
 
 const newTetris = () => {
@@ -30,7 +30,17 @@ const socketIoMiddleWare = socket => ({dispatch, getState}) => {
           dispatch({type: 'GRAVITY', interval: gravity()})
         }
         return
+      } else if (action.type === 'UPDATE_GHOST' && action.lines > 0) {
+        dispatch(action)
+        const { interval } = getState()
+        clearInterval(interval)
+        removeEventListener('keydown', keyEvents)
+        dispatch(server.updateTetris(addBlackLines(getState().tetris, action.lines), 0, false))
+        addEventListener('keydown', keyEvents)
+        dispatch({type: 'GRAVITY', interval: gravity()})
+        return
       }
+
       dispatch(action)
       const { connecting } = getState()
       if (connecting)

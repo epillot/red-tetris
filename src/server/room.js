@@ -16,6 +16,7 @@ export default class Room {
       id: this.id,
       master: this.master.getData(),
       users: this.users.map(user => user.getData()),
+      isPlaying: this.isPlaying,
     }
   }
 
@@ -43,6 +44,8 @@ export default class Room {
     this.users = this.users.filter(u => u.socket.id !== user.socket.id)
     if (this.users.length && this.master === user)
       this.setMaster(this.users[0])
+    if (!this.users.length)
+      this.isPlaying = false
   }
 
   getHash(user) {
@@ -56,9 +59,6 @@ export default class Room {
     for (let i = 0; i < 3; i++) {
       this.pieces.push(Tetris.newTetriminos())
     }
-    this.users.forEach(user => {
-
-    })
     this.isPlaying = true
   }
 

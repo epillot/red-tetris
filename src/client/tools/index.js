@@ -115,7 +115,7 @@ export const getCompleteLines = (tetris) => {
   for (let y = 19; y >= 0; y--) {
     isComplete = true
     for (let x = 0; x < 10; x++) {
-      if (tetris[x][y] === '') {
+      if (tetris[x][y] === '' || tetris[x][y] === 'black') {
         isComplete = false
         break
       }
@@ -153,8 +153,8 @@ export const removeLines = (tetris, lines) => {
   if (!lines.length) return tetris
   const newTetris = getRevGrid(tetris)
   lines.reverse().forEach(line => {
-    newTetris.splice(line, 1);
-    newTetris.unshift(['', '', '', '', '', '', '', '', '', '']);
+    newTetris.splice(line, 1)
+    newTetris.unshift(['', '', '', '', '', '', '', '', '', ''])
   })
   return getRevGrid(newTetris)
 }
@@ -169,4 +169,13 @@ export const getPieceProjection = (tetris, coords) => {
   }
   newCoords.forEach(block => (block[1])--)
   return newCoords
+}
+
+export const addBlackLines = (tetris, lines) => {
+  const newTetris = getRevGrid(tetris)
+  for (let i = 0; i < lines; i++) {
+    newTetris.splice(0, 1)
+    newTetris.push(['black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black'])
+  }
+  return getRevGrid(newTetris)
 }

@@ -82,6 +82,10 @@
   background-color: #ff8c1a;
 }
 
+.black {
+  background-color: black;
+}
+
 .ghost {
   background-color: #FFF;
   opacity: 0.4;
