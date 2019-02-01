@@ -32,12 +32,13 @@ const socketIoMiddleWare = socket => ({dispatch, getState}) => {
         return
       } else if (action.type === 'UPDATE_GHOST' && action.lines > 0) {
         dispatch(action)
-        const { interval } = getState()
-        clearInterval(interval)
-        removeEventListener('keydown', keyEvents)
+        //const { interval } = getState()
+        //clearInterval(interval)
+        //removeEventListener('keydown', keyEvents)
+
         dispatch(server.updateTetris(addBlackLines(getState().tetris, action.lines), 0, false))
-        addEventListener('keydown', keyEvents)
-        dispatch({type: 'GRAVITY', interval: gravity()})
+        //addEventListener('keydown', keyEvents)
+        //dispatch({type: 'GRAVITY', interval: gravity()})
         return
       }
 
@@ -87,7 +88,16 @@ const initialState = {
 const store = createStore(
   reducer,
   initialState,
-  applyMiddleware(socketIoMiddleWare(socket), thunk, createLogger())
+  applyMiddleware(socketIoMiddleWare(socket), thunk, createLogger({
+    predicate: (_, action) => {
+      switch (action.type) {
+        case 'UPDATE_TETRIS':
+        case 'server/UPDATE_TETRIS':
+          return true
+        default: return false
+      }
+    }
+  }))
 )
 
 export default store

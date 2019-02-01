@@ -1,6 +1,6 @@
 const params = {
   server:{
-     host: 'e3r8p5'
+     host: '0.0.0.0'
    , port: 3004
    , get url(){ return 'http://' + this.host + ':' + this.port }
   },

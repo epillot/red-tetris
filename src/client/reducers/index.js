@@ -22,8 +22,6 @@ const getPlayersGhosts = (room, { playerID, playersGhosts }) => {
   const output = Object.assign({}, playersGhosts)
   const users = room.users.filter(user => user.id !== playerID)
 
-
-
   Object.keys(output).forEach(id => {
     if (!users.find(user => user.id === id))
       delete output[id]
@@ -80,7 +78,7 @@ const reducer = (state = {} , action) => {
     case types.UPDATE_TETRIS:
       return copyState(state, {
         tetris: action.tetris,
-        coords: action.newPiece ? null : state.coords,
+        coords: action.newPiece ? null : state.coords.map(([x, y]) => [x, y - action.lines]),
         ...defaultAnimationState,
       })
 

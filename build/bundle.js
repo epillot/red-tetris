@@ -33830,7 +33830,7 @@
 
 	var params = {
 	  server: {
-	    host: 'e3r8p5',
+	    host: 'e3r7p4',
 	    port: 3004,
 	    get url() {
 	      return 'http://' + this.host + ':' + this.port;
@@ -33917,7 +33917,7 @@
 	var pieceAnimation = exports.pieceAnimation = function pieceAnimation(coords) {
 	  return function (dispatch, getState) {
 	    return new Promise(function (resolve) {
-	      if (!coords) return resolve();
+	      if (document.hidden || !coords) return resolve();
 	      var opacity = 1;
 	      var step = -0.05;
 	      var loop = function loop() {
@@ -33945,7 +33945,7 @@
 	var lineAnimation = exports.lineAnimation = function lineAnimation(lines) {
 	  return function (dispatch, getState) {
 	    return new Promise(function (resolve) {
-	      if (!lines.length) return resolve();
+	      if (document.hidden || !lines.length) return resolve();
 	      var opacity = 1;
 	      var nb = 1 / 0.05;
 	      var b = 90;
@@ -33969,6 +33969,7 @@
 	var spaceAnimation = exports.spaceAnimation = function spaceAnimation(coords, dest) {
 	  return function (dispatch, getState) {
 	    return new Promise(function (resolve) {
+	      if (document.hidden) return resolve();
 	      var diff = dest[0][1] - coords[0][1];
 	      var yi = 0;
 	      var loop = function loop() {
@@ -34019,7 +34020,7 @@
 	var translateAnimation = exports.translateAnimation = function translateAnimation(tetris, lines) {
 	  return function (dispatch, getState) {
 	    return new Promise(function (resolve) {
-	      if (!lines.length) return resolve();
+	      if (document.hidden || !lines.length) return resolve();
 	      var yi = 0;
 	      var data = getTranslationData(tetris, lines);
 	      var max = Math.max.apply(Math, _toConsumableArray(data));

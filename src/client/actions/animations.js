@@ -22,7 +22,7 @@ const getPieceAnimationStyle = (coords, opacity) => (x, y) => {
 }
 
 export const pieceAnimation = coords => (dispatch, getState) => new Promise(resolve => {
-  if (!coords) return resolve();
+  if (/*document.hidden ||*/ !coords) return resolve();
   let opacity = 1;
   let step = -0.05;
   const loop = () => {
@@ -45,7 +45,7 @@ const getLineAnimationStyle = (lines, opacity, b) => (x, y) => {
 }
 
 export const lineAnimation = (lines) => (dispatch, getState) => new Promise(resolve => {
-  if (!lines.length) return resolve()
+  if (/*document.hidden || */!lines.length) return resolve()
   let opacity = 1;
   let nb = 1 / 0.05
   let b = 90;
@@ -65,6 +65,7 @@ export const lineAnimation = (lines) => (dispatch, getState) => new Promise(reso
 })
 
 export const spaceAnimation = (coords, dest) => (dispatch, getState) => new Promise(resolve => {
+  // if (document.hidden) return resolve()
   const diff = dest[0][1] - coords[0][1]
   let yi = 0
   const loop = () => {
@@ -99,7 +100,7 @@ const getTranslationData = (tetris, lines) => {
 }
 
 export const translateAnimation = (tetris, lines) => (dispatch, getState) => new Promise(resolve => {
-  if (!lines.length) return resolve()
+  if (/*document.hidden || */!lines.length) return resolve()
   let yi = 0
   const data = getTranslationData(tetris, lines)
   const max = Math.max(...data)
