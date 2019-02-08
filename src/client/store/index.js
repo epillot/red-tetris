@@ -56,6 +56,37 @@ const socketIoMiddleWare = socket => ({dispatch, getState}) => {
   }
 }
 
+const animationMiddleWare = store => next => action => {
+  if (!action.getLoop)
+    return next(action)
+
+  return new Promise(resolve => {
+    let stopped = false
+
+    const stop = () => {
+      console.log('---------stop fired---------', action.name)
+      if (document.hidden) {
+        stopped = true
+        resolve(stop)
+      }
+    }
+
+    const getStop = () => ({stopped, stop})
+
+    console.log('set up listener', action.name)
+    addEventListener('visibilitychange', stop)
+
+    const loop = action.getLoop(store.dispatch, resolve, getStop)
+    if (document.hidden || !loop) return resolve(stop)
+
+    requestAnimationFrame(loop)
+  }).then((stop) => {
+    /*Le seul moyen de remove proprement le listener stop est de le retourner quand la promesse est resolue*/
+    console.log('remove listener', action.name)
+    removeEventListener('visibilitychange', stop)
+  })
+}
+
 const parseHash = hash => {
   if (hash[6] !== '[' || hash[hash.length - 1] !== ']' || hash.length - 8 > 15)
     return null
@@ -88,16 +119,16 @@ const initialState = {
 const store = createStore(
   reducer,
   initialState,
-  applyMiddleware(socketIoMiddleWare(socket), thunk, createLogger({
-    predicate: (_, action) => {
-      switch (action.type) {
-        case 'UPDATE_TETRIS':
-        case 'server/UPDATE_TETRIS':
-          return true
-        default: return false
-      }
-    }
-  }))
-)
+  applyMiddleware(socketIoMiddleWare(socket), thunk, animationMiddleWare))//, createLogger()))//{
+    // predicate: (_, action) => {
+    //   switch (action.type) {
+    //     case 'UPDATE_TETRIS':
+    //     case 'server/UPDATE_TETRIS':
+    //       return true
+    //     default: return false
+    //   }
+    // }
+  //}))
+//)
 
 export default store

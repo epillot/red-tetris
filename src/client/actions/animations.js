@@ -2,84 +2,80 @@ import * as types from '../constants/actionTypes'
 import { movePiece } from '.'
 import * as f from '../tools'
 
-// export const testAnim = store => {
-//   let currentCoords
-//   return store.subscribe(() => {
-//     let prevCoords = currentCoords
-//     currentCoords = store.getState().coords
-//     if (!currentCoords || currentCoords === prevCoords) return;
-//     if (!f.isPossible(store.getState().tetris, currentCoords.map(([x, y]) => [x, y+1])) ) {
-//       store.dispatch(pieceAnimation(currentCoords))
-//     }
-//     //console.log('coucou');
-//   })
-// }
-
 const getPieceAnimationStyle = (coords, opacity) => (x, y) => {
   if (coords.filter(([x1, y1]) => x==x1 && y == y1).length)
     return {opacity}
   return {}
 }
 
-export const pieceAnimation = coords => (dispatch, getState) => new Promise(resolve => {
-  if (/*document.hidden ||*/ !coords) return resolve();
-  let opacity = 1;
-  let step = -0.05;
-  const loop = () => {
-    if (opacity <= 0.5)
-      step = -step
-    opacity += step
-    if (opacity <= 1) {
-      dispatch(animationStep(getPieceAnimationStyle(coords, opacity)))
-      requestAnimationFrame(loop)
-    } else {
-      resolve()
-    }
+export const pieceAnimation = coords => {
+  return {
+    getLoop: (dispatch, resolve, getStop) => {
+      let opacity = 1
+      let step = -0.05
+      return function loop() {
+        console.log('in loop', 'piece animation');
+        if (opacity <= 0.5)
+          step = -step
+        opacity += step
+        if (opacity <= 1 && !getStop().stopped) {
+          dispatch(animationStep(getPieceAnimationStyle(coords, opacity)))
+          requestAnimationFrame(loop)
+        } else resolve(getStop().stop)
+      }
+    },
+    name: 'piece animation',
   }
-  requestAnimationFrame(loop)
-})
+}
 
 const getLineAnimationStyle = (lines, opacity, b) => (x, y) => {
   if (lines.indexOf(y) !== -1) return {opacity, filter: `brightness(${b}%)`}
   return {}
 }
 
-export const lineAnimation = (lines) => (dispatch, getState) => new Promise(resolve => {
-  if (/*document.hidden || */!lines.length) return resolve()
-  let opacity = 1;
-  let nb = 1 / 0.05
-  let b = 90;
-  let bi = 90 / nb;
-  const loop = () => {
-    opacity -= 0.05
-    b -= bi
-    if (opacity >= 0) {
-      dispatch(animationStep(getLineAnimationStyle(lines, opacity, b)))
-      requestAnimationFrame(loop)
-    } else {
-      //dispatch(animationOver())
-      resolve()
-    }
+export const lineAnimation = lines => {
+  return {
+    getLoop: (dispatch, resolve, getStop) => {
+      if (!lines.length) return null
+      let opacity = 1;
+      let nb = 1 / 0.05
+      let b = 90;
+      let bi = 90 / nb;
+      return function loop() {
+        console.log('in loop', 'line animation');
+        opacity -= 0.05
+        b -= bi
+        if (opacity >= 0 && !getStop().stopped) {
+          dispatch(animationStep(getLineAnimationStyle(lines, opacity, b)))
+          requestAnimationFrame(loop)
+        } else resolve(getStop().stop)
+      }
+    },
+    name: 'line animation'
   }
-  requestAnimationFrame(loop)
-})
+}
 
-export const spaceAnimation = (coords, dest) => (dispatch, getState) => new Promise(resolve => {
-  // if (document.hidden) return resolve()
-  const diff = dest[0][1] - coords[0][1]
-  let yi = 0
-  const loop = () => {
-    yi += 2
-    if (yi === diff + 1) yi = diff
-    const newCoords = coords.map(([x, y]) => [x, y+yi])
-    if (yi <= diff) {
-      dispatch(movePiece(newCoords))
-      requestAnimationFrame(loop)
-    } else resolve()
+export const spaceAnimation = (coords, dest) => {
+  return {
+    getLoop: (dispatch, resolve, getStop) => {
+      console.log(getStop());
+      const diff = dest[0][1] - coords[0][1]
+      let yi = 0
+
+      return function loop() {
+        console.log('in loop', 'space animation');
+        yi += 2
+        if (yi === diff + 1) yi = diff
+        const newCoords = coords.map(([x, y]) => [x, y+yi])
+        if (yi <= diff && !getStop().stopped) {
+          dispatch(movePiece(newCoords))
+          requestAnimationFrame(loop)
+        } else resolve(getStop().stop)
+      }
+    },
+    name: 'space animation',
   }
-  requestAnimationFrame(loop)
-})
-
+}
 
 const getTranslateAnimationStyle = (data, yi) => (x, y) => {
   let translateY = data[y]
@@ -99,25 +95,27 @@ const getTranslationData = (tetris, lines) => {
   return data
 }
 
-export const translateAnimation = (tetris, lines) => (dispatch, getState) => new Promise(resolve => {
-  if (/*document.hidden || */!lines.length) return resolve()
-  let yi = 0
-  const data = getTranslationData(tetris, lines)
-  const max = Math.max(...data)
-  const loop = () => {
-    yi += 25
-    if (yi >= max + 1 && yi < max + 25)
-      yi = max
-    if (yi <= max) {
-      dispatch(animationStep(getTranslateAnimationStyle(data, yi)))
-      requestAnimationFrame(loop)
-    } else {
-      //dispatch(animationOver())
-      resolve()
-    }
+export const translateAnimation = (tetris, lines) => {
+  return {
+    getLoop: (dispatch, resolve, getStop) => {
+      if (!lines.length) return null
+      let yi = 0
+      const data = getTranslationData(tetris, lines)
+      const max = Math.max(...data)
+      return function loop() {
+        console.log('in loop', 'translate animation');
+        yi += 25
+        if (yi >= max + 1 && yi < max + 25)
+          yi = max
+        if (yi <= max && !getStop().stopped) {
+          dispatch(animationStep(getTranslateAnimationStyle(data, yi)))
+          requestAnimationFrame(loop)
+        } else resolve(getStop().stop)
+      }
+    },
+    name: 'translate animation',
   }
-  requestAnimationFrame(loop)
-})
+}
 
 const animationStep = (getStyle) => {
   return {

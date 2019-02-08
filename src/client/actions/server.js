@@ -27,11 +27,8 @@ export const joinRoom = (id, nickname) => {
   }
 }
 
-export const updateTetris = (tetris, lines=0, newPiece=true, fromServ=false) => {
-  if (fromServ)
-    console.log('------------ouai ouai-------------------')
-  else
-    console.log('------------nan nan-------------------')
+export const updateTetris = (tetris, lines=0, newPiece=true) => {
+
   return {
     type: 'server/UPDATE_TETRIS',
     tetris,

@@ -84,7 +84,7 @@ const reducer = (state = {} , action) => {
 
     case types.ANIMATION_STEP:
       return copyState(state, {
-        getStyle: action.getStyle
+        getStyle: action.getStyle,
       })
 
     case types.ANIMATION_OVER:

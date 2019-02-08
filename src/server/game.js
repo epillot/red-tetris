@@ -57,9 +57,10 @@ class Game {
     if (room) {
       room.removeUser(user)
       setTimeout(() => {
-        if (!room.users.length)
+        if (!room.users.length) {
           console.log('deleting room: ' +room.id)
           this.deleteRoom(room)
+        }
       }, 60000)
     }
     return this.getRoomById(roomId)
