@@ -2,6 +2,7 @@ export default class User {
 
   constructor(socket) {
     this.socket = socket
+    this.id = this.socket.id
     this.room = false
     this.indexPiece = 0
     //this.tetris = null
@@ -28,14 +29,7 @@ export default class User {
   getData() {
     return {
       name: this.name,
-      id: this.socket.id,
-      tetris: this.tetris,
-    }
-  }
-
-  getGhost() {
-    return {
-      player: this.getData(),
+      id: this.id,
       tetris: this.tetris,
     }
   }

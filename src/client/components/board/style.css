@@ -13,6 +13,18 @@
   border-radius: 5px;
 }
 
+.wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timer {
+  font-size: 60px;
+}
+
 .block {
   width: 40px;
   height: 40px;

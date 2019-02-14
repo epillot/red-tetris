@@ -50,27 +50,6 @@ const keyEvent = keyCode => (dispatch, getState) => {
   }
 }
 
-// const nextTurn = (coords) => (dispatch, getState) => {
-//   const { tetris, color } = getState()
-//   let newTetris = f.copyTetris(tetris)
-//   coords.forEach(([x, y]) => {
-//     if (y >= 0)
-//       newTetris[x][y] = color
-//   });
-//   const lines = f.getCompleteLines(newTetris)
-//   dispatch(pieceAnimation(coords)).then(() => {
-//     dispatch(lineAnimation(lines)).then(() => {
-//       dispatch(updateTetris(f.removeLinesFirst(newTetris, lines)))
-//       dispatch(translateAnimation(newTetris, lines)).then(() => {
-//         dispatch(server.updateTetris(f.removeLines(newTetris, lines), lines.length - 1))
-//         // const piece = f.newTetriminos()
-//         // if (f.isPossible(newTetris, piece.coords))
-//         //   dispatch(newPiece(piece))
-//       })
-//     })
-//   })
-// }
-
 const nextTurn = (coords) => (dispatch, getState) => {
   dispatch(pieceAnimation(coords)).then(() => {
     const { tetris, color } = getState()
@@ -86,6 +65,23 @@ const nextTurn = (coords) => (dispatch, getState) => {
         dispatch(server.updateTetris(f.removeLines(newTetris, lines), lines.length - 1))
       })
     })
+  })
+}
+
+export const maybeFirstPiece = isFirst => (dispatch, getState) => {
+  if (!isFirst) return Promise.resolve()
+  let timer = 3
+  dispatch(updateTimer(timer))
+  return new Promise(resolve => {
+    const interval = setInterval(() => {
+      timer--
+      if (timer >= 0) {  
+        dispatch(updateTimer(timer))
+      } else {
+        clearInterval(interval)
+        resolve()
+      }
+    }, 1000)
   })
 }
 
@@ -146,5 +142,12 @@ export const removeError = (name) => {
   return {
     type: 'REMOVE_ERROR',
     name,
+  }
+}
+
+const updateTimer = (timer) => {
+  return {
+    type: 'UPDATE_TIMER',
+    timer,
   }
 }

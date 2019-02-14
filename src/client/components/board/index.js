@@ -20,9 +20,10 @@ const getBlocks = (tetris, piece, pieceColor, getStyle) => {
   });
 }
 
-const board = ({ tetris, coords, color, getStyle }) => (
+const board = ({ tetris, coords, color, getStyle, timer }) => (
   <div className='board'>
-    {getBlocks(tetris, coords, color, getStyle)}
+    {timer ? <div className='wrapper'><div className='timer'>{timer}</div></div>
+    : getBlocks(tetris, coords, color, getStyle)}
   </div>
 )
 
@@ -32,6 +33,7 @@ const mapStateToProps = (state) => {
     coords: state.coords,
     color: state.color,
     getStyle: state.getStyle,
+    timer: state.timer,
   }
 }
 

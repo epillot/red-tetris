@@ -22,8 +22,8 @@ class Game {
     return this.rooms.find(room => room.id === id)
   }
 
-  getRoomByMaster(master) {
-    return this.rooms.find(room => room.master && room.master.socket.id === master.socket.id)
+  getRoomByMaster(user) {
+    return this.rooms.find(room => room.users[0] === user)
   }
 
   newRoomId() {

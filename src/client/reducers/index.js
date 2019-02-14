@@ -130,6 +130,11 @@ const reducer = (state = {} , action) => {
         playersGhosts: updateGhost(action, state),
       })
 
+    case 'UPDATE_TIMER':
+      return copyState(state, {
+        timer: action.timer,
+      })
+
     default:
       return state
   }

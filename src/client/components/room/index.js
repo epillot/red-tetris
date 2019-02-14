@@ -9,7 +9,7 @@ import './style.css'
 
 // const TetrisGhost=
 
-const room = ({ roomId, isMaster, isPlaying, startGame }) => (
+const room = ({ roomId, isMaster, isPlaying, startGame, stopGame }) => (
   <div className='roomContainer'>
 
     <div className='roomSide roomSideLeft'>
@@ -34,10 +34,11 @@ const room = ({ roomId, isMaster, isPlaying, startGame }) => (
 
       </div>
       <div className='roomSideBottom'>
-        {!isPlaying ? (isMaster
+        {!isPlaying && (isMaster
           ? <button className='startbutton' onClick={startGame}>Start game</button>
-          : <p className='waitingMaster'>Waiting for the master to start the game...</p>)
-        : <p className='waitingMaster'>A game is in progress !</p>}
+          : <p className='waitingMaster'>Waiting for the master to start the game...</p>)}
+        {isPlaying && <p className='waitingMaster'>A game is in progress !</p>}
+        {isPlaying && isMaster && <button className='' onClick={stopGame}>Stop game</button>}
       </div>
     </div>
 
@@ -63,7 +64,7 @@ const room = ({ roomId, isMaster, isPlaying, startGame }) => (
 const mapStateToProps = (state) => {
   return {
     roomId: state.room.id,
-    isMaster: state.playerID === state.room.master.id,
+    isMaster: state.room.users[0].id === state.playerID,
     isPlaying: state.room.isPlaying || state.isPlaying
   }
 }
@@ -73,14 +74,10 @@ const mapDispatchToProps = (dispatch) => {
     startGame: () => {
       dispatch(actions.server.startGame())
     },
-    createRoom: () => dispatch((_, getState) => {
-      const { nickname } = getState()
-      if (!nickname) dispatch(actions.nicknamError())
-      else dispatch(actions.server.createRoom(nickname))
-    }),
-    editName: (e) => {
-      dispatch(actions.editName(e.target.value))
+    stopGame: () => {
+      alert('jajaja')
     },
+
   }
 }
 

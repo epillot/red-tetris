@@ -13,7 +13,7 @@ export default class Engine {
       const user = new User(socket)
       user.sendAction({
         type: 'USER_CONNECTED',
-        id: socket.id,
+        id: user.id,
       })
       const { roomId, name } = socket.handshake.query
       if (roomId && name) {
@@ -55,6 +55,7 @@ export default class Engine {
             this.sendActionToRoom(room.id, {
               type: 'NEW_PIECE',
               piece: room.getNextPiece(0),
+              first: true,
             })
           }
         }
@@ -68,7 +69,7 @@ export default class Engine {
             user.indexPiece++
             user.sendActionToRoom(room.id, {
               type: 'UPDATE_GHOST',
-              id: user.socket.id,
+              id: user.id,
               tetris: user.tetris,
               lines: action.lines,
             })
@@ -111,25 +112,14 @@ export default class Engine {
           type: 'UPDATE_ROOM',
           room: room.getData(),
           hash: room.getHash(user),
-          //ghosts: room.getGhosts(),
         })
       }, 1000)
-      // this.sendActionToRoom(room.id, {
-      //   type: 'UPDATE_ROOM',
-      //   room: room.getData(),
-      //   hash: room.getHash(user),
-      //   ghosts: room.getGhosts(),
-      // })
-      // user.sendAction({
-      //   type: 'UPDATE_GHOSTS',
-      //   ghosts: room.getGhosts(user),
-      // })
     } else {
       user.sendAction({
         type: 'JOIN_ROOM_ERROR',
         error: Game.currentError,
         hash: {
-          to: user.socket.id,
+          to: user.id,
           hash: '',
         }
       })

@@ -5,7 +5,7 @@ import io from 'socket.io-client'
 import {storeStateMiddleWare} from '../middleware/storeStateMiddleWare'
 import reducer from '../reducers'
 import params from '../../../params'
-import { gravity, keyEvents, server } from '../actions'
+import { maybeFirstPiece, gravity, keyEvents, server } from '../actions'
 import { isPossible, addBlackLines } from '../tools'
 
 
@@ -24,11 +24,13 @@ const socketIoMiddleWare = socket => ({dispatch, getState}) => {
   if (socket)
     socket.on('action', action => {
       if (action.type === 'NEW_PIECE' && action.piece) {
-        if (isPossible(getState().tetris, action.piece.coords)) {
-          dispatch(action)
-          addEventListener('keydown', keyEvents)
-          dispatch({type: 'GRAVITY', interval: gravity()})
-        }
+        dispatch(maybeFirstPiece(action.first)).then(() => {
+          if (isPossible(getState().tetris, action.piece.coords)) {
+            dispatch(action)
+            addEventListener('keydown', keyEvents)
+            dispatch({type: 'GRAVITY', interval: gravity()})
+          }
+        })
         return
       } else if (action.type === 'UPDATE_GHOST' && action.lines > 0) {
         dispatch(action)
