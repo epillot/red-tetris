@@ -88,6 +88,8 @@ const checkBlock = (tetris, prevCoords, newCoord) => {
 
 
 export const isPossible = (tetris, coords) => {
+  if (!tetris)
+    return true
   let possible = true;
   for (let i = 0; i < 4; i++) {
     let [x, y] = coords[i]

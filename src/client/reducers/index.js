@@ -34,6 +34,17 @@ const getPlayersGhosts = (room, { playerID, playersGhosts }) => {
   return output
 }
 
+const newTetris = () => {
+  const tetris = [];
+  for (let i = 0; i < 10; i++) {
+    tetris.push([]);
+    for (let j = 0; j < 20; j++) {
+      tetris[i][j] = '';
+    }
+  }
+  return tetris;
+}
+
 const defaultAnimationState = {
   getStyle: false
 }
@@ -42,7 +53,10 @@ const reducer = (state = {} , action) => {
   switch(action.type){
 
     // case types.START_GAME:
-    //   return copyState(state, {tetris: newTetris()})
+    //   return copyState(state, {
+    //     tetris: newTetris(),
+    //     gameOver: false,
+    //   })
 
     case types.CREATE_ROOM:
     case types.JOIN_ROOM:
@@ -60,6 +74,9 @@ const reducer = (state = {} , action) => {
       return copyState(state, {
         ...action.piece,
         isPlaying: true,
+        timer: null,
+        tetris: action.first ? newTetris() : state.tetris,
+        gameOver: action.first ? false : state.gameOver,
         //interval: action.interval,
       })
 
@@ -133,6 +150,12 @@ const reducer = (state = {} , action) => {
     case 'UPDATE_TIMER':
       return copyState(state, {
         timer: action.timer,
+      })
+
+    case 'server/GAME_OVER':
+      return copyState(state, {
+        isPlaying: false,
+        gameOver: true,
       })
 
     default:

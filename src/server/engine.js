@@ -83,6 +83,14 @@ export default class Engine {
           }
         }
 
+        // else if (action.type === 'server/GAME_OVER') {
+        //
+        //   const room = Game.getRoomById(user.room)
+        //   if (room) {
+        //     user.gameOver = true
+        //   }
+        // }
+
       })
     })
 

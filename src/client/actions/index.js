@@ -75,7 +75,7 @@ export const maybeFirstPiece = isFirst => (dispatch, getState) => {
   return new Promise(resolve => {
     const interval = setInterval(() => {
       timer--
-      if (timer >= 0) {  
+      if (timer > 0) {
         dispatch(updateTimer(timer))
       } else {
         clearInterval(interval)

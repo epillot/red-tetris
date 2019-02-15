@@ -36,3 +36,9 @@ export const updateTetris = (tetris, lines=0, newPiece=true) => {
     newPiece,
   }
 }
+
+export const gameOver = () => {
+  return {
+    type: 'server/GAME_OVER',
+  }
+}

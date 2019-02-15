@@ -4,6 +4,8 @@ import { getPieceProjection } from '../../tools/'
 import './style.css'
 
 const getBlocks = (tetris, piece, pieceColor, getStyle) => {
+  if (!tetris)
+    return null
   const ghost = getPieceProjection(tetris, piece)
   return tetris.map((col, i) => {
     return col.map((color, j) => {
@@ -20,12 +22,21 @@ const getBlocks = (tetris, piece, pieceColor, getStyle) => {
   });
 }
 
-const board = ({ tetris, coords, color, getStyle, timer }) => (
-  <div className='board'>
-    {timer ? <div className='wrapper'><div className='timer'>{timer}</div></div>
-    : getBlocks(tetris, coords, color, getStyle)}
+const board = ({ tetris, coords, color, getStyle, isPlaying, timer, gameOver }) => (
+  <div className={'board' + (gameOver ? ' boardGameOver' : '')}>
+    {getBlocks(tetris, coords, color, getStyle)}
+    <div className='wrapper'>
+      {timer && <div className='timer'>{timer}</div>}
+      {gameOver && <span className='gameOver'>GAME OVER</span>}
+    </div>
   </div>
 )
+
+// const board2 = ({ tetris, coords, color, getStyle, isPlaying, timer, gameOver }) => (
+//   <div className={getBoardClass()}}>
+//
+//   </div>
+// )
 
 const mapStateToProps = (state) => {
   return {
@@ -33,7 +44,9 @@ const mapStateToProps = (state) => {
     coords: state.coords,
     color: state.color,
     getStyle: state.getStyle,
+    isPlaying: state.isPlaying,
     timer: state.timer,
+    gameOver: state.gameOver,
   }
 }
 

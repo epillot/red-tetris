@@ -9,17 +9,6 @@ import { maybeFirstPiece, gravity, keyEvents, server } from '../actions'
 import { isPossible, addBlackLines } from '../tools'
 
 
-const newTetris = () => {
-  const tetris = [];
-  for (let i = 0; i < 10; i++) {
-    tetris.push([]);
-    for (var j = 0; j < 20; j++) {
-      tetris[i][j] = '';
-    }
-  }
-  return tetris;
-}
-
 const socketIoMiddleWare = socket => ({dispatch, getState}) => {
   if (socket)
     socket.on('action', action => {
@@ -29,6 +18,8 @@ const socketIoMiddleWare = socket => ({dispatch, getState}) => {
             dispatch(action)
             addEventListener('keydown', keyEvents)
             dispatch({type: 'GRAVITY', interval: gravity()})
+          } else {
+            dispatch(server.gameOver())
           }
         })
         return
@@ -102,7 +93,7 @@ const query = Object.assign({}, parseHash(window.location.hash))
 const socket = io(params.server.url, {query})
 
 const initialState = {
-  tetris: newTetris(),
+  tetris: null,
   coords: null,
   color: null,
   rotate: 0,

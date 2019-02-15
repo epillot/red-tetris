@@ -2,7 +2,7 @@ export default class User {
 
   constructor(socket) {
     this.socket = socket
-    this.id = this.socket.id
+    this.id = socket.id
     this.room = false
     this.indexPiece = 0
     //this.tetris = null

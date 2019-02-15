@@ -11,6 +11,12 @@
   flex-direction: column;
   background-color: #ffe6e6;
   border-radius: 5px;
+  position: relative;
+  /* filter : brightness(60%); */
+}
+
+.boardGameOver {
+  opacity: 0.6;
 }
 
 .wrapper {
@@ -19,10 +25,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
 }
 
 .timer {
+  font-size: 90px;
+  color: #770000;
+}
+
+.gameOver {
   font-size: 60px;
+  color: #770000;
+  font-style: italic;
+  font-weight: bold;
+  transform: rotate(-50deg);
 }
 
 .block {
