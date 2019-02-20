@@ -57,7 +57,7 @@ const animationMiddleWare = store => next => action => {
     let stopped = false
 
     const stop = () => {
-      console.log('---------stop fired---------', action.name)
+      //console.log('---------stop fired---------', action.name)
       if (document.hidden) {
         stopped = true
         resolve(stop)
@@ -66,7 +66,7 @@ const animationMiddleWare = store => next => action => {
 
     const getStop = () => ({stopped, stop})
 
-    console.log('set up listener', action.name)
+    //console.log('set up listener', action.name)
     addEventListener('visibilitychange', stop)
 
     const loop = action.getLoop(store.dispatch, resolve, getStop)
@@ -75,7 +75,7 @@ const animationMiddleWare = store => next => action => {
     requestAnimationFrame(loop)
   }).then((stop) => {
     /*Le seul moyen de remove proprement le listener stop est de le retourner quand la promesse est resolue*/
-    console.log('remove listener', action.name)
+    //console.log('remove listener', action.name)
     removeEventListener('visibilitychange', stop)
   })
 }

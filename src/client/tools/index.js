@@ -1,3 +1,5 @@
+export const updateObject = (obj, values) => Object.assign({}, obj, values)
+
 export const copyTetris = tetris => tetris.map(line => line.map(b => b))
 
 const getTetriminos = (name) => {
@@ -93,7 +95,7 @@ export const isPossible = (tetris, coords) => {
   let possible = true;
   for (let i = 0; i < 4; i++) {
     let [x, y] = coords[i]
-    if (x < 0 || x > 9 || y > 19 || (y >= 0 && tetris[x][y] !== ''))
+    if (x < 0 || x > 9 || y > 19 || (y >= 0 && tetris[y][x] !== ''))
       possible = false
   }
   return possible
@@ -117,7 +119,7 @@ export const getCompleteLines = (tetris) => {
   for (let y = 19; y >= 0; y--) {
     isComplete = true
     for (let x = 0; x < 10; x++) {
-      if (tetris[x][y] === '' || tetris[x][y] === 'black') {
+      if (tetris[y][x] === '' || tetris[y][x] === 'black') {
         isComplete = false
         break
       }
@@ -128,23 +130,23 @@ export const getCompleteLines = (tetris) => {
   return output
 }
 
-const getRevGrid = (grid) => {
-  const output = []
-  for (let y = 0; y < grid[0].length; y++) {
-    output[y] = []
-    for (let x = 0; x < grid.length; x++) {
-      output[y][x] = grid[x][y]
-    }
-  }
-  return output
-}
+// const getRevGrid = (grid) => {
+//   const output = []
+//   for (let y = 0; y < grid[0].length; y++) {
+//     output[y] = []
+//     for (let x = 0; x < grid.length; x++) {
+//       output[y][x] = grid[x][y]
+//     }
+//   }
+//   return output
+// }
 
 export const removeLinesFirst = (tetris, lines) => {
   const output = copyTetris(tetris)
   for (let y = 0; y < 20; y++) {
     if (lines.indexOf(y) !== -1) {
       for (let x = 0; x < 10; x++) {
-        output[x][y] = ''
+        output[y][x] = ''
       }
     }
   }
@@ -153,12 +155,12 @@ export const removeLinesFirst = (tetris, lines) => {
 
 export const removeLines = (tetris, lines) => {
   if (!lines.length) return tetris
-  const newTetris = getRevGrid(tetris)
+  const newTetris = copyTetris(tetris)
   lines.reverse().forEach(line => {
     newTetris.splice(line, 1)
     newTetris.unshift(['', '', '', '', '', '', '', '', '', ''])
   })
-  return getRevGrid(newTetris)
+  return newTetris
 }
 
 export const getPieceProjection = (tetris, coords) => {
@@ -174,10 +176,10 @@ export const getPieceProjection = (tetris, coords) => {
 }
 
 export const addBlackLines = (tetris, lines) => {
-  const newTetris = getRevGrid(tetris)
+  const newTetris = copyTetris(tetris)
   for (let i = 0; i < lines; i++) {
     newTetris.splice(0, 1)
     newTetris.push(['black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black'])
   }
-  return getRevGrid(newTetris)
+  return newTetris
 }

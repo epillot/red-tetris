@@ -17,18 +17,10 @@
   width: 120px;
   border: 2px solid black;
   background-color: #E0E0E0;
-}
-
-.emptyGhost {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.plainGhost {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  position: relative;
 }
 
 .boardGhost p {
@@ -60,4 +52,14 @@
 
 .plain {
   background-color: #770000;
+}
+
+.wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  position: absolute;
 }

@@ -14,7 +14,7 @@ export const pieceAnimation = coords => {
       let opacity = 1
       let step = -0.05
       return function loop() {
-        console.log('in loop', 'piece animation');
+        //console.log('in loop', 'piece animation');
         if (opacity <= 0.5)
           step = -step
         opacity += step
@@ -42,7 +42,7 @@ export const lineAnimation = lines => {
       let b = 90;
       let bi = 90 / nb;
       return function loop() {
-        console.log('in loop', 'line animation');
+        //console.log('in loop', 'line animation');
         opacity -= 0.05
         b -= bi
         if (opacity >= 0 && !getStop().stopped) {
@@ -63,7 +63,7 @@ export const spaceAnimation = (coords, dest) => {
       let yi = 0
 
       return function loop() {
-        console.log('in loop', 'space animation');
+        //console.log('in loop', 'space animation');
         yi += 2
         if (yi === diff + 1) yi = diff
         const newCoords = coords.map(([x, y]) => [x, y+yi])
@@ -103,7 +103,7 @@ export const translateAnimation = (tetris, lines) => {
       const data = getTranslationData(tetris, lines)
       const max = Math.max(...data)
       return function loop() {
-        console.log('in loop', 'translate animation');
+        //console.log('in loop', 'translate animation');
         yi += 25
         if (yi >= max + 1 && yi < max + 25)
           yi = max

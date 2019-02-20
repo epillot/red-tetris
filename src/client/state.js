@@ -1,0 +1,8 @@
+state = {
+
+  tetris : [
+
+    {color: '', style: ''},
+    ...
+  ]
+}

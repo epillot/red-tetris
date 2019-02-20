@@ -56,7 +56,7 @@ const nextTurn = (coords) => (dispatch, getState) => {
     let newTetris = f.copyTetris(tetris)
     coords.forEach(([x, y]) => {
       if (y >= 0)
-        newTetris[x][y] = color
+        newTetris[y][x] = color
     });
     const lines = f.getCompleteLines(newTetris)
     dispatch(lineAnimation(lines)).then(() => {

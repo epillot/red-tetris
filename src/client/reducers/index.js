@@ -36,9 +36,9 @@ const getPlayersGhosts = (room, { playerID, playersGhosts }) => {
 
 const newTetris = () => {
   const tetris = [];
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 20; i++) {
     tetris.push([]);
-    for (let j = 0; j < 20; j++) {
+    for (let j = 0; j < 10; j++) {
       tetris[i][j] = '';
     }
   }
