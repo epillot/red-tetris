@@ -111,7 +111,7 @@ const reducer = (state = {} , action) => {
 
     case 'USER_CONNECTED':
       return copyState(state, {
-        //connecting: false,
+        connecting: false,
         playerID: action.id,
       })
 

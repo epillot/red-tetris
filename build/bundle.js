@@ -24028,7 +24028,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.removeError = exports.nicknameError = exports.movePiece = exports.newPiece = exports.editCode = exports.editName = exports.keyEvents = exports.gravity = exports.server = undefined;
+	exports.removeError = exports.nicknameError = exports.movePiece = exports.newPiece = exports.editCode = exports.editName = exports.maybeFirstPiece = exports.keyEvents = exports.gravity = exports.server = undefined;
 
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -24137,29 +24137,45 @@
 
 	var nextTurn = function nextTurn(coords) {
 	  return function (dispatch, getState) {
-	    var _getState3 = getState(),
-	        tetris = _getState3.tetris,
-	        color = _getState3.color;
-
-	    var newTetris = f.copyTetris(tetris);
-	    coords.forEach(function (_ref8) {
-	      var _ref9 = _slicedToArray(_ref8, 2),
-	          x = _ref9[0],
-	          y = _ref9[1];
-
-	      if (y >= 0) newTetris[x][y] = color;
-	    });
-	    var lines = f.getCompleteLines(newTetris);
 	    dispatch((0, _animations.pieceAnimation)(coords)).then(function () {
+	      var _getState3 = getState(),
+	          tetris = _getState3.tetris,
+	          color = _getState3.color;
+
+	      var newTetris = f.copyTetris(tetris);
+	      coords.forEach(function (_ref8) {
+	        var _ref9 = _slicedToArray(_ref8, 2),
+	            x = _ref9[0],
+	            y = _ref9[1];
+
+	        if (y >= 0) newTetris[x][y] = color;
+	      });
+	      var lines = f.getCompleteLines(newTetris);
 	      dispatch((0, _animations.lineAnimation)(lines)).then(function () {
 	        dispatch(updateTetris(f.removeLinesFirst(newTetris, lines)));
 	        dispatch((0, _animations.translateAnimation)(newTetris, lines)).then(function () {
 	          dispatch(server.updateTetris(f.removeLines(newTetris, lines), lines.length - 1));
-	          // const piece = f.newTetriminos()
-	          // if (f.isPossible(newTetris, piece.coords))
-	          //   dispatch(newPiece(piece))
 	        });
 	      });
+	    });
+	  };
+	};
+
+	var maybeFirstPiece = exports.maybeFirstPiece = function maybeFirstPiece(isFirst) {
+	  return function (dispatch, getState) {
+	    if (!isFirst) return Promise.resolve();
+	    var timer = 3;
+	    dispatch(updateTimer(timer));
+	    return new Promise(function (resolve) {
+	      var interval = setInterval(function () {
+	        timer--;
+	        if (timer > 0) {
+	          dispatch(updateTimer(timer));
+	        } else {
+	          clearInterval(interval);
+	          resolve();
+	        }
+	      }, 1000);
 	    });
 	  };
 	};
@@ -24227,6 +24243,13 @@
 	  };
 	};
 
+	var updateTimer = function updateTimer(timer) {
+	  return {
+	    type: 'UPDATE_TIMER',
+	    timer: timer
+	  };
+	};
+
 /***/ }),
 /* 217 */
 /***/ (function(module, exports) {
@@ -24288,17 +24311,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var newTetris = function newTetris() {
-	  var tetris = [];
-	  for (var i = 0; i < 10; i++) {
-	    tetris.push([]);
-	    for (var j = 0; j < 20; j++) {
-	      tetris[i][j] = '';
-	    }
-	  }
-	  return tetris;
-	};
-
 	var socketIoMiddleWare = function socketIoMiddleWare(socket) {
 	  return function (_ref) {
 	    var dispatch = _ref.dispatch,
@@ -24306,17 +24318,22 @@
 
 	    if (socket) socket.on('action', function (action) {
 	      if (action.type === 'NEW_PIECE' && action.piece) {
-	        if ((0, _tools.isPossible)(getState().tetris, action.piece.coords)) {
-	          dispatch(action);
-	          addEventListener('keydown', _actions.keyEvents);
-	          dispatch({ type: 'GRAVITY', interval: (0, _actions.gravity)() });
-	        }
+	        dispatch((0, _actions.maybeFirstPiece)(action.first)).then(function () {
+	          if ((0, _tools.isPossible)(getState().tetris, action.piece.coords)) {
+	            dispatch(action);
+	            addEventListener('keydown', _actions.keyEvents);
+	            dispatch({ type: 'GRAVITY', interval: (0, _actions.gravity)() });
+	          } else {
+	            dispatch(_actions.server.gameOver());
+	          }
+	        });
 	        return;
 	      } else if (action.type === 'UPDATE_GHOST' && action.lines > 0) {
 	        dispatch(action);
 	        //const { interval } = getState()
 	        //clearInterval(interval)
 	        //removeEventListener('keydown', keyEvents)
+
 	        dispatch(_actions.server.updateTetris((0, _tools.addBlackLines)(getState().tetris, action.lines), 0, false));
 	        //addEventListener('keydown', keyEvents)
 	        //dispatch({type: 'GRAVITY', interval: gravity()})
@@ -24340,6 +24357,42 @@
 	  };
 	};
 
+	var animationMiddleWare = function animationMiddleWare(store) {
+	  return function (next) {
+	    return function (action) {
+	      if (!action.getLoop) return next(action);
+
+	      return new Promise(function (resolve) {
+	        var stopped = false;
+
+	        var stop = function stop() {
+	          console.log('---------stop fired---------', action.name);
+	          if (document.hidden) {
+	            stopped = true;
+	            resolve(stop);
+	          }
+	        };
+
+	        var getStop = function getStop() {
+	          return { stopped: stopped, stop: stop };
+	        };
+
+	        console.log('set up listener', action.name);
+	        addEventListener('visibilitychange', stop);
+
+	        var loop = action.getLoop(store.dispatch, resolve, getStop);
+	        if (document.hidden || !loop) return resolve(stop);
+
+	        requestAnimationFrame(loop);
+	      }).then(function (stop) {
+	        /*Le seul moyen de remove proprement le listener stop est de le retourner quand la promesse est resolue*/
+	        console.log('remove listener', action.name);
+	        removeEventListener('visibilitychange', stop);
+	      });
+	    };
+	  };
+	};
+
 	var parseHash = function parseHash(hash) {
 	  if (hash[6] !== '[' || hash[hash.length - 1] !== ']' || hash.length - 8 > 15) return null;
 	  var roomId = hash.substr(1, 5);
@@ -24352,7 +24405,7 @@
 	var socket = (0, _socket2.default)(_params2.default.server.url, { query: query });
 
 	var initialState = {
-	  tetris: newTetris(),
+	  tetris: null,
 	  coords: null,
 	  color: null,
 	  rotate: 0,
@@ -24368,7 +24421,17 @@
 	  playersGhosts: []
 	};
 
-	var store = (0, _redux.createStore)(_reducers2.default, initialState, (0, _redux.applyMiddleware)(socketIoMiddleWare(socket), _reduxThunk2.default, (0, _reduxLogger2.default)()));
+	var store = (0, _redux.createStore)(_reducers2.default, initialState, (0, _redux.applyMiddleware)(socketIoMiddleWare(socket), _reduxThunk2.default, animationMiddleWare)); //, createLogger()))//{
+	// predicate: (_, action) => {
+	//   switch (action.type) {
+	//     case 'UPDATE_TETRIS':
+	//     case 'server/UPDATE_TETRIS':
+	//       return true
+	//     default: return false
+	//   }
+	// }
+	//}))
+	//)
 
 	exports.default = store;
 
@@ -33435,6 +33498,8 @@
 	  value: true
 	});
 
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var _actionTypes = __webpack_require__(217);
@@ -33491,6 +33556,17 @@
 	  return output;
 	};
 
+	var newTetris = function newTetris() {
+	  var tetris = [];
+	  for (var i = 0; i < 10; i++) {
+	    tetris.push([]);
+	    for (var j = 0; j < 20; j++) {
+	      tetris[i][j] = '';
+	    }
+	  }
+	  return tetris;
+	};
+
 	var defaultAnimationState = {
 	  getStyle: false
 	};
@@ -33502,7 +33578,10 @@
 	  switch (action.type) {
 
 	    // case types.START_GAME:
-	    //   return copyState(state, {tetris: newTetris()})
+	    //   return copyState(state, {
+	    //     tetris: newTetris(),
+	    //     gameOver: false,
+	    //   })
 
 	    case types.CREATE_ROOM:
 	    case types.JOIN_ROOM:
@@ -33518,7 +33597,10 @@
 
 	    case types.NEW_PIECE:
 	      return copyState(state, _extends({}, action.piece, {
-	        isPlaying: true
+	        isPlaying: true,
+	        timer: null,
+	        tetris: action.first ? newTetris() : state.tetris,
+	        gameOver: action.first ? false : state.gameOver
 	        //interval: action.interval,
 	      }));
 
@@ -33537,7 +33619,13 @@
 	    case types.UPDATE_TETRIS:
 	      return copyState(state, _extends({
 	        tetris: action.tetris,
-	        coords: action.newPiece ? null : state.coords
+	        coords: action.newPiece ? null : state.coords.map(function (_ref2) {
+	          var _ref3 = _slicedToArray(_ref2, 2),
+	              x = _ref3[0],
+	              y = _ref3[1];
+
+	          return [x, y - action.lines];
+	        })
 	      }, defaultAnimationState));
 
 	    case types.ANIMATION_STEP:
@@ -33584,6 +33672,17 @@
 	    case 'UPDATE_GHOST':
 	      return copyState(state, {
 	        playersGhosts: updateGhost(action, state)
+	      });
+
+	    case 'UPDATE_TIMER':
+	      return copyState(state, {
+	        timer: action.timer
+	      });
+
+	    case 'server/GAME_OVER':
+	      return copyState(state, {
+	        isPlaying: false,
+	        gameOver: true
 	      });
 
 	    default:
@@ -33703,6 +33802,7 @@
 	};
 
 	var isPossible = exports.isPossible = function isPossible(tetris, coords) {
+	  if (!tetris) return true;
 	  var possible = true;
 	  for (var i = 0; i < 4; i++) {
 	    var _coords$i = _slicedToArray(coords[i], 2),
@@ -33830,7 +33930,7 @@
 
 	var params = {
 	  server: {
-	    host: 'e3r7p4',
+	    host: 'e2r3p5',
 	    port: 3004,
 	    get url() {
 	      return 'http://' + this.host + ':' + this.port;
@@ -33888,19 +33988,6 @@
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-	// export const testAnim = store => {
-	//   let currentCoords
-	//   return store.subscribe(() => {
-	//     let prevCoords = currentCoords
-	//     currentCoords = store.getState().coords
-	//     if (!currentCoords || currentCoords === prevCoords) return;
-	//     if (!f.isPossible(store.getState().tetris, currentCoords.map(([x, y]) => [x, y+1])) ) {
-	//       store.dispatch(pieceAnimation(currentCoords))
-	//     }
-	//     //console.log('coucou');
-	//   })
-	// }
-
 	var getPieceAnimationStyle = function getPieceAnimationStyle(coords, opacity) {
 	  return function (x, y) {
 	    if (coords.filter(function (_ref) {
@@ -33915,23 +34002,21 @@
 	};
 
 	var pieceAnimation = exports.pieceAnimation = function pieceAnimation(coords) {
-	  return function (dispatch, getState) {
-	    return new Promise(function (resolve) {
-	      if (document.hidden || !coords) return resolve();
+	  return {
+	    getLoop: function getLoop(dispatch, resolve, getStop) {
 	      var opacity = 1;
 	      var step = -0.05;
-	      var loop = function loop() {
+	      return function loop() {
+	        console.log('in loop', 'piece animation');
 	        if (opacity <= 0.5) step = -step;
 	        opacity += step;
-	        if (opacity <= 1) {
+	        if (opacity <= 1 && !getStop().stopped) {
 	          dispatch(animationStep(getPieceAnimationStyle(coords, opacity)));
 	          requestAnimationFrame(loop);
-	        } else {
-	          resolve();
-	        }
+	        } else resolve(getStop().stop);
 	      };
-	      requestAnimationFrame(loop);
-	    });
+	    },
+	    name: 'piece animation'
 	  };
 	};
 
@@ -33943,36 +34028,36 @@
 	};
 
 	var lineAnimation = exports.lineAnimation = function lineAnimation(lines) {
-	  return function (dispatch, getState) {
-	    return new Promise(function (resolve) {
-	      if (document.hidden || !lines.length) return resolve();
+	  return {
+	    getLoop: function getLoop(dispatch, resolve, getStop) {
+	      if (!lines.length) return null;
 	      var opacity = 1;
 	      var nb = 1 / 0.05;
 	      var b = 90;
 	      var bi = 90 / nb;
-	      var loop = function loop() {
+	      return function loop() {
+	        console.log('in loop', 'line animation');
 	        opacity -= 0.05;
 	        b -= bi;
-	        if (opacity >= 0) {
+	        if (opacity >= 0 && !getStop().stopped) {
 	          dispatch(animationStep(getLineAnimationStyle(lines, opacity, b)));
 	          requestAnimationFrame(loop);
-	        } else {
-	          //dispatch(animationOver())
-	          resolve();
-	        }
+	        } else resolve(getStop().stop);
 	      };
-	      requestAnimationFrame(loop);
-	    });
+	    },
+	    name: 'line animation'
 	  };
 	};
 
 	var spaceAnimation = exports.spaceAnimation = function spaceAnimation(coords, dest) {
-	  return function (dispatch, getState) {
-	    return new Promise(function (resolve) {
-	      if (document.hidden) return resolve();
+	  return {
+	    getLoop: function getLoop(dispatch, resolve, getStop) {
+	      console.log(getStop());
 	      var diff = dest[0][1] - coords[0][1];
 	      var yi = 0;
-	      var loop = function loop() {
+
+	      return function loop() {
+	        console.log('in loop', 'space animation');
 	        yi += 2;
 	        if (yi === diff + 1) yi = diff;
 	        var newCoords = coords.map(function (_ref3) {
@@ -33982,13 +34067,13 @@
 
 	          return [x, y + yi];
 	        });
-	        if (yi <= diff) {
+	        if (yi <= diff && !getStop().stopped) {
 	          dispatch((0, _.movePiece)(newCoords));
 	          requestAnimationFrame(loop);
-	        } else resolve();
+	        } else resolve(getStop().stop);
 	      };
-	      requestAnimationFrame(loop);
-	    });
+	    },
+	    name: 'space animation'
 	  };
 	};
 
@@ -34018,25 +34103,23 @@
 	};
 
 	var translateAnimation = exports.translateAnimation = function translateAnimation(tetris, lines) {
-	  return function (dispatch, getState) {
-	    return new Promise(function (resolve) {
-	      if (document.hidden || !lines.length) return resolve();
+	  return {
+	    getLoop: function getLoop(dispatch, resolve, getStop) {
+	      if (!lines.length) return null;
 	      var yi = 0;
 	      var data = getTranslationData(tetris, lines);
 	      var max = Math.max.apply(Math, _toConsumableArray(data));
-	      var loop = function loop() {
+	      return function loop() {
+	        console.log('in loop', 'translate animation');
 	        yi += 25;
 	        if (yi >= max + 1 && yi < max + 25) yi = max;
-	        if (yi <= max) {
+	        if (yi <= max && !getStop().stopped) {
 	          dispatch(animationStep(getTranslateAnimationStyle(data, yi)));
 	          requestAnimationFrame(loop);
-	        } else {
-	          //dispatch(animationOver())
-	          resolve();
-	        }
+	        } else resolve(getStop().stop);
 	      };
-	      requestAnimationFrame(loop);
-	    });
+	    },
+	    name: 'translate animation'
 	  };
 	};
 
@@ -34062,7 +34145,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.updateTetris = exports.joinRoom = exports.createRoom = exports.startGame = exports.ping = undefined;
+	exports.gameOver = exports.updateTetris = exports.joinRoom = exports.createRoom = exports.startGame = exports.ping = undefined;
 
 	var _actionTypes = __webpack_require__(217);
 
@@ -34101,11 +34184,18 @@
 	  var lines = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 	  var newPiece = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
+
 	  return {
 	    type: 'server/UPDATE_TETRIS',
 	    tetris: tetris,
 	    lines: lines,
 	    newPiece: newPiece
+	  };
+	};
+
+	var gameOver = exports.gameOver = function gameOver() {
+	  return {
+	    type: 'server/GAME_OVER'
 	  };
 	};
 
@@ -34153,7 +34243,8 @@
 	  var roomId = _ref.roomId,
 	      isMaster = _ref.isMaster,
 	      isPlaying = _ref.isPlaying,
-	      startGame = _ref.startGame;
+	      startGame = _ref.startGame,
+	      stopGame = _ref.stopGame;
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'roomContainer' },
@@ -34208,7 +34299,7 @@
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'roomSideBottom' },
-	        !isPlaying ? isMaster ? _react2.default.createElement(
+	        !isPlaying && (isMaster ? _react2.default.createElement(
 	          'button',
 	          { className: 'startbutton', onClick: startGame },
 	          'Start game'
@@ -34216,10 +34307,16 @@
 	          'p',
 	          { className: 'waitingMaster' },
 	          'Waiting for the master to start the game...'
-	        ) : _react2.default.createElement(
+	        )),
+	        isPlaying && _react2.default.createElement(
 	          'p',
 	          { className: 'waitingMaster' },
 	          'A game is in progress !'
+	        ),
+	        isPlaying && isMaster && _react2.default.createElement(
+	          'button',
+	          { className: '', onClick: stopGame },
+	          'Stop game'
 	        )
 	      )
 	    ),
@@ -34246,7 +34343,7 @@
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
 	    roomId: state.room.id,
-	    isMaster: state.playerID === state.room.master.id,
+	    isMaster: state.room.users[0].id === state.playerID,
 	    isPlaying: state.room.isPlaying || state.isPlaying
 	  };
 	};
@@ -34256,17 +34353,10 @@
 	    startGame: function startGame() {
 	      dispatch(actions.server.startGame());
 	    },
-	    createRoom: function createRoom() {
-	      return dispatch(function (_, getState) {
-	        var _getState = getState(),
-	            nickname = _getState.nickname;
-
-	        if (!nickname) dispatch(actions.nicknamError());else dispatch(actions.server.createRoom(nickname));
-	      });
-	    },
-	    editName: function editName(e) {
-	      dispatch(actions.editName(e.target.value));
+	    stopGame: function stopGame() {
+	      alert('jajaja');
 	    }
+
 	  };
 	};
 
@@ -34297,6 +34387,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var getBlocks = function getBlocks(tetris, piece, pieceColor, getStyle) {
+	  if (!tetris) return null;
 	  var ghost = (0, _tools.getPieceProjection)(tetris, piece);
 	  return tetris.map(function (col, i) {
 	    return col.map(function (color, j) {
@@ -34326,20 +34417,46 @@
 	  var tetris = _ref5.tetris,
 	      coords = _ref5.coords,
 	      color = _ref5.color,
-	      getStyle = _ref5.getStyle;
+	      getStyle = _ref5.getStyle,
+	      isPlaying = _ref5.isPlaying,
+	      timer = _ref5.timer,
+	      gameOver = _ref5.gameOver;
 	  return _react2.default.createElement(
 	    'div',
-	    { className: 'board' },
-	    getBlocks(tetris, coords, color, getStyle)
+	    { className: 'board' + (gameOver ? ' boardGameOver' : '') },
+	    getBlocks(tetris, coords, color, getStyle),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'wrapper' },
+	      timer && _react2.default.createElement(
+	        'div',
+	        { className: 'timer' },
+	        timer
+	      ),
+	      gameOver && _react2.default.createElement(
+	        'span',
+	        { className: 'gameOver' },
+	        'GAME OVER'
+	      )
+	    )
 	  );
 	};
+
+	// const board2 = ({ tetris, coords, color, getStyle, isPlaying, timer, gameOver }) => (
+	//   <div className={getBoardClass()}}>
+	//
+	//   </div>
+	// )
 
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
 	    tetris: state.tetris,
 	    coords: state.coords,
 	    color: state.color,
-	    getStyle: state.getStyle
+	    getStyle: state.getStyle,
+	    isPlaying: state.isPlaying,
+	    timer: state.timer,
+	    gameOver: state.gameOver
 	  };
 	};
 
@@ -34404,7 +34521,7 @@
 
 
 	// module
-	exports.push([module.id, ".board {\n  margin: 0 20px;\n  height: 800px;\n  width: 400px;\n  /* border-bottom: 20px solid #8bb0da; */\n  /* border-left: 120px solid #8bb0da;\n  border-right: 120px solid #8bb0da; */\n  /* border-top: 48px inset black; */\n  display: flex;\n  flex-wrap: wrap;\n  flex-direction: column;\n  background-color: #ffe6e6;\n  border-radius: 5px;\n}\n\n.block {\n  width: 40px;\n  height: 40px;\n  box-sizing: border-box;\n  /* border-radius: 1px; */\n  position: relative;\n}\n\n.colored {\n  border: 0.3px solid #F0F0F0;\n  -webkit-filter : brightness(90%);\n          filter : brightness(90%);\n}\n\n.red {\n  background-color: #ff4236;\n}\n\n.red1 {\n  background-color: #ff0000;\n}\n\n.red2 {\n  background-color: #990000;\n}\n\n.red3 {\n  background-color: #AA0000;\n}\n\n.red4 {\n  background-color: #BB0000;\n}\n\n.red5 {\n  background-color: #CC0000;\n}\n\n.red6 {\n  background-color: #DD0000;\n}\n\n.red7 {\n  background-color: #EE0000;\n}\n\n.blue {\n  background-color: #4c51fb;\n}\n\n.yellow {\n  background-color: #ffe800;\n}\n\n.green {\n  background-color: #00cc00;\n}\n\n.purple {\n  background-color: #cc00aa;\n}\n\n.pink {\n  background-color: pink;\n}\n\n.orange {\n  background-color: #ff8c1a;\n}\n\n.black {\n  background-color: black;\n}\n\n.ghost {\n  background-color: #FFF;\n  opacity: 0.4;\n  -webkit-filter : brightness(80%);\n          filter : brightness(80%);\n}\n", ""]);
+	exports.push([module.id, ".board {\n  margin: 0 20px;\n  height: 800px;\n  width: 400px;\n  /* border-bottom: 20px solid #8bb0da; */\n  /* border-left: 120px solid #8bb0da;\n  border-right: 120px solid #8bb0da; */\n  /* border-top: 48px inset black; */\n  display: flex;\n  flex-wrap: wrap;\n  flex-direction: column;\n  background-color: #ffe6e6;\n  border-radius: 5px;\n  position: relative;\n  /* filter : brightness(60%); */\n}\n\n.boardGameOver {\n  opacity: 0.6;\n}\n\n.wrapper {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  position: absolute;\n}\n\n.timer {\n  font-size: 90px;\n  color: #770000;\n}\n\n.gameOver {\n  font-size: 60px;\n  color: #770000;\n  font-style: italic;\n  font-weight: bold;\n  -webkit-transform: rotate(-50deg);\n          transform: rotate(-50deg);\n}\n\n.block {\n  width: 40px;\n  height: 40px;\n  box-sizing: border-box;\n  /* border-radius: 1px; */\n  position: relative;\n}\n\n.colored {\n  border: 0.3px solid #F0F0F0;\n  -webkit-filter : brightness(90%);\n          filter : brightness(90%);\n}\n\n.red {\n  background-color: #ff4236;\n}\n\n.red1 {\n  background-color: #ff0000;\n}\n\n.red2 {\n  background-color: #990000;\n}\n\n.red3 {\n  background-color: #AA0000;\n}\n\n.red4 {\n  background-color: #BB0000;\n}\n\n.red5 {\n  background-color: #CC0000;\n}\n\n.red6 {\n  background-color: #DD0000;\n}\n\n.red7 {\n  background-color: #EE0000;\n}\n\n.blue {\n  background-color: #4c51fb;\n}\n\n.yellow {\n  background-color: #ffe800;\n}\n\n.green {\n  background-color: #00cc00;\n}\n\n.purple {\n  background-color: #cc00aa;\n}\n\n.pink {\n  background-color: pink;\n}\n\n.orange {\n  background-color: #ff8c1a;\n}\n\n.black {\n  background-color: black;\n}\n\n.ghost {\n  background-color: #FFF;\n  opacity: 0.4;\n  -webkit-filter : brightness(80%);\n          filter : brightness(80%);\n}\n", ""]);
 
 	// exports
 
@@ -35154,11 +35271,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var getBoardClassName = function getBoardClassName(ghost) {
+	var getBoardClassName = function getBoardClassName(ghost, isPlaying) {
 	  var boardClass = 'boardGhost';
 	  if (!ghost) {
 	    boardClass += ' emptyGhost';
-	    if (ghost === null) boardClass += ' waitingGhost';else boardClass += ' readyGhost';
+	    if (ghost === null) boardClass += ' waitingGhost';else if (!isPlaying) boardClass += ' readyGhost';
 	  } else boardClass += ' plainGhost';
 	  return boardClass;
 	};
@@ -35166,7 +35283,8 @@
 	var playerGhost = function playerGhost(_ref) {
 	  var name = _ref.name,
 	      ghost = _ref.ghost,
-	      num = _ref.num;
+	      num = _ref.num,
+	      isPlaying = _ref.isPlaying;
 	  return console.log('-------' + (name || num) + ' ghost is rendered----------') || _react2.default.createElement(
 	    'div',
 	    { className: 'ghostContainer' },
@@ -35175,15 +35293,21 @@
 	      { className: 'ghostPlayerName' },
 	      name
 	    ),
+	    '// ',
+	    _react2.default.createElement(
+	      'i',
+	      { className: 'material-icons' },
+	      'thumb_up'
+	    ),
 	    _react2.default.createElement(
 	      'div',
-	      { className: getBoardClassName(ghost) },
+	      { className: getBoardClassName(ghost, isPlaying) },
 	      ghost === null && _react2.default.createElement(
 	        'p',
 	        null,
 	        'Waiting for player'
 	      ),
-	      ghost === undefined && _react2.default.createElement(
+	      ghost === undefined && !isPlaying && _react2.default.createElement(
 	        'p',
 	        null,
 	        'READY'
@@ -35203,7 +35327,8 @@
 	  })[ownProps.num];
 	  return {
 	    name: user ? user.name : '',
-	    ghost: user ? state.playersGhosts[user.id] : null
+	    ghost: user ? state.playersGhosts[user.id] : null,
+	    isPlaying: state.isPlaying
 	  };
 	};
 
@@ -35332,7 +35457,7 @@
 
 
 	// module
-	exports.push([module.id, ".roomContainer {\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.roomSide {\n  height: 800px;\n  flex: 1;\n  background-color: #B0C4DE;\n  padding: 20px;\n  box-sizing: border-box;\n}\n\n.roomSideLeft {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-between;\n}\n\n.roomSideRight {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-around;\n}\n\n.row {\n  width: 100%;\n  display: flex;\n  justify-content: space-around;\n}\n\n.roomSideTop {\n  font-size: 30px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 20%;\n}\n\n.roomSideTop p {\n  margin: 5px;\n}\n\n.roomId {\n  color: #770000;\n}\n\n.codeHint {\n  font-size: 18px;\n  font-style: italic;\n}\n\n.roomSideMiddle {\n  height: 60%;\n  width: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.roomPlayers {\n  width: 80%;\n}\n\n.roomSideBottom {\n  height: 20%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.startbutton {\n  cursor: pointer;\n  background:    #ff0000;\n  background:    linear-gradient(#660000, #ff0000 50%, #660000);\n  /* box-shadow:    0 4px #000000; */\n  width:         295px;\n  height:        55px;\n  color:         #ffffff;\n  display:       inline-block;\n  font:          normal 700 25px/45px \"Roboto\", sans-serif;\n  text-align:    center;\n  text-shadow:   3px 3px #000000;\n  margin-bottom: 10px;\n}\n\n.startbutton:hover {\n  background:    linear-gradient(#ff0000, #660000 50%, #ff0000);\n}\n\n.waitingMaster {\n  font-style: italic;\n  font-size: 22px;\n}\n", ""]);
+	exports.push([module.id, ".roomContainer {\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.roomSide {\n  height: 800px;\n  flex: 1;\n  background-color: #B0C4DE;\n  padding: 20px;\n  box-sizing: border-box;\n}\n\n.roomSideLeft {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-between;\n}\n\n.roomSideRight {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-around;\n}\n\n.row {\n  width: 100%;\n  display: flex;\n  justify-content: space-around;\n}\n\n.roomSideTop {\n  font-size: 30px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 20%;\n}\n\n.roomSideTop p {\n  margin: 5px;\n}\n\n.roomId {\n  color: #770000;\n}\n\n.codeHint {\n  font-size: 18px;\n  font-style: italic;\n}\n\n.roomSideMiddle {\n  height: 60%;\n  width: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.roomPlayers {\n  width: 80%;\n}\n\n.roomSideBottom {\n  height: 20%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n\n.startbutton {\n  cursor: pointer;\n  background:    #ff0000;\n  background:    linear-gradient(#660000, #ff0000 50%, #660000);\n  /* box-shadow:    0 4px #000000; */\n  width:         295px;\n  height:        55px;\n  color:         #ffffff;\n  display:       inline-block;\n  font:          normal 700 25px/45px \"Roboto\", sans-serif;\n  text-align:    center;\n  text-shadow:   3px 3px #000000;\n  margin-bottom: 10px;\n}\n\n.startbutton:hover {\n  background:    linear-gradient(#ff0000, #660000 50%, #ff0000);\n}\n\n.waitingMaster {\n  font-style: italic;\n  font-size: 22px;\n}\n", ""]);
 
 	// exports
 

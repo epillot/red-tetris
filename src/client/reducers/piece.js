@@ -1,3 +1,5 @@
+import { updateObject } from '../tools'
+
 const movePiece = (state, { coords, rotate }) => updateObject(state, {coords, rotate})
 
 export default function piece(state=null, action) {

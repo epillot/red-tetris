@@ -19,7 +19,7 @@ const getBlockClass = (x, y, tetris, piece, pieceColor) => {
   return block
 }
 
-const block = ({ x, y, blockClass, style }) => console.log(`'block [${x + y*10}] is rendered`) || (
+const block = ({ x, y, blockClass, style }) => /*console.log(`'block [${x + y*10}] is rendered`) ||*/ (
    <div className={`block ${blockClass}`} style={style}></div>
 )
 

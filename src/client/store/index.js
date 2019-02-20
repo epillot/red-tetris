@@ -11,6 +11,9 @@ import { isPossible, addBlackLines } from '../tools'
 
 const socketIoMiddleWare = socket => ({dispatch, getState}) => {
   if (socket)
+    socket.on('connect', () => {
+      dispatch({type: 'USER_CONNECTED', id: socket.id})
+    })
     socket.on('action', action => {
       if (action.type === 'NEW_PIECE' && action.piece) {
         dispatch(maybeFirstPiece(action.first)).then(() => {

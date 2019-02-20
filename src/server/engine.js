@@ -11,10 +11,10 @@ export default class Engine {
     this.io.on('connection', (socket) => {
       console.log('Socket connected: ' + socket.id)
       const user = new User(socket)
-      user.sendAction({
-        type: 'USER_CONNECTED',
-        id: user.id,
-      })
+      // user.sendAction({
+      //   type: 'USER_CONNECTED',
+      //   id: user.id,
+      // })
       const { roomId, name } = socket.handshake.query
       if (roomId && name) {
         user.name = name
