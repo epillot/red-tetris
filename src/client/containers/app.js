@@ -6,8 +6,8 @@ import css from './app.css'
 
 
 
-const App = ({ nickname, nicknameError, partyCode, room, roomError, editName, editCode, createRoom, joinRoom, removeError, connecting}) => {
-  if (connecting) {
+const App = ({ nickname, nicknameError, partyCode, room, roomError, editName, editCode, createRoom, joinRoom, removeError, isLoading}) => {
+  if (isLoading) {
     return (
       <div className='appContainer'>
         <div className='connecting'>
@@ -46,12 +46,12 @@ const App = ({ nickname, nicknameError, partyCode, room, roomError, editName, ed
 const mapDispatchToProps = (dispatch) => {
   return {
     createRoom: () => dispatch((_, getState) => {
-      const { nickname } = getState()
+      const { nickname } = getState().ui
       if (!nickname) dispatch(actions.nicknameError())
       else dispatch(actions.server.createRoom(nickname))
     }),
     joinRoom: () => dispatch((_, getState) => {
-      const { nickname, partyCode } = getState()
+      const { nickname, partyCode } = getState().ui
       if (!nickname) dispatch(actions.nicknameError())
       else dispatch(actions.server.joinRoom(partyCode, nickname))
     }),
@@ -69,12 +69,12 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    nickname: state.nickname,
-    nicknameError: state.nicknameError,
-    partyCode: state.partyCode,
+    nickname: state.ui.nickname,
+    nicknameError: state.ui.nicknameError,
+    partyCode: state.ui.partyCode,
     room: state.room,
-    roomError: state.roomError,
-    connecting: state.connecting,
+    roomError: state.ui.roomError,
+    isLoading: state.connecting.isLoading,
   }
 }
 

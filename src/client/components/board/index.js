@@ -41,7 +41,7 @@ const getBlocks2 = () => {
 //   </div>
 // )
 
-const board2 = ({ tetris, coords, color, getStyle, isPlaying, timer, gameOver }) => (
+const board = ({ tetris, coords, color, getStyle, isPlaying, timer, gameOver }) => (
   <div className={'board' + (gameOver ? ' boardGameOver' : '')}>
     {getBlocks2()}
     <div className='wrapper'>
@@ -58,9 +58,9 @@ const mapStateToProps = (state) => {
     //color: state.color,
     //getStyle: state.getStyle,
     //isPlaying: state.isPlaying,
-    timer: state.timer,
-    gameOver: state.gameOver,
+    timer: state.game.timer,
+    gameOver: state.game.gameOver,
   }
 }
 
-export default connect(mapStateToProps, null)(board2)
+export default connect(mapStateToProps, null)(board)

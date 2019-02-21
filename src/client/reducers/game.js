@@ -13,6 +13,7 @@ export default function game(state=initialState, action) {
     case 'NEW_PIECE':
       return updateObject(state, {
         isPlaying: true,
+        timer: null,
       })
 
     case 'UPDATE_TIMER':

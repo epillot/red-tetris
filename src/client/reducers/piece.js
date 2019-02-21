@@ -1,6 +1,11 @@
 import { updateObject } from '../tools'
 
-const movePiece = (state, { coords, rotate }) => updateObject(state, {coords, rotate})
+const movePiece = (state, { coords, rotate }) => {
+  const update = {coords}
+  if (rotate !== null)
+    update.rotate = rotate
+  return updateObject(state, update)
+}
 
 export default function piece(state=null, action) {
 
@@ -11,6 +16,13 @@ export default function piece(state=null, action) {
 
     case 'MOVE_PIECE':
       return movePiece(state, action)
+
+    case 'GRAVITY':
+      return updateObject(state, {interval: action.interval})
+
+    case 'server/UPDATE_TETRIS':
+    case 'UPDATE_TETRIS':
+      return action.newPiece ? null : state
 
     default:
       return state

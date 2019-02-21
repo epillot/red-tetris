@@ -163,9 +163,9 @@ export const removeLines = (tetris, lines) => {
   return newTetris
 }
 
-export const getPieceProjection = (tetris, coords) => {
-  if (!coords) return null
-  const newCoords = coords.map(([x, y]) => [x, y])
+export const getPieceProjection = (tetris, piece) => {
+  if (!piece) return null
+  const newCoords = piece.coords.map(([x, y]) => [x, y])
   while (true) {
     if (!isPossible(tetris, newCoords))
       break

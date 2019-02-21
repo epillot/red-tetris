@@ -10,7 +10,7 @@ export {server}
 export const gravity = () => {
   return setInterval(() => {
     store.dispatch((dispatch, getState) => {
-      const { tetris, coords, interval } = getState()
+      const { tetris, piece: { coords, interval } } = getState()
       const newCoords = coords.map(([x, y]) => [x, y+1])
       if (f.isPossible(tetris, newCoords)) {
         dispatch(movePiece(newCoords))
@@ -26,7 +26,7 @@ export const gravity = () => {
 export const keyEvents = ({ keyCode }) => store.dispatch(keyEvent(keyCode))
 
 const keyEvent = keyCode => (dispatch, getState) => {
-  const { tetris, coords, rotate, type, interval } = getState()
+  const { tetris, piece: { coords, rotate, type, interval } } = getState()
   if (keyCode === 37 || keyCode === 39 || keyCode === 40) {
     const i = keyCode === 37 ? -1 : (keyCode === 39 ? 1 : 0)
     const j = keyCode === 40 ? 1 : 0
@@ -43,7 +43,7 @@ const keyEvent = keyCode => (dispatch, getState) => {
   } else if (keyCode === 32) {
     clearInterval(interval)
     removeEventListener('keydown', keyEvents)
-    const proj = f.getPieceProjection(tetris, coords)
+    const proj = f.getPieceProjection(tetris, {coords})
     dispatch(spaceAnimation(coords, proj)).then(() => {
       dispatch(nextTurn(proj))
     })
@@ -52,12 +52,12 @@ const keyEvent = keyCode => (dispatch, getState) => {
 
 const nextTurn = (coords) => (dispatch, getState) => {
   dispatch(pieceAnimation(coords)).then(() => {
-    const { tetris, color } = getState()
+    const { tetris, piece: { color } } = getState()
     let newTetris = f.copyTetris(tetris)
     coords.forEach(([x, y]) => {
       if (y >= 0)
         newTetris[y][x] = color
-    });
+    })
     const lines = f.getCompleteLines(newTetris)
     dispatch(lineAnimation(lines)).then(() => {
       dispatch(updateTetris(f.removeLinesFirst(newTetris, lines)))

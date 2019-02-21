@@ -5,11 +5,11 @@ import './style.css'
 
 const defaultStyle = {}
 
-const getBlockClass = (x, y, tetris, piece, pieceColor) => {
+const getBlockClass = (x, y, tetris, piece) => {
   if (!tetris)
     return ''
-  if (piece && piece.filter(([px, py]) => px==x && py==y).length)
-    return pieceColor + ' colored'
+  if (piece && piece.coords.filter(([px, py]) => px==x && py==y).length)
+    return piece.color + ' colored'
   const block = tetris[y][x]
   const ghost = getPieceProjection(tetris, piece)
   if (ghost && ghost.filter(([px, py]) => px==x && py==y).length && block === '')
@@ -19,16 +19,17 @@ const getBlockClass = (x, y, tetris, piece, pieceColor) => {
   return block
 }
 
-const block = ({ x, y, blockClass, style }) => /*console.log(`'block [${x + y*10}] is rendered`) ||*/ (
+const block = ({ x, y, blockClass, style }) => /*console.log(`block is rendered`) ||*/ (
    <div className={`block ${blockClass}`} style={style}></div>
 )
 
 const mapStateToProps = (state, ownProps) => {
   const { x, y } = ownProps
-
+  const blockClass = getBlockClass(x, y, state.tetris, state.piece)
   return {
-    blockClass: getBlockClass(x, y, state.tetris, state.coords, state.color),
-    style: state.getStyle ? (Object.keys(state.getStyle(x, y)).length ? state.getStyle(x, y) : defaultStyle) : defaultStyle,
+    blockClass,
+    //we don't need to animate an empty block
+    style: (blockClass && state.getStyle[x + y*10]) || defaultStyle,
   }
 }
 

@@ -95,26 +95,26 @@ const data = parseHash(window.location.hash)
 const query = Object.assign({}, parseHash(window.location.hash))
 const socket = io(params.server.url, {query})
 
-const initialState = {
-  tetris: null,
-  coords: null,
-  color: null,
-  rotate: 0,
-  type: null,
-  Isplaying: false,
-  animation: false,
-  room: null,
-  nickname: '',
-  nicknameError: '',
-  roomError: '',
-  partyCode: '',
-  connecting: true,
-  playersGhosts: [],
-}
+// const initialState = {
+//   tetris: null,
+//   coords: null,
+//   color: null,
+//   rotate: 0,
+//   type: null,
+//   Isplaying: false,
+//   animation: false,
+//   room: null,
+//   nickname: '',
+//   nicknameError: '',
+//   roomError: '',
+//   partyCode: '',
+//   connecting: true,
+//   playersGhosts: [],
+// }
 
 const store = createStore(
   reducer,
-  initialState,
+  {},
   applyMiddleware(socketIoMiddleWare(socket), thunk, animationMiddleWare))//, createLogger()))//{
     // predicate: (_, action) => {
     //   switch (action.type) {

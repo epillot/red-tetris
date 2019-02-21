@@ -2,10 +2,19 @@ import * as types from '../constants/actionTypes'
 import { movePiece } from '.'
 import * as f from '../tools'
 
-const getPieceAnimationStyle = (coords, opacity) => (x, y) => {
-  if (coords.filter(([x1, y1]) => x==x1 && y == y1).length)
-    return {opacity}
-  return {}
+// const getPieceAnimationStyle = (coords, opacity) => (x, y) => {
+//   if (coords.filter(([x1, y1]) => x==x1 && y == y1).length)
+//     return {opacity}
+//   return {}
+// }
+
+const getPieceAnimationStyle = (coords, opacity) => {
+  const output = []
+  const style = {opacity}
+  coords.forEach(([x, y]) => {
+    output[x + y*10] = style
+  })
+  return output
 }
 
 export const pieceAnimation = coords => {
@@ -28,9 +37,20 @@ export const pieceAnimation = coords => {
   }
 }
 
-const getLineAnimationStyle = (lines, opacity, b) => (x, y) => {
-  if (lines.indexOf(y) !== -1) return {opacity, filter: `brightness(${b}%)`}
-  return {}
+// const getLineAnimationStyle = (lines, opacity, b) => (x, y) => {
+//   if (lines.indexOf(y) !== -1) return {opacity, filter: `brightness(${b}%)`}
+//   return {}
+// }
+
+const getLineAnimationStyle = (lines, opacity, b) => {
+  const output = []
+  const style = {opacity, filter: `brightness(${b}%)`}
+  lines.forEach(y => {
+    for (let x = 0; x < 10; x++) {
+      output[x + y*10] = style
+    }
+  })
+  return output
 }
 
 export const lineAnimation = lines => {
@@ -58,7 +78,6 @@ export const lineAnimation = lines => {
 export const spaceAnimation = (coords, dest) => {
   return {
     getLoop: (dispatch, resolve, getStop) => {
-      console.log(getStop());
       const diff = dest[0][1] - coords[0][1]
       let yi = 0
 
@@ -77,13 +96,25 @@ export const spaceAnimation = (coords, dest) => {
   }
 }
 
-const getTranslateAnimationStyle = (data, yi) => (x, y) => {
-  let translateY = data[y]
-  if (translateY >= yi) translateY = yi
-  return {transform: 'translate(0px, ' +translateY+ 'px)'}
+// const getTranslateAnimationStyle = (data, yi) => (x, y) => {
+//   let translateY = data[y]
+//   if (translateY >= yi) translateY = yi
+//   return {transform: 'translate(0px, ' +translateY+ 'px)'}
+// }
+
+const getTranslateAnimationStyle = (data, yi) => {
+  const output = []
+  for (let y = 0; y < 20; y++) {
+    let translateY = data[y]
+    if (translateY > yi) translateY = yi
+    for (let x = 0; x < 10; x++) {
+      output[x + y*10] = {transform: 'translate(0px, ' +translateY+ 'px)'}
+    }
+  }
+  return output
 }
 
-const getTranslationData = (tetris, lines) => {
+const getTranslationData = (lines) => {
   const data = []
   for (let y = 0; y < 20; y++) {
     let ydiff = 0
@@ -100,7 +131,7 @@ export const translateAnimation = (tetris, lines) => {
     getLoop: (dispatch, resolve, getStop) => {
       if (!lines.length) return null
       let yi = 0
-      const data = getTranslationData(tetris, lines)
+      const data = getTranslationData(lines)
       const max = Math.max(...data)
       return function loop() {
         //console.log('in loop', 'translate animation');

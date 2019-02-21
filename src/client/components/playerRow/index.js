@@ -34,7 +34,7 @@ const mapStateToProps = (state, ownProps) => {
     isEmpty: player === undefined,
     playerName: player ? player.name : '',
     playerID: player ? player.id : '',
-    selfId: state.playerID,
+    selfId: state.connecting.playerID,
   }
 }
 
