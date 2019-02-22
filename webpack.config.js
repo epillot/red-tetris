@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-  entry: './src/client/index.js',
+  entry: ['babel-polyfill', './src/client/index.js'],
 
   output: {
     path: path.join(__dirname, 'build'),
@@ -31,5 +31,5 @@ module.exports = {
 
     disableHostCheck: true,   // That solved it
 
- } 
+ }
 };

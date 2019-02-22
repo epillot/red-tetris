@@ -5,44 +5,22 @@ import io from 'socket.io-client'
 import {storeStateMiddleWare} from '../middleware/storeStateMiddleWare'
 import reducer from '../reducers'
 import params from '../../../params'
-import { maybeFirstPiece, gravity, keyEvents, server } from '../actions'
+import { tryNewPiece, server } from '../actions'
 import { isPossible, addBlackLines } from '../tools'
 
 
 const socketIoMiddleWare = socket => ({dispatch, getState}) => {
-  if (socket)
-    socket.on('connect', () => {
-      dispatch({type: 'USER_CONNECTED', id: socket.id})
-    })
+  if (socket) {
     socket.on('action', action => {
-      if (action.type === 'NEW_PIECE' && action.piece) {
-        dispatch(maybeFirstPiece(action.first)).then(() => {
-          if (isPossible(getState().tetris, action.piece.coords)) {
-            dispatch(action)
-            addEventListener('keydown', keyEvents)
-            dispatch({type: 'GRAVITY', interval: gravity()})
-          } else {
-            dispatch(server.gameOver())
-          }
-        })
-        return
+      if (action.type === 'NEW_PIECE') {
+        dispatch(tryNewPiece(action))
       } else if (action.type === 'UPDATE_GHOST' && action.lines > 0) {
         dispatch(action)
-        //const { interval } = getState()
-        //clearInterval(interval)
-        //removeEventListener('keydown', keyEvents)
-
         dispatch(server.updateTetris(addBlackLines(getState().tetris, action.lines), 0, false))
-        //addEventListener('keydown', keyEvents)
-        //dispatch({type: 'GRAVITY', interval: gravity()})
-        return
-      }
-
-      dispatch(action)
-      const { connecting } = getState()
-      if (connecting)
-        dispatch({type: 'CONNECTING', connecting: false})
+      } else
+        dispatch(action)
     })
+  }
   return next => action => {
     if (socket && action.type && action.type.indexOf('server/') === 0)
       socket.emit('action', action)

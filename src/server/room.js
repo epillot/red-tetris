@@ -40,9 +40,11 @@ export default class Room {
   }
 
   initGame() {
+    this.pieces = []
     for (let i = 0; i < 3; i++) {
       this.pieces.push(Tetris.newTetriminos())
     }
+    this.users.forEach(user => user.initGame())
     this.isPlaying = true
   }
 

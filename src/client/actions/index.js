@@ -68,6 +68,34 @@ const nextTurn = (coords) => (dispatch, getState) => {
   })
 }
 
+export const tryNewPiece = action => async (dispatch, getState) => {
+  if (action.first)
+    await dispatch(startGameTimer())
+  if (f.isPossible(getState().tetris, action.piece.coords)) {
+    dispatch(action)
+    addEventListener('keydown', keyEvents)
+    dispatch({type: 'GRAVITY', interval: gravity()})
+  } else {
+    dispatch(server.gameOver())
+  }
+}
+
+const startGameTimer = () => (dispatch, getState) => {
+  let timer = 3
+  dispatch(updateTimer(timer))
+  return new Promise(resolve => {
+    const interval = setInterval(() => {
+      timer--
+      if (timer > 0) {
+        dispatch(updateTimer(timer))
+      } else {
+        clearInterval(interval)
+        resolve()
+      }
+    }, 1000)
+  })
+}
+
 export const maybeFirstPiece = isFirst => (dispatch, getState) => {
   if (!isFirst) return Promise.resolve()
   let timer = 3
@@ -96,15 +124,6 @@ export const editCode = (value) => {
   return {
     type: types.EDIT_CODE,
     value,
-  }
-}
-
-export const newPiece = (piece=null) => {
-  addEventListener('keydown', keyEvents)
-  return {
-    type: types.NEW_PIECE,
-    piece: piece || f.newTetriminos(),
-    interval: gravity(),
   }
 }
 

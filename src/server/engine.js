@@ -9,17 +9,19 @@ export default class Engine {
     this.io = io(app)
 
     this.io.on('connection', (socket) => {
+
       console.log('Socket connected: ' + socket.id)
       const user = new User(socket)
-      // user.sendAction({
-      //   type: 'USER_CONNECTED',
-      //   id: user.id,
-      // })
       const { roomId, name } = socket.handshake.query
       if (roomId && name) {
         user.name = name
         this.addUserToRoom(roomId, user)
       }
+
+      user.sendAction({
+        type: 'USER_CONNECTED',
+        id: user.id
+      })
 
       socket.on('disconnect', () => {
         this.disconnectUser(user)
@@ -40,7 +42,7 @@ export default class Engine {
           user.sendAction({
             type: 'UPDATE_ROOM',
             room: room.getData(),
-            hash: room.getHash(user)
+            hash: room.getHash(user),
           })
         }
 
@@ -115,13 +117,11 @@ export default class Engine {
   addUserToRoom(roomId, user) {
     const room = Game.addUserToRoom(roomId, user)
     if (room) {
-      setTimeout(() => {
-        this.sendActionToRoom(room.id, {
-          type: 'UPDATE_ROOM',
-          room: room.getData(),
-          hash: room.getHash(user),
-        })
-      }, 1000)
+      this.sendActionToRoom(room.id, {
+        type: 'UPDATE_ROOM',
+        room: room.getData(),
+        hash: room.getHash(user),
+      })
     } else {
       user.sendAction({
         type: 'JOIN_ROOM_ERROR',

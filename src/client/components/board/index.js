@@ -22,7 +22,7 @@ import './style.css'
 //   });
 // }
 
-const getBlocks2 = () => {
+const getBlocks = () => {
   const output = []
   for (let i = 0; i < 200; i++) {
     console.log('salut');
@@ -41,9 +41,9 @@ const getBlocks2 = () => {
 //   </div>
 // )
 
-const board = ({ tetris, coords, color, getStyle, isPlaying, timer, gameOver }) => (
+const board = ({ timer, gameOver }) => (
   <div className={'board' + (gameOver ? ' boardGameOver' : '')}>
-    {getBlocks2()}
+    {!timer && getBlocks()}
     <div className='wrapper'>
       {timer && <div className='timer'>{timer}</div>}
       {gameOver && <span className='gameOver'>GAME OVER</span>}

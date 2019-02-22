@@ -7,6 +7,7 @@ import game from './game'
 import piece from './piece'
 import playersGhosts from './playersGhosts'
 import room from './room'
+import roomUsers from './roomUsers'
 import tetris from './tetris'
 import ui from './ui'
 
@@ -181,6 +182,7 @@ export default combineReducers({
   piece,
   playersGhosts,
   room,
+  roomUsers,
   tetris,
   ui,
 })

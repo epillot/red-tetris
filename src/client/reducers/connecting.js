@@ -1,7 +1,7 @@
 import { updateObject } from '../tools'
 
 const initialState = {
-  isLoading: false,
+  isLoading: true,
 }
 
 export default function connecting(state=initialState, action) {
@@ -20,9 +20,10 @@ export default function connecting(state=initialState, action) {
         playerID: action.id,
       }
 
-    case 'CONNECTING':
+    case 'UPDATE_ROOM':
+    case 'JOIN_ROOM_ERROR':
       return updateObject(state, {
-        isLoading: action.connecting,
+        isLoading: false,
       })
 
     default:

@@ -29,7 +29,7 @@ const EmptyPlayer = props => (
 )
 
 const mapStateToProps = (state, ownProps) => {
-  const player = state.room.users[ownProps.num - 1]
+  const player = state.roomUsers[ownProps.num - 1]
   return {
     isEmpty: player === undefined,
     playerName: player ? player.name : '',

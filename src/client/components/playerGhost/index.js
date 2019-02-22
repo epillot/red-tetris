@@ -27,11 +27,11 @@ const playerGhost = ({ name, ghost, num, isPlaying }) => console.log(`-------${n
 )
 
 const mapStateToProps = (state, ownProps) => {
-  const user = state.room.users.filter(user => user.id !== state.connecting.playerID)[ownProps.num]
+  const user = state.roomUsers.filter(user => user.id !== state.connecting.playerID)[ownProps.num]
   return {
     name: user ? user.name : '',
     ghost: user ? state.playersGhosts[user.id] : null,
-    isPlaying: state.game.isPlaying
+    isPlaying: user ? user.isPlaying : false
   }
 }
 

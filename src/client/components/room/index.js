@@ -64,8 +64,8 @@ const room = ({ roomId, isMaster, isPlaying, startGame, stopGame }) => (
 const mapStateToProps = (state) => {
   return {
     roomId: state.room.id,
-    isMaster: state.room.users[0].id === state.connecting.playerID,
-    isPlaying: state.game.isPlaying
+    isMaster: state.roomUsers[0].id === state.connecting.playerID,
+    isPlaying: state.room.isPlaying
   }
 }
 

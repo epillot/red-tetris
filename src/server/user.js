@@ -4,7 +4,7 @@ export default class User {
     this.socket = socket
     this.id = socket.id
     this.room = false
-    this.indexPiece = 0
+    this.isPlaying = false
     //this.tetris = null
   }
 
@@ -26,11 +26,17 @@ export default class User {
     this.socket.to(roomId).emit('action', action)
   }
 
+  initGame() {
+    this.indexPiece = 0
+    this.isPlaying = true
+  }
+
   getData() {
     return {
       name: this.name,
       id: this.id,
       tetris: this.tetris,
+      isPlaying: this.isPlaying,
     }
   }
 
