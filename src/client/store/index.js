@@ -5,7 +5,7 @@ import io from 'socket.io-client'
 import {storeStateMiddleWare} from '../middleware/storeStateMiddleWare'
 import reducer from '../reducers'
 import params from '../../../params'
-import { tryNewPiece, server } from '../actions'
+import { tryNewPiece, server, keyEvents } from '../actions'
 import { isPossible, addBlackLines } from '../tools'
 
 
@@ -17,6 +17,16 @@ const socketIoMiddleWare = socket => ({dispatch, getState}) => {
       } else if (action.type === 'UPDATE_GHOST' && action.lines > 0) {
         dispatch(action)
         dispatch(server.updateTetris(addBlackLines(getState().tetris, action.lines), 0, false))
+      } else if (action.type === 'UPDATE_ROOM') {
+        dispatch(action)
+        const winner = action.room.users.find(user => user.win === true)
+        if (winner && winner.id == getState().connecting.playerID) {
+          const piece = getState().piece
+          if (piece) {
+            clearInterval(piece.interval)
+            removeEventListener('keydown', keyEvents)
+          }
+        }
       } else
         dispatch(action)
     })
@@ -93,7 +103,7 @@ const socket = io(params.server.url, {query})
 const store = createStore(
   reducer,
   {},
-  applyMiddleware(socketIoMiddleWare(socket), thunk, animationMiddleWare))//, createLogger()))//{
+  applyMiddleware(socketIoMiddleWare(socket), thunk, animationMiddleWare, createLogger()))//{
     // predicate: (_, action) => {
     //   switch (action.type) {
     //     case 'UPDATE_TETRIS':

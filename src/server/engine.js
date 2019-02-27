@@ -12,6 +12,7 @@ export default class Engine {
 
       console.log('Socket connected: ' + socket.id)
       const user = new User(socket)
+
       const { roomId, name } = socket.handshake.query
       if (roomId && name) {
         user.name = name
@@ -54,10 +55,27 @@ export default class Engine {
           const room = Game.getRoomByMaster(user)
           if (room && !room.isPlaying) {
             room.initGame()
+            // this.sendActionToRoom(room.id, {
+            //   type: 'UPDATE_ROOM',
+            //   room: room.getData(),
+            // })
+            // this.sendActionToRoom(room.id, {
+            //   type: 'NEW_PIECE',
+            //   piece: room.getNextPiece(0),
+            //   first: true,
+            // })
             this.sendActionToRoom(room.id, {
-              type: 'NEW_PIECE',
-              piece: room.getNextPiece(0),
-              first: true,
+              actions: [
+                {
+                  type: 'UPDATE_ROOM',
+                  room: room.getData(),
+                },
+                {
+                  type: 'NEW_PIECE',
+                  piece: room.getNextPiece(0),
+                  first: true,
+                }
+              ],
             })
           }
         }
@@ -85,13 +103,18 @@ export default class Engine {
           }
         }
 
-        // else if (action.type === 'server/GAME_OVER') {
-        //
-        //   const room = Game.getRoomById(user.room)
-        //   if (room) {
-        //     user.gameOver = true
-        //   }
-        // }
+        else if (action.type === 'server/GAME_OVER') {
+
+          const room = Game.getRoomById(user.room)
+          if (room) {
+            user.gameOver = true
+            room.checkWinner()
+            this.sendActionToRoom(room.id, {
+              type: 'UPDATE_ROOM',
+              room: room.getData(),
+            })
+          }
+        }
 
       })
     })

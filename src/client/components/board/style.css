@@ -35,11 +35,11 @@
 }
 
 .gameOver {
-  font-size: 60px;
+  font-size: 50px;
   color: #770000;
   font-style: italic;
   font-weight: bold;
-  transform: rotate(-50deg);
+  /* transform: rotate(-50deg); */
 }
 
 .block {

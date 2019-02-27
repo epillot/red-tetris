@@ -6,8 +6,8 @@ import css from './app.css'
 
 
 
-const App = ({ nickname, nicknameError, partyCode, room, roomError, editName, editCode, createRoom, joinRoom, removeError, isLoading}) => {
-  if (isLoading) {
+const App = ({ nickname, nicknameError, partyCode, room, roomError, editName, editCode, createRoom, joinRoom, removeError, isLoading, roomLoading}) => {
+  if (isLoading || roomLoading) {
     return (
       <div className='appContainer'>
         <div className='connecting'>
@@ -75,6 +75,7 @@ const mapStateToProps = (state) => {
     room: state.room,
     roomError: state.ui.roomError,
     isLoading: state.connecting.isLoading,
+    roomLoading: state.connecting.roomLoading,
   }
 }
 

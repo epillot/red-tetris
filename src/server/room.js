@@ -54,5 +54,13 @@ export default class Room {
     return piece
   }
 
+  checkWinner() {
+    const usersLeft = this.users.filter(user => user.gameOver !== true)
+    if (usersLeft.length === 1) {
+      usersLeft[0].win = true
+      this.isPlaying = false
+      console.log(usersLeft[0]);
+    }
+  }
 
 }

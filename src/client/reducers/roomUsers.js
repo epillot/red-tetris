@@ -1,7 +1,7 @@
 import { updateObject } from '../tools'
 
-const updateUsers = (state, action) => {
-  return state.map(user => updateObject(user, {isPlaying: true}))
+const updateUsers = (state, action, update) => {
+  return state.map(user => updateObject(user, update))
 }
 
 export default function roomUsers(state=[], action) {
@@ -11,8 +11,8 @@ export default function roomUsers(state=[], action) {
     case 'UPDATE_ROOM':
       return action.room.users
 
-    case 'UPDATE_TIMER':
-      return updateUsers(state, action)
+    case 'BEGIN_GAME':
+      return updateUsers(state, action, {isPlaying: true})
 
     default:
       return state

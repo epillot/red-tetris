@@ -29,6 +29,9 @@ export default class User {
   initGame() {
     this.indexPiece = 0
     this.isPlaying = true
+    this.gameOver = false
+    this.win = false
+    this.tetris = undefined
   }
 
   getData() {
@@ -37,6 +40,8 @@ export default class User {
       id: this.id,
       tetris: this.tetris,
       isPlaying: this.isPlaying,
+      gameOver: this.gameOver,
+      win: this.win,
     }
   }
 

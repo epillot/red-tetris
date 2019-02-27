@@ -13,7 +13,7 @@ export default function room(state=null, action) {
     case 'JOIN_ROOM_ERROR':
       return null
 
-    case 'UPDATE_TIMER':
+    case 'BEGIN_GAME':
       return updateObject(state, {isPlaying: true})
 
     default:

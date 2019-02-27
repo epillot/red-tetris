@@ -70,7 +70,7 @@ const nextTurn = (coords) => (dispatch, getState) => {
 
 export const tryNewPiece = action => async (dispatch, getState) => {
   if (action.first)
-    await dispatch(startGameTimer())
+    await dispatch(startGame())
   if (f.isPossible(getState().tetris, action.piece.coords)) {
     dispatch(action)
     addEventListener('keydown', keyEvents)
@@ -80,24 +80,8 @@ export const tryNewPiece = action => async (dispatch, getState) => {
   }
 }
 
-const startGameTimer = () => (dispatch, getState) => {
-  let timer = 3
-  dispatch(updateTimer(timer))
-  return new Promise(resolve => {
-    const interval = setInterval(() => {
-      timer--
-      if (timer > 0) {
-        dispatch(updateTimer(timer))
-      } else {
-        clearInterval(interval)
-        resolve()
-      }
-    }, 1000)
-  })
-}
-
-export const maybeFirstPiece = isFirst => (dispatch, getState) => {
-  if (!isFirst) return Promise.resolve()
+const startGame = () => (dispatch, getState) => {
+  dispatch(beginGame())
   let timer = 3
   dispatch(updateTimer(timer))
   return new Promise(resolve => {
@@ -135,13 +119,6 @@ export const movePiece = (coords, rotate=null) => {
   }
 }
 
-const putPiece = (coords) => {
-  return {
-    type: types.PUT_PIECE,
-    coords,
-  }
-}
-
 const updateTetris = (tetris) => {
   return {
     type: types.UPDATE_TETRIS,
@@ -168,5 +145,11 @@ const updateTimer = (timer) => {
   return {
     type: 'UPDATE_TIMER',
     timer,
+  }
+}
+
+const beginGame = () => {
+  return {
+    type: 'BEGIN_GAME',
   }
 }

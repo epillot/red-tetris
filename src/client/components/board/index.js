@@ -41,17 +41,19 @@ const getBlocks = () => {
 //   </div>
 // )
 
-const board = ({ timer, gameOver }) => (
-  <div className={'board' + (gameOver ? ' boardGameOver' : '')}>
+const board = ({ timer, gameOver, win }) => (
+  <div className={'board' + (gameOver || win ? ' boardGameOver' : '')}>
     {!timer && getBlocks()}
     <div className='wrapper'>
       {timer && <div className='timer'>{timer}</div>}
       {gameOver && <span className='gameOver'>GAME OVER</span>}
+      {win && <span className='gameOver'>YOU WIN !</span>}
     </div>
   </div>
 )
 
 const mapStateToProps = (state) => {
+  const self = state.roomUsers.find(user => user.id === state.connecting.playerID)
   return {
     //tetris: state.tetris,
     //coords: state.coords,
@@ -59,7 +61,8 @@ const mapStateToProps = (state) => {
     //getStyle: state.getStyle,
     //isPlaying: state.isPlaying,
     timer: state.game.timer,
-    gameOver: state.game.gameOver,
+    gameOver: self.gameOver,
+    win: self.win,
   }
 }
 
