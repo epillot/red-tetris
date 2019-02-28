@@ -9,7 +9,7 @@ import './style.css'
 
 // const TetrisGhost=
 
-const room = ({ roomId, isMaster, isPlaying, startGame, stopGame }) => (
+const room = ({ roomId, isMaster, isPlaying, startGame }) => (
   <div className='roomContainer'>
 
     <div className='roomSide roomSideLeft'>
@@ -38,7 +38,6 @@ const room = ({ roomId, isMaster, isPlaying, startGame, stopGame }) => (
           ? <button className='startbutton' onClick={startGame}>Start game</button>
           : <p className='waitingMaster'>Waiting for the master to start the game...</p>)}
         {isPlaying && <p className='waitingMaster'>A game is in progress !</p>}
-        {isPlaying && isMaster && <button className='' onClick={stopGame}>Stop game</button>}
       </div>
     </div>
 
@@ -72,12 +71,13 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     startGame: () => {
-      dispatch(actions.server.startGame())
+      //dispatch(actions.server.startGame())
+      const action = actions.newPiece()
+      action.first= true
+      dispatch(actions.tryNewPiece(action))
+      // addEventListener('keydown', actions.keyEvents)
+      // dispatch({type: 'GRAVITY', interval: actions.gravity()})
     },
-    stopGame: () => {
-      alert('jajaja')
-    },
-
   }
 }
 

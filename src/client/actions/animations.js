@@ -19,7 +19,7 @@ const getPieceAnimationStyle = (coords, opacity) => {
 
 export const pieceAnimation = coords => {
   return {
-    getLoop: (dispatch, resolve, getStop) => {
+    getLoop: ({ dispatch, getState }, resolve, getStop) => {
       let opacity = 1
       let step = -0.05
       return function loop() {
@@ -28,7 +28,7 @@ export const pieceAnimation = coords => {
           step = -step
         opacity += step
         if (opacity <= 1 && !getStop().stopped) {
-          dispatch(animationStep(getPieceAnimationStyle(coords, opacity)))
+          dispatch(animationStep(getPieceAnimationStyle(getState().piece.coords, opacity)))
           requestAnimationFrame(loop)
         } else resolve(getStop().stop)
       }
@@ -55,7 +55,7 @@ const getLineAnimationStyle = (lines, opacity, b) => {
 
 export const lineAnimation = lines => {
   return {
-    getLoop: (dispatch, resolve, getStop) => {
+    getLoop: ({ dispatch }, resolve, getStop) => {
       if (!lines.length) return null
       let opacity = 1;
       let nb = 1 / 0.05
@@ -77,7 +77,7 @@ export const lineAnimation = lines => {
 
 export const spaceAnimation = (coords, dest) => {
   return {
-    getLoop: (dispatch, resolve, getStop) => {
+    getLoop: ({ dispatch }, resolve, getStop) => {
       const diff = dest[0][1] - coords[0][1]
       let yi = 0
 
@@ -128,7 +128,7 @@ const getTranslationData = (lines) => {
 
 export const translateAnimation = (tetris, lines) => {
   return {
-    getLoop: (dispatch, resolve, getStop) => {
+    getLoop: ({ dispatch }, resolve, getStop) => {
       if (!lines.length) return null
       let yi = 0
       const data = getTranslationData(lines)
@@ -152,11 +152,5 @@ const animationStep = (getStyle) => {
   return {
     type: types.ANIMATION_STEP,
     getStyle,
-  }
-}
-
-const animationOver = () => {
-  return {
-    type: types.ANIMATION_OVER,
   }
 }

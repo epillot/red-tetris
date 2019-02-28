@@ -50,11 +50,15 @@ const keyEvent = keyCode => (dispatch, getState) => {
   }
 }
 
-const nextTurn = (coords) => (dispatch, getState) => {
-  dispatch(pieceAnimation(coords)).then(() => {
+const nextTurn = () => (dispatch, getState) => {
+
+  console.log('before', getState().piece.coords);
+  dispatch(pieceAnimation()).then(() => {
+    console.log('after', getState().piece.coords);
     const { tetris, piece: { color } } = getState()
-    let newTetris = f.copyTetris(tetris)
-    coords.forEach(([x, y]) => {
+    let newTetris = f.copyTetris(getState().tetris)
+    dispatch(server.updateTetris(f.addBlackLines(getState().tetris, 2), 0, false, 2))
+    getState().piece.coords.forEach(([x, y]) => {
       if (y >= 0)
         newTetris[y][x] = color
     })
@@ -62,10 +66,13 @@ const nextTurn = (coords) => (dispatch, getState) => {
     dispatch(lineAnimation(lines)).then(() => {
       dispatch(updateTetris(f.removeLinesFirst(newTetris, lines)))
       dispatch(translateAnimation(newTetris, lines)).then(() => {
-        dispatch(server.updateTetris(f.removeLines(newTetris, lines), lines.length - 1))
+        dispatch(updateTetris(f.removeLines(newTetris, lines), lines.length - 1))
       })
     })
   })
+  // setTimeout(() => {
+  //   dispatch(server.updateTetris(f.addBlackLines(getState().tetris, 2), 0, false, 2))
+  // }, 250)
 }
 
 export const tryNewPiece = action => async (dispatch, getState) => {
@@ -151,5 +158,13 @@ const updateTimer = (timer) => {
 const beginGame = () => {
   return {
     type: 'BEGIN_GAME',
+  }
+}
+
+export const newPiece = () => {
+  const piece = f.newTetriminos()
+  return {
+    type: 'NEW_PIECE',
+    piece,
   }
 }

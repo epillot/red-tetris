@@ -19,10 +19,10 @@ export default function game(state=initialState, action) {
         timer: action.timer,
       })
 
-    case 'server/GAME_OVER':
-      return updateObject(state, {
-        gameOver: true,
-      })
+    // case 'server/GAME_OVER':
+    //   return updateObject(state, {
+    //     gameOver: true,
+    //   })
 
     default:
       return state

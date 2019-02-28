@@ -11,8 +11,8 @@ export default function roomUsers(state=[], action) {
     case 'UPDATE_ROOM':
       return action.room.users
 
-    case 'BEGIN_GAME':
-      return updateUsers(state, action, {isPlaying: true})
+    // case 'BEGIN_GAME':
+    //   return updateUsers(state, action, {isPlaying: true})
 
     default:
       return state

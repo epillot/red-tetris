@@ -55,27 +55,11 @@ export default class Engine {
           const room = Game.getRoomByMaster(user)
           if (room && !room.isPlaying) {
             room.initGame()
-            // this.sendActionToRoom(room.id, {
-            //   type: 'UPDATE_ROOM',
-            //   room: room.getData(),
-            // })
-            // this.sendActionToRoom(room.id, {
-            //   type: 'NEW_PIECE',
-            //   piece: room.getNextPiece(0),
-            //   first: true,
-            // })
             this.sendActionToRoom(room.id, {
-              actions: [
-                {
-                  type: 'UPDATE_ROOM',
-                  room: room.getData(),
-                },
-                {
-                  type: 'NEW_PIECE',
-                  piece: room.getNextPiece(0),
-                  first: true,
-                }
-              ],
+              type: 'NEW_PIECE',
+              piece: room.getNextPiece(0),
+              first: true,
+              room: room.getData(),
             })
           }
         }

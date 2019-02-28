@@ -13,8 +13,8 @@ export default function tetris(state=null, action) {
 
   switch (action.type) {
 
-    case 'NEW_PIECE':
-      return action.first ? newTetris() : state
+    case 'BEGIN_GAME':
+      return newTetris()
 
     case 'server/UPDATE_TETRIS':
     case 'UPDATE_TETRIS':

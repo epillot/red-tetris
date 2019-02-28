@@ -3,7 +3,7 @@ import { updateObject } from '../tools'
 const getPlayersGhosts = (state, { room }) => {
   const output = Object.assign({}, state)
   const users = room.users
-  
+
   Object.keys(output).forEach(id => {
     if (!users.find(user => user.id === id))
       delete output[id]
@@ -14,6 +14,14 @@ const getPlayersGhosts = (state, { room }) => {
       output[user.id] = user.tetris
   })
   console.log(output);
+  return output
+}
+
+const initGhosts = state => {
+  const output = Object.assign({}, state)
+  Object.keys(output).forEach(id => {
+    output[id] = undefined
+  })
   return output
 }
 
@@ -28,6 +36,9 @@ export default function playersGhosts(state={}, action) {
       return updateObject(state, {
         [action.id]: action.tetris,
       })
+
+    case 'BEGIN_GAME':
+      return initGhosts(state)
 
     default:
       return state

@@ -13,6 +13,8 @@ const socketIoMiddleWare = socket => ({dispatch, getState}) => {
   if (socket) {
     socket.on('action', action => {
       if (action.type === 'NEW_PIECE') {
+        if (action.room)
+          dispatch({type: 'UPDATE_ROOM', room: action.room})
         dispatch(tryNewPiece(action))
       } else if (action.type === 'UPDATE_GHOST' && action.lines > 0) {
         dispatch(action)
@@ -20,7 +22,7 @@ const socketIoMiddleWare = socket => ({dispatch, getState}) => {
       } else if (action.type === 'UPDATE_ROOM') {
         dispatch(action)
         const winner = action.room.users.find(user => user.win === true)
-        if (winner && winner.id == getState().connecting.playerID) {
+        if (winner && winner.id === getState().connecting.playerID) {
           const piece = getState().piece
           if (piece) {
             clearInterval(piece.interval)
@@ -60,7 +62,7 @@ const animationMiddleWare = store => next => action => {
     //console.log('set up listener', action.name)
     addEventListener('visibilitychange', stop)
 
-    const loop = action.getLoop(store.dispatch, resolve, getStop)
+    const loop = action.getLoop(store, resolve, getStop)
     if (document.hidden || !loop) return resolve(stop)
 
     requestAnimationFrame(loop)

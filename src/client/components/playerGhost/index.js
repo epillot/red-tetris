@@ -23,8 +23,8 @@ const playerGhost = ({ name, ghost, num, isPlaying, gameOver, win }) => console.
       <div className='wrapper'>
         {ghost === undefined && !isPlaying && <p>READY</p>}
         {ghost === null && <p>Waiting for player</p>}
-        {gameOver && <i className='material-icons md-48 md-dark'>thumb_down_alt</i>}
-        {win && <i className='material-icons md-48 md-dark'>thumb_up_alt</i>}
+        {gameOver && <i className='material-icons md-48 md-dark'>sentiment_very_dissatisfied</i>}
+        {win && <i className='material-icons md-48 md-dark'>sentiment_very_satisfied</i>}
       </div>
     </div>
   </div>
