@@ -27,7 +27,7 @@ export const joinRoom = (id, nickname) => {
   }
 }
 
-export const updateTetris = (tetris, lines=0, newPiece=true, wl=0) => {
+export const updateTetris = (tetris, lines=0, newPiece=true, wl=0, shouldWait=false) => {
 
   return {
     type: 'server/UPDATE_TETRIS',
@@ -35,6 +35,7 @@ export const updateTetris = (tetris, lines=0, newPiece=true, wl=0) => {
     lines,
     newPiece,
     wl,
+    shouldWait,
   }
 }
 

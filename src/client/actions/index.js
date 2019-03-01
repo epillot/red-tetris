@@ -17,7 +17,7 @@ export const gravity = () => {
       } else {
         clearInterval(interval)
         removeEventListener('keydown', keyEvents)
-        dispatch(nextTurn(coords))
+        dispatch(nextTurn2())
       }
     })
   }, 700)
@@ -45,19 +45,22 @@ const keyEvent = keyCode => (dispatch, getState) => {
     removeEventListener('keydown', keyEvents)
     const proj = f.getPieceProjection(tetris, {coords})
     dispatch(spaceAnimation(coords, proj)).then(() => {
-      dispatch(nextTurn(proj))
+      dispatch(nextTurn2())
     })
   }
 }
 
+const ev = new CustomEvent('animations over')
+
 const nextTurn = () => (dispatch, getState) => {
 
   console.log('before', getState().piece.coords);
+  dispatch({type: 'ANIMATION_STARTED'})
   dispatch(pieceAnimation()).then(() => {
     console.log('after', getState().piece.coords);
     const { tetris, piece: { color } } = getState()
     let newTetris = f.copyTetris(getState().tetris)
-    dispatch(server.updateTetris(f.addBlackLines(getState().tetris, 2), 0, false, 2))
+    dispatch(blackLines(8))
     getState().piece.coords.forEach(([x, y]) => {
       if (y >= 0)
         newTetris[y][x] = color
@@ -67,12 +70,26 @@ const nextTurn = () => (dispatch, getState) => {
       dispatch(updateTetris(f.removeLinesFirst(newTetris, lines)))
       dispatch(translateAnimation(newTetris, lines)).then(() => {
         dispatch(updateTetris(f.removeLines(newTetris, lines), lines.length - 1))
+        dispatchEvent(ev)
+        dispatch({type: 'ANIMATION_OVER'})
       })
     })
   })
   // setTimeout(() => {
   //   dispatch(server.updateTetris(f.addBlackLines(getState().tetris, 2), 0, false, 2))
   // }, 250)
+}
+
+const nextTurn2 = () => (dispatch, getState) => {
+  dispatch(pieceAnimation()).then(() => {
+    dispatch(putPiece(getState().piece))
+    dispatch(lineAnimation()).then(() => {
+      dispatch(translateAnimation()).then(() => {
+        dispatch(removeLines())
+        dispatch(tryNewPiece(newPiece()))
+      })
+    })
+  })
 }
 
 export const tryNewPiece = action => async (dispatch, getState) => {
@@ -166,5 +183,26 @@ export const newPiece = () => {
   return {
     type: 'NEW_PIECE',
     piece,
+  }
+}
+
+export const putPiece = piece => {
+  return {
+    type: 'PUT_PIECE',
+    piece,
+  }
+}
+
+export const blackLines = nbLines => {
+  return {
+    type: 'BLACK_LINES',
+    nbLines,
+    shouldWait: true,
+  }
+}
+
+const removeLines = () => {
+  return {
+    type: 'REMOVE_LINES'
   }
 }

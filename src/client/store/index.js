@@ -8,7 +8,6 @@ import params from '../../../params'
 import { tryNewPiece, server, keyEvents } from '../actions'
 import { isPossible, addBlackLines } from '../tools'
 
-
 const socketIoMiddleWare = socket => ({dispatch, getState}) => {
   if (socket) {
     socket.on('action', action => {
@@ -43,6 +42,18 @@ const socketIoMiddleWare = socket => ({dispatch, getState}) => {
 }
 
 const animationMiddleWare = store => next => action => {
+
+  if (action.shouldWait && store.getState().game.isAnimating) {
+    const fireAction = () => {
+      console.log('AAAAAAAAAAaAAAAA');
+      delete action.shouldWait
+      store.dispatch(action)
+      removeEventListener('animations over', fireAction)
+    }
+    addEventListener('animations over', fireAction)
+    return
+  }
+
   if (!action.getLoop)
     return next(action)
 

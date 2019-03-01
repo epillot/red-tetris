@@ -22,7 +22,10 @@ export default function piece(state=null, action) {
 
     case 'server/UPDATE_TETRIS':
     case 'UPDATE_TETRIS':
-      return action.newPiece || !state ? null : updateObject(state, {coords: state.coords.map(([x, y]) => [x, y - action.wl]) })
+      return action.newPiece ? null : state
+
+    case 'PUT_PIECE':
+      return null
 
     default:
       return state

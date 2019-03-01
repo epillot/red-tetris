@@ -53,9 +53,10 @@ const getLineAnimationStyle = (lines, opacity, b) => {
   return output
 }
 
-export const lineAnimation = lines => {
+export const lineAnimation = () => {
   return {
-    getLoop: ({ dispatch }, resolve, getStop) => {
+    getLoop: ({ dispatch, getState }, resolve, getStop) => {
+      const lines = f.getCompleteLines(getState().tetris)
       if (!lines.length) return null
       let opacity = 1;
       let nb = 1 / 0.05
@@ -126,9 +127,10 @@ const getTranslationData = (lines) => {
   return data
 }
 
-export const translateAnimation = (tetris, lines) => {
+export const translateAnimation = () => {
   return {
-    getLoop: ({ dispatch }, resolve, getStop) => {
+    getLoop: ({ dispatch, getState }, resolve, getStop) => {
+      const lines = f.getCompleteLines(getState().tetris)
       if (!lines.length) return null
       let yi = 0
       const data = getTranslationData(lines)
