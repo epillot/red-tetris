@@ -5,10 +5,14 @@ import io from 'socket.io-client'
 import {storeStateMiddleWare} from '../middleware/storeStateMiddleWare'
 import reducer from '../reducers'
 import params from '../../../params'
-import { tryNewPiece, server, keyEvents } from '../actions'
+import { tryNewPiece, server, keyEvents, blackLines } from '../actions'
 import { isPossible, addBlackLines } from '../tools'
 
 const socketIoMiddleWare = socket => ({dispatch, getState}) => {
+  addEventListener('keydown', ({ keyCode }) => {
+    if (keyCode === 27 && getState().tetris)
+      dispatch(blackLines(2))
+  })
   if (socket) {
     socket.on('action', action => {
       if (action.type === 'NEW_PIECE') {
@@ -121,7 +125,7 @@ const store = createStore(
       switch (action.type) {
         case 'REMOVE_LINES':
         case 'PUT_PIECE':
-        case 'ANIMATION_STEP':
+        case 'BLACK_LINES':
           return true
         default: return false
       }

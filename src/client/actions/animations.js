@@ -42,7 +42,8 @@ export const pieceAnimation = coords => {
 //   return {}
 // }
 
-const getLineAnimationStyle = (lines, opacity, b) => {
+const getLineAnimationStyle = (getState, opacity, b) => {
+  const lines = f.getCompleteLines(getState().tetris)
   const output = []
   const style = {opacity, filter: `brightness(${b}%)`}
   lines.forEach(y => {
@@ -77,18 +78,20 @@ export const lineAnimation = () => {
   }
 }
 
-export const spaceAnimation = (coords, dest) => {
+export const spaceAnimation = () => {
   return {
-    getLoop: ({ dispatch }, resolve, getStop) => {
-      const diff = dest[0][1] - coords[0][1]
+    getLoop: ({ dispatch, getState }, resolve, getStop) => {
+      //const diff = dest[0][1] - coords[0][1]
       let yi = 0
 
       return function loop() {
+        //const { piece, tetris } = getState()
         //console.log('in loop', 'space animation');
-        yi += 2
-        if (yi === diff + 1) yi = diff
-        const newCoords = coords.map(([x, y]) => [x, y+yi])
-        if (yi <= diff && !getStop().stopped) {
+        //yi += 1
+        //if (yi === diff + 1) yi = diff
+        const newCoords = getState().piece.coords.map(([x, y]) => [x, y + 1])
+        if (f.isPossible(getState().tetris, newCoords) && !getStop().stopped) {
+          console.log(newCoords);
           dispatch(movePiece(newCoords))
           requestAnimationFrame(loop)
         } else resolve(getStop().stop)
@@ -104,7 +107,10 @@ export const spaceAnimation = (coords, dest) => {
 //   return {transform: 'translate(0px, ' +translateY+ 'px)'}
 // }
 
-const getTranslateAnimationStyle = (lines, data, yi) => {
+const getTranslateAnimationStyle = (getState, yi) => {
+  const lines = f.getCompleteLines(getState().tetris)
+  const data = getTranslationData(lines)
+  const max = Math.max(...data)
   const output = []
   for (let y = 0; y < 20; y++) {
     let translateY = data[y]
@@ -174,15 +180,15 @@ export const disparitionLinesAnimation = () => {
       return function loop() {
         //console.log('in loop', 'line animation');
         if (opacity >= 0 && !getStop().stopped) {
-          opacity -= 0.05
+          opacity -= 0.01
           b -= bi
-          dispatch(animationStep(getLineAnimationStyle(lines, opacity, b)))
+          dispatch(animationStep(getLineAnimationStyle(getState, opacity, b)))
           requestAnimationFrame(loop)
         } else if (yi <= max && !getStop().stopped) {
           yi += 0.5
           if (yi >= max + 1 && yi < max + 5)
             yi = max
-          dispatch(animationStep(getTranslateAnimationStyle(lines, data, yi)))
+          dispatch(animationStep(getTranslateAnimationStyle(getState, yi)))
           requestAnimationFrame(loop)
         } else resolve(getStop().stop)
       }

@@ -157,7 +157,7 @@ export const removeLines = (tetris, lines) => {
   if (!lines)
     lines = getCompleteLines(tetris)
   if (!lines.length) return tetris
-  const newTetris = copyTetris(tetris)
+  const newTetris = tetris.slice()
   lines.reverse().forEach(line => {
     newTetris.splice(line, 1)
     newTetris.unshift(['', '', '', '', '', '', '', '', '', ''])
@@ -184,4 +184,15 @@ export const addBlackLines = (tetris, lines) => {
     newTetris.push(['black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black'])
   }
   return newTetris
+}
+
+export const select = (state, props) => {
+  let output = state
+  if (props) {
+    const fields = props.split('.')
+    fields.forEach(field => {
+      output = output[field]
+    })
+  }
+  return output
 }

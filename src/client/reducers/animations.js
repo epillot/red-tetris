@@ -25,7 +25,7 @@ export default function animations(state=[], action) {
 
     case 'server/UPDATE_TETRIS':
     case 'UPDATE_TETRIS':
-    case 'END_ANIMATION':
+    case 'REMOVE_LINES':
       return []
 
     default:

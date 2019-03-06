@@ -27,6 +27,9 @@ export default function piece(state=null, action) {
     case 'PUT_PIECE':
       return null
 
+    case 'BLACK_LINES':
+      return state && updateObject(state, {coords: state.coords.map(([x, y]) => [x, y - action.nbLines])})
+
     default:
       return state
 

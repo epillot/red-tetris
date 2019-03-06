@@ -37,18 +37,25 @@ const putPiece = (state, action) => {
   })
 }
 
-const removeLines2 = state => {
-  const lines = getCompleteLines(state)
-  return state.map((line, y) => {
-    if (y < lines.length)
-      return getEmptyLine()
-    let count = 0
-    for (let i = 0; i < lines.length; i++) {
-      if (y <= lines[i])
-        count++
+const isComplete = line => {
+  if (line[0] === 'black')
+    return false
+  for (let i = 0; i < line.length; i++) {
+    if (line[i] === '')
+      return false
+  }
+  return true
+}
+
+const removeLines3 = state => {
+  const output = state.slice()
+  for (let y = 0; y < output.length; y++) {
+    if (isComplete(output[y])) {
+      output.splice(y, 1)
+      output.unshift(getEmptyLine())
     }
-    return state[y - count]
-  })
+  }
+  return output
 }
 
 
@@ -67,10 +74,10 @@ export default function tetris(state=null, action) {
       return putPiece(state, action)
 
     case 'REMOVE_LINES':
-      return removeLines2(state)
+      return removeLines3(state)
 
     case 'BLACK_LINES':
-      return addBlackLines(state)
+      return addBlackLines(state, action)
 
     default:
       return state

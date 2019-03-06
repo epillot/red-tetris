@@ -26,25 +26,25 @@ export const gravity = () => {
 export const keyEvents = ({ keyCode }) => store.dispatch(keyEvent(keyCode))
 
 const keyEvent = keyCode => (dispatch, getState) => {
-  const { tetris, piece: { coords, rotate, type, interval } } = getState()
+  //const { tetris, piece: { coords, rotate, type, interval } } = getState()
   if (keyCode === 37 || keyCode === 39 || keyCode === 40) {
     const i = keyCode === 37 ? -1 : (keyCode === 39 ? 1 : 0)
     const j = keyCode === 40 ? 1 : 0
-    const newCoords = coords.map(([x, y]) => [x+i, y+j])
-    if (f.isPossible(tetris, newCoords)) {
+    const newCoords = getState().piece.coords.map(([x, y]) => [x+i, y+j])
+    if (f.isPossible(getState().tetris, newCoords)) {
       dispatch(movePiece(newCoords))
     }
   } else if (keyCode === 38) {
-    const change = rotations[type][rotate];
-    let newCoords = coords.map(([x, y], i) => [x + change[i][0], y + change[i][1]])
-    if (f.isPossible(tetris, newCoords) || (newCoords = f.tryTranslation(tetris, newCoords))) {
-      dispatch(movePiece(newCoords, (rotate+1)%rotations[type].length))
+    const change = rotations[getState().piece.type][getState().piece.rotate];
+    let newCoords = getState().piece.coords.map(([x, y], i) => [x + change[i][0], y + change[i][1]])
+    if (f.isPossible(getState().tetris, newCoords) || (newCoords = f.tryTranslation(getState().tetris, newCoords))) {
+      dispatch(movePiece(newCoords, (getState().piece.rotate+1)%rotations[getState().piece.type].length))
     }
   } else if (keyCode === 32) {
-    clearInterval(interval)
+    clearInterval(getState().piece.interval)
     removeEventListener('keydown', keyEvents)
-    const proj = f.getPieceProjection(tetris, {coords})
-    dispatch(spaceAnimation(coords, proj)).then(() => {
+    dispatch(spaceAnimation()).then(() => {
+      dispatch(movePiece(f.getPieceProjection(getState().tetris, getState().piece)))
       dispatch(nextTurn2())
     })
   }
@@ -85,9 +85,9 @@ const nextTurn2 = () => (dispatch, getState) => {
     dispatch(putPiece(getState().piece))
     dispatch(disparitionLinesAnimation()).then(() => {
       dispatch(removeLines())
-      dispatch({type: 'END_ANIMATION'})
       dispatch(tryNewPiece(newPiece()))
     })
+    //dispatch(blackLines(2))
   })
 }
 
