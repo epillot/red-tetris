@@ -154,6 +154,8 @@ export const removeLinesFirst = (tetris, lines) => {
 }
 
 export const removeLines = (tetris, lines) => {
+  if (!lines)
+    lines = getCompleteLines(tetris)
   if (!lines.length) return tetris
   const newTetris = copyTetris(tetris)
   lines.reverse().forEach(line => {

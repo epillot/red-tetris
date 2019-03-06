@@ -2,7 +2,7 @@ import * as types from '../constants/actionTypes'
 import store from '../store'
 import * as f from '../tools'
 import rotations from '../tools/rotations'
-import { lineAnimation, spaceAnimation, translateAnimation, pieceAnimation } from './animations'
+import { lineAnimation, spaceAnimation, translateAnimation, pieceAnimation, disparitionLinesAnimation } from './animations'
 import * as server from './server'
 
 export {server}
@@ -83,11 +83,10 @@ const nextTurn = () => (dispatch, getState) => {
 const nextTurn2 = () => (dispatch, getState) => {
   dispatch(pieceAnimation()).then(() => {
     dispatch(putPiece(getState().piece))
-    dispatch(lineAnimation()).then(() => {
-      dispatch(translateAnimation()).then(() => {
-        dispatch(removeLines())
-        dispatch(tryNewPiece(newPiece()))
-      })
+    dispatch(disparitionLinesAnimation()).then(() => {
+      dispatch(removeLines())
+      dispatch({type: 'END_ANIMATION'})
+      dispatch(tryNewPiece(newPiece()))
     })
   })
 }

@@ -69,7 +69,8 @@ export const lineAnimation = () => {
         if (opacity >= 0 && !getStop().stopped) {
           dispatch(animationStep(getLineAnimationStyle(lines, opacity, b)))
           requestAnimationFrame(loop)
-        } else resolve(getStop().stop)
+        }
+        else resolve(getStop().stop)
       }
     },
     name: 'line animation'
@@ -103,7 +104,7 @@ export const spaceAnimation = (coords, dest) => {
 //   return {transform: 'translate(0px, ' +translateY+ 'px)'}
 // }
 
-const getTranslateAnimationStyle = (data, yi) => {
+const getTranslateAnimationStyle = (lines, data, yi) => {
   const output = []
   for (let y = 0; y < 20; y++) {
     let translateY = data[y]
@@ -112,6 +113,12 @@ const getTranslateAnimationStyle = (data, yi) => {
       output[x + y*10] = {transform: 'translate(0px, ' +translateY+ 'px)'}
     }
   }
+  const style = {opacity: 0}
+  lines.forEach(y => {
+    for (let x = 0; x < 10; x++) {
+      output[x + y*10] = style
+    }
+  })
   return output
 }
 
@@ -147,6 +154,40 @@ export const translateAnimation = () => {
       }
     },
     name: 'translate animation',
+  }
+}
+
+export const disparitionLinesAnimation = () => {
+  return {
+    getLoop: ({ dispatch, getState }, resolve, getStop) => {
+      const lines = f.getCompleteLines(getState().tetris)
+      if (!lines.length) return null
+      let opacity = 1
+      let nb = 1 / 0.05
+      let b = 90
+      let bi = 90 / nb
+
+      let yi = 0
+      const data = getTranslationData(lines)
+      const max = Math.max(...data)
+
+      return function loop() {
+        //console.log('in loop', 'line animation');
+        if (opacity >= 0 && !getStop().stopped) {
+          opacity -= 0.05
+          b -= bi
+          dispatch(animationStep(getLineAnimationStyle(lines, opacity, b)))
+          requestAnimationFrame(loop)
+        } else if (yi <= max && !getStop().stopped) {
+          yi += 0.5
+          if (yi >= max + 1 && yi < max + 5)
+            yi = max
+          dispatch(animationStep(getTranslateAnimationStyle(lines, data, yi)))
+          requestAnimationFrame(loop)
+        } else resolve(getStop().stop)
+      }
+    },
+    name: 'line animation'
   }
 }
 

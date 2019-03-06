@@ -1,4 +1,4 @@
-import { updateObject, getCompleteLines } from '../tools'
+import { updateObject, getCompleteLines, removeLines } from '../tools'
 
 const newTetris = () => {
   const tetris = []
@@ -37,12 +37,17 @@ const putPiece = (state, action) => {
   })
 }
 
-const removeLines = state => {
+const removeLines2 = state => {
   const lines = getCompleteLines(state)
-  return state.map((line, i) => {
-    if (lines.indexOf(i) === -1)
-      return line + lines.length
-    return getEmptyLine()
+  return state.map((line, y) => {
+    if (y < lines.length)
+      return getEmptyLine()
+    let count = 0
+    for (let i = 0; i < lines.length; i++) {
+      if (y <= lines[i])
+        count++
+    }
+    return state[y - count]
   })
 }
 
@@ -62,7 +67,7 @@ export default function tetris(state=null, action) {
       return putPiece(state, action)
 
     case 'REMOVE_LINES':
-      return removeLines(state, action)
+      return removeLines2(state)
 
     case 'BLACK_LINES':
       return addBlackLines(state)

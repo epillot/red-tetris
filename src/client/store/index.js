@@ -116,16 +116,17 @@ const socket = io(params.server.url, {query})
 const store = createStore(
   reducer,
   {},
-  applyMiddleware(socketIoMiddleWare(socket), thunk, animationMiddleWare, createLogger()))//{
-    // predicate: (_, action) => {
-    //   switch (action.type) {
-    //     case 'UPDATE_TETRIS':
-    //     case 'server/UPDATE_TETRIS':
-    //       return true
-    //     default: return false
-    //   }
-    // }
-  //}))
-//)
+  applyMiddleware(socketIoMiddleWare(socket), thunk, animationMiddleWare, createLogger({
+    predicate: (_, action) => {
+      switch (action.type) {
+        case 'REMOVE_LINES':
+        case 'PUT_PIECE':
+        case 'ANIMATION_STEP':
+          return true
+        default: return false
+      }
+    }
+  }))
+)
 
 export default store
