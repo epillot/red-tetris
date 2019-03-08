@@ -5,7 +5,7 @@ import io from 'socket.io-client'
 import {storeStateMiddleWare} from '../middleware/storeStateMiddleWare'
 import reducer from '../reducers'
 import params from '../../../params'
-import { tryNewPiece, server, keyEvents, blackLines } from '../actions'
+import { tryNewPiece, movePiece, server, keyEvents, blackLines } from '../actions'
 import { isPossible, addBlackLines } from '../tools'
 
 const socketIoMiddleWare = socket => ({dispatch, getState}) => {
@@ -45,64 +45,33 @@ const socketIoMiddleWare = socket => ({dispatch, getState}) => {
   }
 }
 
-const animationMiddleWare = store => next => action => {
-
-  if (action.shouldWait && store.getState().game.isAnimating) {
-    const fireAction = () => {
-      console.log('AAAAAAAAAAaAAAAA');
-      delete action.shouldWait
-      store.dispatch(action)
-      removeEventListener('animations over', fireAction)
-    }
-    addEventListener('animations over', fireAction)
-    return
-  }
-
-  if (!action.getLoop)
-    return next(action)
-
-  return new Promise(resolve => {
-    let stopped = false
-
-    const stop = () => {
-      //console.log('---------stop fired---------', action.name)
-      if (document.hidden) {
-        stopped = true
-        resolve(stop)
-      }
-    }
-
-    const getStop = () => ({stopped, stop})
-
-    //console.log('set up listener', action.name)
-    addEventListener('visibilitychange', stop)
-
-    const loop = action.getLoop(store, resolve, getStop)
-    if (document.hidden || !loop) return resolve(stop)
-
-    requestAnimationFrame(loop)
-  }).then((stop) => {
-    /*Le seul moyen de remove proprement le listener stop est de le retourner quand la promesse est resolue*/
-    //console.log('remove listener', action.name)
-    removeEventListener('visibilitychange', stop)
-  })
-}
-
-const animationMiddleWare2 = ({ dispatch }) => next => action => {
+const animationMiddleWare = ({ dispatch, getState }) => next => action => {
 
   if (!action.isAnimation)
     return next(action)
 
-  console.log('salut');
-
   if (document.hidden) return Promise.resolve()
+
+  const nextAction = () => {
+    if (action.type === 'SPACE_ANIMATION') {
+      const newCoords = getState().piece.coords.map(([x, y]) => [x, y + 2])
+      if (isPossible(getState().tetris, newCoords))
+        return movePiece(newCoords)
+      return null
+    }
+
+    const actions = action.actions
+
+    if (actions.length)
+      return actions.shift()
+    return null
+  }
 
   return new Promise(resolve => {
     let stopped = false
-    const actions = action.actions
 
     const stop = () => {
-      console.log('---------stop fired---------', action.name)
+      console.log('---------stop fired---------')
       if (document.hidden) {
         stopped = true
         resolve()
@@ -112,8 +81,9 @@ const animationMiddleWare2 = ({ dispatch }) => next => action => {
     addEventListener('visibilitychange', stop)
 
     const loop = () => {
-      if (actions.length && !stopped) {
-        dispatch(actions.shift())
+      const animAction = nextAction()
+      if (animAction && !stopped) {
+        dispatch(animAction)
         requestAnimationFrame(loop)
       } else {
         resolve()
@@ -157,12 +127,13 @@ const socket = io(params.server.url, {query})
 const store = createStore(
   reducer,
   {},
-  applyMiddleware(socketIoMiddleWare(socket), thunk, animationMiddleWare, animationMiddleWare2, createLogger({
+  applyMiddleware(socketIoMiddleWare(socket), thunk, animationMiddleWare, createLogger({
     predicate: (_, action) => {
       switch (action.type) {
         case 'REMOVE_LINES':
         case 'PUT_PIECE':
         case 'BLACK_LINES':
+        case 'MOVE_PIECE':
           return true
         default: return false
       }
