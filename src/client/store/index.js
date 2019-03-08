@@ -88,6 +88,43 @@ const animationMiddleWare = store => next => action => {
   })
 }
 
+const animationMiddleWare2 = ({ dispatch }) => next => action => {
+
+  if (!action.isAnimation)
+    return next(action)
+
+  console.log('salut');
+
+  if (document.hidden) return Promise.resolve()
+
+  return new Promise(resolve => {
+    let stopped = false
+    const actions = action.actions
+
+    const stop = () => {
+      console.log('---------stop fired---------', action.name)
+      if (document.hidden) {
+        stopped = true
+        resolve()
+      }
+    }
+
+    addEventListener('visibilitychange', stop)
+
+    const loop = () => {
+      if (actions.length && !stopped) {
+        dispatch(actions.shift())
+        requestAnimationFrame(loop)
+      } else {
+        resolve()
+        removeEventListener('visibilitychange', stop)
+      }
+    }
+
+    requestAnimationFrame(loop)
+  })
+}
+
 const parseHash = hash => {
   if (hash[6] !== '[' || hash[hash.length - 1] !== ']' || hash.length - 8 > 15)
     return null
@@ -120,7 +157,7 @@ const socket = io(params.server.url, {query})
 const store = createStore(
   reducer,
   {},
-  applyMiddleware(socketIoMiddleWare(socket), thunk, animationMiddleWare, createLogger({
+  applyMiddleware(socketIoMiddleWare(socket), thunk, animationMiddleWare, animationMiddleWare2, createLogger({
     predicate: (_, action) => {
       switch (action.type) {
         case 'REMOVE_LINES':

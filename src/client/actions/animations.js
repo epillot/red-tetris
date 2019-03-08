@@ -37,6 +37,22 @@ export const pieceAnimation = coords => {
   }
 }
 
+export const pieceAnimation2 = () => (dispatch, getState) => {
+  let opacity = 1
+  let step = -0.01
+  const actions = []
+  while (opacity <= 1) {
+    if (opacity <= 0.5)
+      step = -step
+    opacity += step
+    actions.push(animationStep(getPieceAnimationStyle(getState().piece.coords, opacity)))
+  }
+  return dispatch({
+    isAnimation: true,
+    actions,
+  })
+}
+
 // const getLineAnimationStyle = (lines, opacity, b) => (x, y) => {
 //   if (lines.indexOf(y) !== -1) return {opacity, filter: `brightness(${b}%)`}
 //   return {}
@@ -82,16 +98,15 @@ export const spaceAnimation = () => {
   return {
     getLoop: ({ dispatch, getState }, resolve, getStop) => {
       //const diff = dest[0][1] - coords[0][1]
-      let yi = 0
 
       return function loop() {
         //const { piece, tetris } = getState()
         //console.log('in loop', 'space animation');
         //yi += 1
         //if (yi === diff + 1) yi = diff
+
         const newCoords = getState().piece.coords.map(([x, y]) => [x, y + 1])
         if (f.isPossible(getState().tetris, newCoords) && !getStop().stopped) {
-          console.log(newCoords);
           dispatch(movePiece(newCoords))
           requestAnimationFrame(loop)
         } else resolve(getStop().stop)
@@ -180,13 +195,13 @@ export const disparitionLinesAnimation = () => {
       return function loop() {
         //console.log('in loop', 'line animation');
         if (opacity >= 0 && !getStop().stopped) {
-          opacity -= 0.01
+          opacity -= 0.05
           b -= bi
           dispatch(animationStep(getLineAnimationStyle(getState, opacity, b)))
           requestAnimationFrame(loop)
         } else if (yi <= max && !getStop().stopped) {
-          yi += 0.5
-          if (yi >= max + 1 && yi < max + 5)
+          yi += 10
+          if (yi >= max + 1 && yi < max + 10)
             yi = max
           dispatch(animationStep(getTranslateAnimationStyle(getState, yi)))
           requestAnimationFrame(loop)
