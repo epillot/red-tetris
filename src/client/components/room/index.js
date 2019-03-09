@@ -7,8 +7,6 @@ import * as actions from '../../actions'
 
 import './style.css'
 
-// const TetrisGhost=
-
 const room = ({ roomId, isMaster, isPlaying, startGame }) => (
   <div className='roomContainer'>
 
@@ -71,12 +69,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     startGame: () => {
-      //dispatch(actions.server.startGame())
-      const action = actions.newPiece()
-      action.first= true
-      dispatch(actions.tryNewPiece(action))
-      // addEventListener('keydown', actions.keyEvents)
-      // dispatch({type: 'GRAVITY', interval: actions.gravity()})
+      dispatch(actions.server.startGame())
     },
   }
 }

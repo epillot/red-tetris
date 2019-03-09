@@ -85,7 +85,7 @@ const nextTurn2 = () => (dispatch, getState) => {
     dispatch(putPiece(getState().piece))
     dispatch(disparitionLinesAnimation()).then(() => {
       dispatch(removeLines())
-      dispatch(tryNewPiece(newPiece()))
+      //dispatch(tryNewPiece(newPiece()))
     })
   })
 }
@@ -186,7 +186,7 @@ export const newPiece = () => {
 
 export const putPiece = piece => {
   return {
-    type: 'PUT_PIECE',
+    type: 'server/PUT_PIECE',
     piece,
   }
 }

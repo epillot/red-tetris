@@ -20,11 +20,7 @@ export default function piece(state=null, action) {
     case 'GRAVITY':
       return updateObject(state, {interval: action.interval})
 
-    case 'server/UPDATE_TETRIS':
-    case 'UPDATE_TETRIS':
-      return action.newPiece ? null : state
-
-    case 'PUT_PIECE':
+    case 'server/PUT_PIECE':
       return null
 
     case 'BLACK_LINES':

@@ -23,8 +23,6 @@ export default function animations(state=[], action) {
     case 'ANIMATION_STEP':
       return action.getStyle
 
-    case 'server/UPDATE_TETRIS':
-    case 'UPDATE_TETRIS':
     case 'REMOVE_LINES':
       return []
 

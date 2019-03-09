@@ -66,11 +66,7 @@ export default function tetris(state=null, action) {
     case 'BEGIN_GAME':
       return newTetris()
 
-    case 'server/UPDATE_TETRIS':
-    case 'UPDATE_TETRIS':
-      return action.tetris
-
-    case 'PUT_PIECE':
+    case 'server/PUT_PIECE':
       return putPiece(state, action)
 
     case 'REMOVE_LINES':

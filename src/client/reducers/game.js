@@ -1,9 +1,7 @@
 import { updateObject } from '../tools'
 
 const initialState = {
-  gameOver: false,
   timer: null,
-  isAnimating: false,
 }
 
 export default function game(state=initialState, action) {
@@ -18,21 +16,6 @@ export default function game(state=initialState, action) {
     case 'UPDATE_TIMER':
       return updateObject(state, {
         timer: action.timer,
-      })
-
-    // case 'server/GAME_OVER':
-    //   return updateObject(state, {
-    //     gameOver: true,
-    //   })
-
-    case 'ANIMATION_STARTED':
-      return updateObject(state, {
-        isAnimating: true,
-      })
-
-    case 'ANIMATION_OVER':
-      return updateObject(state, {
-        isAnimating: false,
       })
 
     default:
