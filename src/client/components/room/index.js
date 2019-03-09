@@ -18,16 +18,16 @@ const room = ({ roomId, isMaster, isPlaying, startGame }) => (
       <div className='roomSideMiddle'>
 
         <div className='roomPlayers'>
-          <table>
-            <tbody>
+          <div>
+            <div>
               {[1, 2, 3, 4, 5].map(num =>
                 <PlayerRow
                   num={num}
                   key={num}
                 />
               )}
-            </tbody>
-          </table>
+            </div>
+          </div>
         </div>
 
       </div>

@@ -15,23 +15,23 @@ export const PlayerRow = props => console.log('MMMMMMMMMMMM') || (
 )
 
 const ActivePlayer = props => (
-  <tr className={'playerRow' + (props.isSelf ? ' selfRow' : '')}>
-    <td className='playerNum'>{props.num}</td>
-    <td className='playerName'>{props.player.name + (props.isMaster ? ' (master)' : '')}</td>
-  </tr>
+  <div className={'playerRow' + (props.isSelf ? ' selfRow' : '')}>
+    <div className='playerNum'>{props.num}</div>
+    <div className='playerName'>{props.player.name + (props.isMaster ? ' (master)' : '')}</div>
+  </div>
 )
 
 const EmptyPlayer = props => (
-  <tr className='emptyRow'>
-    <td className='playerNum'>{props.num}</td>
-    <td className='emptyText'>Waiting for player...</td>
-  </tr>
+  <div className='emptyRow'>
+    <div className='playerNum'>{props.num}</div>
+    <div className='emptyText'>Waiting for player...</div>
+  </div>
 )
 
 const roomPlayers = ({ master, players, playerID }) => (
   <div className='roomPlayers'>
-    <table>
-      <tbody>
+    <div>
+      <div>
         {[1, 2, 3, 4, 5].map(num =>
           <PlayerRow
             player={players[num-1]}
@@ -41,8 +41,8 @@ const roomPlayers = ({ master, players, playerID }) => (
             key={num}
           />
         )}
-      </tbody>
-    </table>
+      </div>
+    </div>
   </div>
 )
 

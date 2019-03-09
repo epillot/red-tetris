@@ -17,7 +17,11 @@
 
 .emptyRow {
   opacity: 0.6;
+  display: flex;
+  flex-direction: row;
   background-color: #EAEAEA;
+  height: 30px;
+  align-items: center;
 }
 
 .emptyText {
@@ -27,6 +31,10 @@
 .playerRow {
   background-color: #E0E0E0;
   filter : brightness(95%);
+  display: flex;
+  flex-direction: row;
+  height: 30px;
+  align-items: center;
 }
 
 .selfRow {
