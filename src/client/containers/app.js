@@ -4,14 +4,13 @@ import * as actions from '../actions'
 import Room from '../components/room/'
 import css from './app.css'
 
-
-
 const App = ({ nickname, nicknameError, partyCode, room, roomError, editName, editCode, createRoom, joinRoom, removeError, isLoading, roomLoading}) => {
   if (isLoading || roomLoading) {
     return (
       <div className='appContainer'>
+       <h1>Red Tetris</h1>
         <div className='connecting'>
-          <p>Connecting...</p>
+          Connecting...
         </div>
       </div>
     )
@@ -20,24 +19,26 @@ const App = ({ nickname, nicknameError, partyCode, room, roomError, editName, ed
     <div className='appContainer'>
       {room !== null ?
       <Room/> :
-      <div className='homeContainer'>
-        <div className='home'>
-          <h1>RED TETRIS</h1>
-          <div className='nameContainer'>
-            <input id='nickname' className={nicknameError ? 'formError' : ''} placeholder='Nickname' value={nickname} onSelect={removeError('nicknameError')} onChange={editName} autoFocus='autofocus'/>
-            <p className='nicknameError'>{nicknameError}</p>
-          </div>
-          <div className='home-form'>
-            <button className='createbutton' onClick={createRoom}>Create a game</button>
-            <div className='joinFormContainer'>
-              <div className='joinForm'>
-                <button className='joinbutton' onClick={joinRoom}>Join a game</button>
-                <input id='partyCode' className={roomError ? 'formError' : ''} value={partyCode} onSelect={removeError('roomError')} placeholder='Party code' onChange={editCode}/>
+      <div className='grid-container'>
+      <div className='test'>
+      <div className='main-container'>
+        
+          <h1>Red Tetris</h1>
+          <div className='loginForm'>
+            <input id='nickname' autoComplete="off" className={nicknameError ? 'formError' : ''} placeholder='Login' value={nickname} onSelect={removeError('nicknameError')} onChange={editName} autoFocus='autofocus'/>
+          
+                <input id='partyCode' autoComplete="off" className={roomError ? 'formError' : ''} value={partyCode} onSelect={removeError('roomError')} placeholder='Game code' onChange={editCode}/>
+             
+
               </div>
-              <p className='roomError'>{roomError}</p>
-            </div>
-          </div>
-        </div>
+            <button onClick={createRoom}>Start game</button>
+            
+              
+                <button  onClick={joinRoom}>Join game</button>
+            
+          
+                </div>
+      </div>
       </div>}
     </div>
   );

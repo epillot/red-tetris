@@ -6,6 +6,13 @@
   /* height: 300px; */
 }
 
+.ghostWrapper {
+  border: solid 3px #00E0FF;
+    border-radius: 10px;
+    box-shadow: 0 0 3px #00E0FF;
+    background-color: black;
+}
+
 .ghostPlayerName {
   margin: 10px;
   font-weight: bold;
@@ -18,7 +25,7 @@
   border-left: 1px solid black;
   border-right: 1px solid black;
   border-bottom: 2px solid black;
-  background-color: #E0E0E0;
+  background-color: black;
   display: flex;
   flex-wrap: wrap;
   position: relative;

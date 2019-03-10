@@ -14,6 +14,7 @@ const getBoardClassName = (ghost, isPlaying, gameOver, win) => {
 }
 
 const playerGhost = ({ name, ghost, num, isPlaying, gameOver, win }) => console.log(`-------${name || num} ghost is rendered----------`) || (
+  <div className='ghostWrapper'>
   <div className='ghostContainer'>
     <span className='ghostPlayerName'>{name}</span>
     <div className={getBoardClassName(ghost, isPlaying, gameOver, win)}>
@@ -27,6 +28,7 @@ const playerGhost = ({ name, ghost, num, isPlaying, gameOver, win }) => console.
         {win && <i className='material-icons md-48 md-dark'>sentiment_very_satisfied</i>}
       </div>
     </div>
+  </div>
   </div>
 )
 
