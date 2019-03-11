@@ -1,4 +1,4 @@
-import { updateObject, getCompleteLines, removeLines } from '../tools'
+import { updateObject, getCompleteLines } from '../tools'
 
 const newTetris = () => {
   const tetris = []
@@ -47,7 +47,7 @@ const isComplete = line => {
   return true
 }
 
-const removeLines3 = state => {
+const removeLines = state => {
   const output = state.slice()
   for (let y = 0; y < output.length; y++) {
     if (isComplete(output[y])) {
@@ -66,11 +66,11 @@ export default function tetris(state=null, action) {
     case 'BEGIN_GAME':
       return newTetris()
 
-    case 'server/PUT_PIECE':
+    case 'PUT_PIECE':
       return putPiece(state, action)
 
     case 'REMOVE_LINES':
-      return removeLines3(state)
+      return removeLines(state)
 
     case 'BLACK_LINES':
       return addBlackLines(state, action)

@@ -1,11 +1,5 @@
 import * as types from '../constants/actionTypes'
 
-export const ping = () => {
-  return {
-    type: 'server/ping'
-  }
-}
-
 export const startGame = () => {
   return {
     type: types.START_GAME,
@@ -27,15 +21,12 @@ export const joinRoom = (id, nickname) => {
   }
 }
 
-export const updateTetris = (tetris, lines=0, newPiece=true, wl=0, shouldWait=false) => {
+export const updateTetris = (tetris, lines) => {
 
   return {
     type: 'server/UPDATE_TETRIS',
     tetris,
     lines,
-    newPiece,
-    wl,
-    shouldWait,
   }
 }
 

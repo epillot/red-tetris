@@ -20,7 +20,7 @@ export default function piece(state=null, action) {
     case 'GRAVITY':
       return updateObject(state, {interval: action.interval})
 
-    case 'server/PUT_PIECE':
+    case 'PUT_PIECE':
       return null
 
     case 'BLACK_LINES':

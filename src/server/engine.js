@@ -64,14 +64,14 @@ export default class Engine {
           }
         }
 
-        else if (action.type === 'server/PUT_PIECE') {
+        else if (action.type === 'server/UPDATE_TETRIS') {
 
           const room = Game.getRoomById(user.room)
 
           if (room) {
             user.tetris = action.tetris
             user.indexPiece++
-            
+
             user.sendActionToRoom(room.id, {
               type: 'UPDATE_GHOST',
               id: user.id,

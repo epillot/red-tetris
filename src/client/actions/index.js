@@ -17,7 +17,7 @@ export const gravity = () => {
       } else {
         clearInterval(interval)
         removeEventListener('keydown', keyEvents)
-        dispatch(nextTurn2())
+        dispatch(nextTurn())
       }
     })
   }, 700)
@@ -45,47 +45,18 @@ const keyEvent = keyCode => (dispatch, getState) => {
     removeEventListener('keydown', keyEvents)
     dispatch(spaceAnimation()).then(() => {
       dispatch(movePiece(f.getPieceProjection(getState().tetris, getState().piece)))
-      dispatch(nextTurn2())
+      dispatch(nextTurn())
     })
   }
 }
 
-const ev = new CustomEvent('animations over')
-
 const nextTurn = () => (dispatch, getState) => {
-
-  console.log('before', getState().piece.coords);
-  dispatch({type: 'ANIMATION_STARTED'})
-  dispatch(pieceAnimation()).then(() => {
-    console.log('after', getState().piece.coords);
-    const { tetris, piece: { color } } = getState()
-    let newTetris = f.copyTetris(getState().tetris)
-    dispatch(blackLines(8))
-    getState().piece.coords.forEach(([x, y]) => {
-      if (y >= 0)
-        newTetris[y][x] = color
-    })
-    const lines = f.getCompleteLines(newTetris)
-    dispatch(lineAnimation(lines)).then(() => {
-      dispatch(updateTetris(f.removeLinesFirst(newTetris, lines)))
-      dispatch(translateAnimation(newTetris, lines)).then(() => {
-        dispatch(updateTetris(f.removeLines(newTetris, lines), lines.length - 1))
-        dispatchEvent(ev)
-        dispatch({type: 'ANIMATION_OVER'})
-      })
-    })
-  })
-  // setTimeout(() => {
-  //   dispatch(server.updateTetris(f.addBlackLines(getState().tetris, 2), 0, false, 2))
-  // }, 250)
-}
-
-const nextTurn2 = () => (dispatch, getState) => {
   dispatch(pieceAnimation()).then(() => {
     dispatch(putPiece(getState().piece))
     dispatch(disparitionLinesAnimation()).then(() => {
+      const lines = f.getCompleteLines(getState().tetris).length
       dispatch(removeLines())
-      //dispatch(tryNewPiece(newPiece()))
+      dispatch(server.updateTetris(getState().tetris, lines - 1))
     })
   })
 }
@@ -141,14 +112,6 @@ export const movePiece = (coords, rotate=null) => {
   }
 }
 
-const updateTetris = (tetris) => {
-  return {
-    type: types.UPDATE_TETRIS,
-    tetris,
-    newPiece: true,
-  }
-}
-
 
 export const nicknameError = () => {
   return {
@@ -176,17 +139,9 @@ const beginGame = () => {
   }
 }
 
-export const newPiece = () => {
-  const piece = f.newTetriminos()
-  return {
-    type: 'NEW_PIECE',
-    piece,
-  }
-}
-
 export const putPiece = piece => {
   return {
-    type: 'server/PUT_PIECE',
+    type: 'PUT_PIECE',
     piece,
   }
 }
@@ -195,7 +150,6 @@ export const blackLines = nbLines => {
   return {
     type: 'BLACK_LINES',
     nbLines,
-    shouldWait: true,
   }
 }
 

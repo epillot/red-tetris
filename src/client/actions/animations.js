@@ -87,7 +87,7 @@ export const disparitionLinesAnimation = () => (dispatch, getState) => {
   const actions = []
   let opacity = 1
   let b = 90
-  const step = 0.01
+  const step = 0.05
   const bi = 90 / (1 / step)
   while (opacity >= 0) {
     opacity -= step
@@ -99,8 +99,8 @@ export const disparitionLinesAnimation = () => (dispatch, getState) => {
   const data = getTranslationData(lines)
   const max = Math.max(...data)
   while (yi < max) {
-    yi += 1
-    if (yi >= max + 1 && yi < max + 10)
+    yi += 15
+    if (yi > max)
       yi = max
     actions.push(animation('TRANSLATE_ANIMATION', {yi}))
   }
