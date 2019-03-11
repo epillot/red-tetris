@@ -19,6 +19,7 @@
     border: solid 3px #E500F9;
     border-radius: 10px;
     box-shadow: 0 0 3px #E500F9;
+    z-index: 2;
 }
 
 .boardGameOver > .block {
