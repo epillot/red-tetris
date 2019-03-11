@@ -1,5 +1,4 @@
 .board {
-  margin: 0 20px;
   height: 800px;
   width: 400px;
   /* border-bottom: 20px solid #8bb0da; */
@@ -9,36 +8,47 @@
   display: flex;
   flex-wrap: wrap;
   /* flex-direction: column; */
-  background-color: #ffe6e6;
+  background-color: black;
+  
   border-radius: 5px;
   position: relative;
-  /* filter : brightness(60%); */
+  border-radius: 10px;
 }
 
-.boardGameOver {
-  opacity: 0.6;
+.boardWrapper {
+    border: solid 3px #E500F9;
+    border-radius: 10px;
+    box-shadow: 0 0 3px #E500F9;
 }
 
-.wrapper {
+.boardGameOver > .block {
+  opacity: 0.3;
+}
+
+.board-container {
+  
   height: 100%;
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-sizing: border-box;
+  /* /* box-sizing: border-box; */
   position: absolute;
+  width: 400px;
 }
 
 .timer {
   font-size: 90px;
-  color: #770000;
+  color: #EB00FF;
+  z-index: 2;
 }
 
 .gameOver {
   font-size: 50px;
-  color: #770000;
+  color: #EB00FF;
   font-style: italic;
   font-weight: bold;
+  z-index: 2;
+  margin-top: -100px;
   /* transform: rotate(-50deg); */
 }
 
@@ -46,17 +56,17 @@
   width: 40px;
   height: 40px;
   box-sizing: border-box;
-  /* border-radius: 1px; */
+  border-radius: 5px;
   position: relative;
+
 }
 
 .colored {
-  border: 0.3px solid #F0F0F0;
-  filter : brightness(90%);
+  border: 0.3px solid black;
 }
 
 .red {
-  background-color: #ff4236;
+  background-color: #0029FF;
 }
 
 .red1 {
@@ -88,27 +98,27 @@
 }
 
 .blue {
-  background-color: #4c51fb;
+  background-color: #00E0FF;
 }
 
 .yellow {
-  background-color: #ffe800;
+  background-color: #FFFF52;
 }
 
 .green {
-  background-color: #00cc00;
+  background-color: #00FF38;
 }
 
 .purple {
-  background-color: #cc00aa;
+  background-color: #6100FF;
 }
 
 .pink {
-  background-color: pink;
+  background-color: #F169FD;
 }
 
 .orange {
-  background-color: #ff8c1a;
+  background-color: #FFB800;
 }
 
 .black {

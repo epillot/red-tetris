@@ -15,17 +15,17 @@ const PlayerRow = ({ isEmpty, playerName, playerID, selfId, num }) => (
 )
 
 const ActivePlayer = props => (
-  <tr className={'playerRow' + (props.isSelf ? ' selfRow' : '')}>
-    <td className='playerNum'>{props.num}</td>
-    <td className='playerName'>{props.name + (props.isMaster ? ' (master)' : '')}</td>
-  </tr>
+  <div className={'playerRow' + (props.isSelf ? ' selfRow' : '')}>
+    <div className='playerNum'>{props.num}</div>
+    <div className='playerName'>{props.name + (props.isMaster ? ' (master)' : '')}</div>
+  </div>
 )
 
 const EmptyPlayer = props => (
-  <tr className='emptyRow'>
-    <td className='playerNum'>{props.num}</td>
-    <td className='emptyText'>Waiting for player...</td>
-  </tr>
+  <div className='emptyRow'>
+    <div className='playerNum'>{props.num}</div>
+    <div className='emptyText'>Waiting for player...</div>
+  </div>
 )
 
 const mapStateToProps = (state, ownProps) => {

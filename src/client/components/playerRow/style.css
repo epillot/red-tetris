@@ -1,4 +1,4 @@
-.roomPlayers table {
+/* .roomPlayers table {
   width: 100%;
   border-spacing: 0;
 }
@@ -6,18 +6,23 @@
 .roomPlayers td {
   border: 1px solid #D0D0D0;
   padding: 20px;
-}
+} */
 
 .playerNum {
   text-align: center;
-  width: 60px;
+  margin-right: 20px;
+  width: 15px;
   box-sizing: border-box;
   font-weight: bold;
 }
 
 .emptyRow {
   opacity: 0.6;
-  background-color: #EAEAEA;
+  display: flex;
+  flex-direction: row;
+  /* background-color: #EAEAEA; */
+  height: 30px;
+  align-items: center;
 }
 
 .emptyText {
@@ -25,8 +30,12 @@
 }
 
 .playerRow {
-  background-color: #E0E0E0;
+  /* background-color: #E0E0E0; */
   filter : brightness(95%);
+  display: flex;
+  flex-direction: row;
+  height: 30px;
+  align-items: center;
 }
 
 .selfRow {

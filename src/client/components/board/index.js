@@ -42,13 +42,15 @@ const getBlocks = () => {
 // )
 
 const board = ({ timer, gameOver, win }) => (
-  <div className={'board' + (gameOver || win ? ' boardGameOver' : '')}>
-    {!timer && getBlocks()}
-    <div className='wrapper'>
+  <div className='boardWrapper'>
+  <div className='board-container'>
       {timer && <div className='timer'>{timer}</div>}
       {gameOver && <span className='gameOver'>GAME OVER</span>}
       {win && <span className='gameOver'>YOU WIN !</span>}
     </div>
+  <div className={'board' + (gameOver || win ? ' boardGameOver' : '')}>
+    {!timer && getBlocks()}
+  </div>
   </div>
 )
 
