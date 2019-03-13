@@ -53,9 +53,10 @@ const keyEvent = keyCode => (dispatch, getState) => {
 const nextTurn = () => (dispatch, getState) => {
   dispatch(pieceAnimation()).then(() => {
     dispatch(putPiece(getState().piece))
-    dispatch(disparitionLinesAnimation()).then(() => {
-      const lines = f.getCompleteLines(getState().tetris).length
+    const lines = f.getCompleteLines(getState().tetris).length
+    dispatch(disparitionLinesAnimation(lines)).then(() => {
       dispatch(removeLines())
+      console.log(lines);
       dispatch(server.updateTetris(getState().tetris, lines - 1))
     })
   })

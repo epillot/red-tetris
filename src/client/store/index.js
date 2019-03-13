@@ -30,7 +30,7 @@ const store = createStore(
         case 'PUT_PIECE':
         case 'BLACK_LINES':
         case 'MOVE_PIECE':
-          return true
+          return false
         default: return false
       }
     }

@@ -8,20 +8,7 @@ export const animationMiddleWare = ({ dispatch, getState }) => next => action =>
 
   if (document.hidden) return Promise.resolve()
 
-  const nextAction = () => {
-    if (action.type === 'SPACE_ANIMATION') {
-      const newCoords = getState().piece.coords.map(([x, y]) => [x, y + 2])
-      if (isPossible(getState().tetris, newCoords))
-        return movePiece(newCoords)
-      return null
-    }
-
-    const actions = action.actions
-
-    if (actions.length)
-      return actions.shift()
-    return null
-  }
+  const nextAction = (cb) => cb ? cb(getState) : action.actions.shift()
 
   return new Promise(resolve => {
     let stopped = false
@@ -37,7 +24,8 @@ export const animationMiddleWare = ({ dispatch, getState }) => next => action =>
     addEventListener('visibilitychange', stop)
 
     const loop = () => {
-      const animAction = nextAction()
+      const animAction = nextAction(action.nextAction)
+      console.log('la', animAction);
       if (animAction && !stopped) {
         dispatch(animAction)
         requestAnimationFrame(loop)

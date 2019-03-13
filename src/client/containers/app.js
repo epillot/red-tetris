@@ -22,21 +22,21 @@ const App = ({ nickname, nicknameError, partyCode, room, roomError, editName, ed
       <div className='grid-container'>
       <div className='test'>
       <div className='main-container'>
-        
+
           <h1>Red Tetris</h1>
           <div className='loginForm'>
             <input id='nickname' autoComplete="off" className={nicknameError ? 'formError' : ''} placeholder='Login' value={nickname} onSelect={removeError('nicknameError')} onChange={editName} autoFocus='autofocus'/>
-          
+
                 <input id='partyCode' autoComplete="off" className={roomError ? 'formError' : ''} value={partyCode} onSelect={removeError('roomError')} placeholder='Game code' onChange={editCode}/>
-             
+
 
               </div>
             <button onClick={createRoom}>Start game</button>
-            
-              
+
+
                 <button  onClick={joinRoom}>Join game</button>
-            
-          
+
+
                 </div>
       </div>
       </div>}
@@ -75,7 +75,7 @@ const mapStateToProps = (state) => {
     partyCode: state.ui.partyCode,
     room: state.room,
     roomError: state.ui.roomError,
-    isLoading: state.connecting.isLoading,
+    isLoading: state.connecting.playerID === undefined,
     roomLoading: state.connecting.roomLoading,
   }
 }

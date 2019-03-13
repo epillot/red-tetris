@@ -1,42 +1,42 @@
 import * as types from '../constants/actionTypes'
 import { movePiece } from '.'
-import * as f from '../tools'
+import { getCompleteLines, isPossible } from '../tools'
 
 export const spaceAnimation = () => {
   return {
     isAnimation: true,
-    type: 'SPACE_ANIMATION',
+    nextAction: getState => {
+      const newCoords = getState().piece.coords.map(([x, y]) => [x, y + 2])
+      if (isPossible(getState().tetris, newCoords))
+        return movePiece(newCoords)
+    },
   }
 }
 
-const getPieceAnimationStyle = (coords, { opacity }) => {
+const getPieceAnimationStyle = (coords, opacity) => {
   const output = []
-  const style = {opacity}
   coords.forEach(([x, y]) => {
-    output[x + y*10] = style
+    output[x + y*10] = {opacity}
   })
   return output
 }
 
-
-export const pieceAnimation = () => (dispatch) => {
-  const type = 'PIECE_ANIMATION'
+export const pieceAnimation = () => {
   let opacity = 1
   let step = -0.05
-  const actions = []
-  while (opacity <= 1) {
-    if (opacity <= 0.5)
-      step = -step
-    opacity += step
-    actions.push(animation(type, {opacity}))
-  }
-  return dispatch({
+  return {
     isAnimation: true,
-    actions,
-  })
+    nextAction: getState => {
+      if (opacity <= 0.5)
+        step = -step
+      opacity += step
+      if (opacity < 1)
+        return animationStep(getPieceAnimationStyle(getState().piece.coords, opacity))
+    },
+  }
 }
 
-const getLineAnimationStyle = (lines, { opacity, b }) => {
+const getLineAnimationStyle = (lines, opacity, b) => {
   const output = []
   const style = {opacity, filter: `brightness(${b}%)`}
   lines.forEach(y => {
@@ -78,8 +78,8 @@ const getTranslationData = (lines) => {
   return data
 }
 
-export const disparitionLinesAnimation = () => (dispatch, getState) => {
-  const lines = f.getCompleteLines(getState().tetris)
+export const disparitionLinesAnimation2 = () => (dispatch, getState) => {
+  const lines = getCompleteLines(getState().tetris)
 
   if (!lines.length)
     return Promise.resolve()
@@ -111,7 +111,31 @@ export const disparitionLinesAnimation = () => (dispatch, getState) => {
   })
 }
 
-export const animation = (type, data) => (dispatch, getState) => {
+export const disparitionLinesAnimation = (lines) => (dispatch) => {
+  if (!lines)
+    return Promise.resolve()
+
+  let opacity = 1
+  let b = 90
+  const step = 0.01
+  const bi = 90 / (1 / step)
+  const max = lines*40
+  let yi = 0
+
+  return dispatch({
+    isAnimation: true,
+    nextAction: getState => {
+      if (opacity > 0) {
+        opacity -= step
+        b -= bi
+        return animationStep(getLineAnimationStyle(getCompleteLines(getState().tetris), opacity, b))
+      }
+      // if (yi < max)
+    },
+  })
+}
+
+const animation = (type, data) => (dispatch, getState) => {
   let lines
 
   switch (type) {
@@ -121,12 +145,12 @@ export const animation = (type, data) => (dispatch, getState) => {
       break
 
     case 'LINE_ANIMATION':
-      lines = f.getCompleteLines(getState().tetris)
+      lines = getCompleteLines(getState().tetris)
       dispatch(animationStep(getLineAnimationStyle(lines, data)))
       break
 
     case 'TRANSLATE_ANIMATION':
-      lines = f.getCompleteLines(getState().tetris)
+      lines = getCompleteLines(getState().tetris)
       dispatch(animationStep(getTranslateAnimationStyle(lines, data)))
       break
 
