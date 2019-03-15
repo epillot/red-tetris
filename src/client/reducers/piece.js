@@ -7,6 +7,12 @@ const movePiece = (state, { coords, rotate }) => {
   return updateObject(state, update)
 }
 
+const blackLines = (state, { nbLines }) => {
+  if (!state || Math.max(...state.coords.map(([x, y]) => y)) < 0)
+    return state
+  return updateObject(state, {coords: state.coords.map(([x, y]) => [x, y - nbLines])})
+}
+
 export default function piece(state=null, action) {
 
   switch (action.type) {
@@ -24,7 +30,7 @@ export default function piece(state=null, action) {
       return null
 
     case 'BLACK_LINES':
-      return state && updateObject(state, {coords: state.coords.map(([x, y]) => [x, y - action.nbLines])})
+      return blackLines(state, action)
 
     default:
       return state

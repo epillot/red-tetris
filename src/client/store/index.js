@@ -26,11 +26,11 @@ const store = createStore(
   applyMiddleware(socketIoMiddleWare(socket), thunk, animationMiddleWare, createLogger({
     predicate: (_, action) => {
       switch (action.type) {
-        case 'REMOVE_LINES':
-        case 'PUT_PIECE':
+        //case 'REMOVE_LINES':
+        //case 'PUT_PIECE':
         case 'BLACK_LINES':
-        case 'MOVE_PIECE':
-          return false
+        //case 'MOVE_PIECE':
+          return true
         default: return false
       }
     }

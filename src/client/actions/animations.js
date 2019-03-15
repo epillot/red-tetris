@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes'
 import { movePiece } from '.'
-import { getCompleteLines, isPossible } from '../tools'
+import { getCompleteLines, isPossible, isComplete, isEmpty } from '../tools'
 
 export const spaceAnimation = () => {
   return {
@@ -47,8 +47,7 @@ const getLineAnimationStyle = (lines, opacity, b) => {
   return output
 }
 
-const getTranslateAnimationStyle = (lines, { yi }) => {
-  const data = getTranslationData(lines)
+const getTranslateAnimationStyle = (lines, data, yi) => {
   const output = []
   for (let y = 0; y < 20; y++) {
     let translateY = data[y]
@@ -57,10 +56,9 @@ const getTranslateAnimationStyle = (lines, { yi }) => {
       output[x + y*10] = {transform: 'translate(0px, ' +translateY+ 'px)'}
     }
   }
-  const style = {opacity: 0}
   lines.forEach(y => {
     for (let x = 0; x < 10; x++) {
-      output[x + y*10] = style
+      output[x + y*10] = {opacity: 0}
     }
   })
   return output
@@ -74,6 +72,22 @@ const getTranslationData = (lines) => {
       if (y < line) ydiff++
     })
     data.push(ydiff * 40)
+  }
+  console.log(data);
+  return data
+}
+
+const getTranslationData2 = (tetris) => {
+  const data = []
+  let nbLine = 0
+  let ydiff
+  for (let y = tetris.length-1; y >= 0; y--) {
+    ydiff = 0
+    if (isComplete(tetris[y]))
+      nbLine++
+    else if (!isEmpty(tetris[y]))
+      ydiff = nbLine * 40
+    data[y] = ydiff
   }
   return data
 }
@@ -119,7 +133,7 @@ export const disparitionLinesAnimation = (lines) => (dispatch) => {
   let b = 90
   const step = 0.01
   const bi = 90 / (1 / step)
-  const max = lines*40
+  let max
   let yi = 0
 
   return dispatch({
@@ -130,7 +144,15 @@ export const disparitionLinesAnimation = (lines) => (dispatch) => {
         b -= bi
         return animationStep(getLineAnimationStyle(getCompleteLines(getState().tetris), opacity, b))
       }
-      // if (yi < max)
+      const data = getTranslationData2(getState().tetris)
+      max = Math.max(...data)
+      if (yi < max) {
+        console.log('kiiikiik');
+        yi += 0.5
+        if (yi > max)
+          yi = max
+        return animationStep(getTranslateAnimationStyle(getCompleteLines(getState().tetris), data, yi))
+      }
     },
   })
 }

@@ -70,7 +70,7 @@ export const isPossible = (tetris, coords) => {
   let possible = true;
   for (let i = 0; i < 4; i++) {
     let [x, y] = coords[i]
-    if (x < 0 || x > 9 || y > 19 || (y >= 0 && tetris[y][x] !== ''))
+    if (x < 0 || x > tetris[0].length || y >= tetris.length || (y >= 0 && tetris[y][x] !== ''))
       possible = false
   }
   return possible
@@ -88,20 +88,30 @@ export const tryTranslation = (tetris, coords) => {
   return null
 }
 
+export const isEmpty = line => {
+  for (let i = 0; i < line.length; i++) {
+    if (line[i] !== '')
+      return false
+  }
+  return true
+}
+
+export const isComplete = line => {
+  if (line[0] === 'black')
+    return false
+  for (let i = 0; i < line.length; i++) {
+    if (line[i] === '')
+      return false
+  }
+  return true
+}
+
 export const getCompleteLines = (tetris) => {
   const output = []
-  let isComplete
-  for (let y = 19; y >= 0; y--) {
-    isComplete = true
-    for (let x = 0; x < 10; x++) {
-      if (tetris[y][x] === '' || tetris[y][x] === 'black') {
-        isComplete = false
-        break
-      }
-    }
-    if (isComplete)
+  tetris.forEach((line, y) => {
+    if (isComplete(line))
       output.push(y)
-  }
+  })
   return output
 }
 
