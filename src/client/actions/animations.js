@@ -64,20 +64,7 @@ const getTranslateAnimationStyle = (lines, data, yi) => {
   return output
 }
 
-const getTranslationData = (lines) => {
-  const data = []
-  for (let y = 0; y < 20; y++) {
-    let ydiff = 0
-    lines.forEach(line => {
-      if (y < line) ydiff++
-    })
-    data.push(ydiff * 40)
-  }
-  console.log(data);
-  return data
-}
-
-const getTranslationData2 = (tetris) => {
+const getTranslationData = (tetris) => {
   const data = []
   let nbLine = 0
   let ydiff
@@ -90,39 +77,6 @@ const getTranslationData2 = (tetris) => {
     data[y] = ydiff
   }
   return data
-}
-
-export const disparitionLinesAnimation2 = () => (dispatch, getState) => {
-  const lines = getCompleteLines(getState().tetris)
-
-  if (!lines.length)
-    return Promise.resolve()
-
-  const actions = []
-  let opacity = 1
-  let b = 90
-  const step = 0.05
-  const bi = 90 / (1 / step)
-  while (opacity >= 0) {
-    opacity -= step
-    b -= bi
-    actions.push(animation('LINE_ANIMATION', {opacity, b}))
-  }
-
-  let yi = 0
-  const data = getTranslationData(lines)
-  const max = Math.max(...data)
-  while (yi < max) {
-    yi += 15
-    if (yi > max)
-      yi = max
-    actions.push(animation('TRANSLATE_ANIMATION', {yi}))
-  }
-
-  return dispatch({
-    isAnimation: true,
-    actions,
-  })
 }
 
 export const disparitionLinesAnimation = (lines) => (dispatch) => {
@@ -144,7 +98,7 @@ export const disparitionLinesAnimation = (lines) => (dispatch) => {
         b -= bi
         return animationStep(getLineAnimationStyle(getCompleteLines(getState().tetris), opacity, b))
       }
-      const data = getTranslationData2(getState().tetris)
+      const data = getTranslationData(getState().tetris)
       max = Math.max(...data)
       if (yi < max) {
         console.log('kiiikiik');
@@ -155,31 +109,6 @@ export const disparitionLinesAnimation = (lines) => (dispatch) => {
       }
     },
   })
-}
-
-const animation = (type, data) => (dispatch, getState) => {
-  let lines
-
-  switch (type) {
-
-    case 'PIECE_ANIMATION':
-      dispatch(animationStep(getPieceAnimationStyle(getState().piece.coords, data)))
-      break
-
-    case 'LINE_ANIMATION':
-      lines = getCompleteLines(getState().tetris)
-      dispatch(animationStep(getLineAnimationStyle(lines, data)))
-      break
-
-    case 'TRANSLATE_ANIMATION':
-      lines = getCompleteLines(getState().tetris)
-      dispatch(animationStep(getTranslateAnimationStyle(lines, data)))
-      break
-
-    default:
-      break
-  }
-
 }
 
 export const animationStep = (getStyle) => {

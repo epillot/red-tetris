@@ -27,8 +27,8 @@ const store = createStore(
     predicate: (_, action) => {
       switch (action.type) {
         //case 'REMOVE_LINES':
-        //case 'PUT_PIECE':
-        case 'BLACK_LINES':
+        case 'PUT_PIECE':
+        //case 'BLACK_LINES':
         //case 'MOVE_PIECE':
           return true
         default: return false

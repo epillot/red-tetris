@@ -57,8 +57,10 @@ class Tetris {
     let name = items[Math.floor(Math.random()*items.length)]
     const t = this.getTetriminos(name)
     const startx = 4
+    const starty = 4
     for (let i = 0; i < 4; i++) {
       t.coords[i][0] += startx
+      //t.coords[i][1] += starty
     }
     return t
   }

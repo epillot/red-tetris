@@ -2,7 +2,7 @@ import { updateObject, getCompleteLines, isComplete } from '../tools'
 
 const newTetris = () => {
   const tetris = []
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 24; i++) {
     tetris.push([])
     for (let j = 0; j < 10; j++) {
       tetris[i][j] = ''
@@ -23,6 +23,14 @@ const addBlackLines = (state, action) => {
   })
 }
 
+const addBlackLines2 = (state, action) => {
+  const output = state.slice()
+  for (let i = 0; i < action.nbLines; i++) {
+    output.push(getBlackLine())
+  }
+  return output
+}
+
 const putPiece = (state, action) => {
   const { coords, color } = action.piece
   return state.map((line, y) => {
@@ -36,6 +44,21 @@ const putPiece = (state, action) => {
     })
   })
 }
+
+const putPiece2 = (state, action) => {
+  const output = state.slice()
+  const { coords, color } = action.piece
+  const ymin = Math.min(...coords.map(([x, y]) => y))
+  for (let i = 0; i > ymin; i--) {
+    output.unshift(getEmptyLine())
+  }
+  const newCoords = ymin < 0 ? coords.map(([x, y]) => [x, y - ymin]) : coords
+  newCoords.forEach(([x, y]) => {
+    output[y][x] = color
+  })
+  return output
+}
+
 
 const removeLines = state => {
   const output = state.slice()
@@ -57,13 +80,13 @@ export default function tetris(state=null, action) {
       return newTetris()
 
     case 'PUT_PIECE':
-      return putPiece(state, action)
+      return putPiece2(state, action)
 
     case 'REMOVE_LINES':
       return removeLines(state)
 
     case 'BLACK_LINES':
-      return addBlackLines(state, action)
+      return addBlackLines2(state, action)
 
     default:
       return state

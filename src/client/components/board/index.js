@@ -24,9 +24,10 @@ import './style.css'
 
 const getBlocks = () => {
   const output = []
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < 240; i++) {
     console.log('salut');
-    output.push(<Block key={i} x={Math.floor(i % 10)} y={Math.floor(i / 10)} />)
+    output.push(<Block key={i} x={9 - Math.floor(i % 10)} y={23 - Math.floor(i / 10)} />)
+    //output.push(<Block key={i} num={i % 2} />)
   }
   return output
 }
@@ -50,6 +51,7 @@ const board = ({ timer, gameOver, win }) => (
     </div>
   <div className={'board' + (gameOver || win ? ' boardGameOver' : '')}>
     {!timer && getBlocks()}
+
   </div>
   </div>
 )

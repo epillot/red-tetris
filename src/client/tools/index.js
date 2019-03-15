@@ -70,7 +70,7 @@ export const isPossible = (tetris, coords) => {
   let possible = true;
   for (let i = 0; i < 4; i++) {
     let [x, y] = coords[i]
-    if (x < 0 || x > tetris[0].length || y >= tetris.length || (y >= 0 && tetris[y][x] !== ''))
+    if (x < 0 || x >= tetris[0].length || y >= tetris.length || (y >= 0 && tetris[y][x] !== ''))
       possible = false
   }
   return possible

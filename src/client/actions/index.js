@@ -65,6 +65,9 @@ const nextTurn = () => (dispatch, getState) => {
 export const tryNewPiece = action => async (dispatch, getState) => {
   if (action.first)
     await dispatch(startGame())
+  // const len = 20 - getState().tetris.length
+  // action.piece.coords = action.piece.coords.map(([x, y]) => [x, y - len])
+  // console.log(action.piece.coords);
   if (f.isPossible(getState().tetris, action.piece.coords)) {
     dispatch(action)
     addEventListener('keydown', keyEvents)
