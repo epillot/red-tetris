@@ -53,7 +53,7 @@ const getTranslateAnimationStyle = (lines, data, yi) => {
     let translateY = data[y]
     if (translateY > yi) translateY = yi
     for (let x = 0; x < 10; x++) {
-      output[x + y*10] = {transform: 'translate(0px, ' +translateY+ 'px)'}
+      output[x + y*10] = {transform: 'translate(0px, ' +(-translateY)+ 'px)'}
     }
   }
   lines.forEach(y => {

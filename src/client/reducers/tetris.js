@@ -1,8 +1,8 @@
-import { updateObject, getCompleteLines, isComplete } from '../tools'
+import { updateObject, getCompleteLines, isComplete, isEmpty } from '../tools'
 
 const newTetris = () => {
   const tetris = []
-  for (let i = 0; i < 24; i++) {
+  for (let i = 0; i < 20; i++) {
     tetris.push([])
     for (let j = 0; j < 10; j++) {
       tetris[i][j] = ''
@@ -27,6 +27,8 @@ const addBlackLines2 = (state, action) => {
   const output = state.slice()
   for (let i = 0; i < action.nbLines; i++) {
     output.push(getBlackLine())
+    if (isEmpty(output[0]))
+      output.shift()
   }
   return output
 }
@@ -65,7 +67,8 @@ const removeLines = state => {
   for (let y = 0; y < output.length; y++) {
     if (isComplete(output[y])) {
       output.splice(y, 1)
-      output.unshift(getEmptyLine())
+      if (output.length < 20)
+        output.unshift(getEmptyLine())
     }
   }
   return output

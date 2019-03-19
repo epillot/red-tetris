@@ -22,11 +22,12 @@ import './style.css'
 //   });
 // }
 
-const getBlocks = () => {
+const getBlocks = (len) => {
   const output = []
-  for (let i = 0; i < 240; i++) {
+  console.log(len);
+  for (let i = 0; i < len*10; i++) {
     console.log('salut');
-    output.push(<Block key={i} x={9 - Math.floor(i % 10)} y={23 - Math.floor(i / 10)} />)
+    output.push(<Block key={i} x={9 - Math.floor(i % 10)} y={len-1 - Math.floor(i / 10)} />)
     //output.push(<Block key={i} num={i % 2} />)
   }
   return output
@@ -42,7 +43,7 @@ const getBlocks = () => {
 //   </div>
 // )
 
-const board = ({ timer, gameOver, win }) => (
+const board = ({ timer, gameOver, win, len }) => (
   <div className='boardWrapper'>
   <div className='board-container'>
       {timer && <div className='timer'>{timer}</div>}
@@ -50,7 +51,7 @@ const board = ({ timer, gameOver, win }) => (
       {win && <span className='gameOver'>YOU WIN !</span>}
     </div>
   <div className={'board' + (gameOver || win ? ' boardGameOver' : '')}>
-    {!timer && getBlocks()}
+    {!timer && getBlocks(len)}
 
   </div>
   </div>
@@ -64,6 +65,7 @@ const mapStateToProps = (state) => {
     //color: state.color,
     //getStyle: state.getStyle,
     //isPlaying: state.isPlaying,
+    len: state.tetris ? state.tetris.length : 0,
     timer: state.game.timer,
     gameOver: self.gameOver,
     win: self.win,
