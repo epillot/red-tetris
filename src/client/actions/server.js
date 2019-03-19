@@ -2,20 +2,20 @@ import * as types from '../constants/actionTypes'
 
 export const startGame = () => {
   return {
-    type: types.START_GAME,
+    type: 'server/START_GAME',
   }
 }
 
 export const createRoom = (nickname) => {
   return {
-    type: types.CREATE_ROOM,
+    type: 'server/CREATE_ROOM',
     nickname,
   }
 }
 
 export const joinRoom = (id, nickname) => {
   return {
-    type: types.JOIN_ROOM,
+    type: 'server/JOIN_ROOM',
     id,
     nickname,
   }

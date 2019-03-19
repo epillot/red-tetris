@@ -16,14 +16,6 @@ const getBlackLine = () => ['black', 'black', 'black', 'black', 'black', 'black'
 const getEmptyLine = () => ['', '', '', '', '', '', '', '', '', '']
 
 const addBlackLines = (state, action) => {
-  return state.map((line, i) => {
-    if (i + action.nbLines < state.length)
-      return state[i + action.nbLines]
-    return getBlackLine()
-  })
-}
-
-const addBlackLines2 = (state, action) => {
   const output = state.slice()
   for (let i = 0; i < action.nbLines; i++) {
     output.push(getBlackLine())
@@ -34,20 +26,6 @@ const addBlackLines2 = (state, action) => {
 }
 
 const putPiece = (state, action) => {
-  const { coords, color } = action.piece
-  return state.map((line, y) => {
-    return line.map((block, x) => {
-      for (let i = 0; i < 4; i++) {
-        let [px, py] = coords[i]
-        if (px===x && py===y)
-          return color
-      }
-      return block
-    })
-  })
-}
-
-const putPiece2 = (state, action) => {
   const output = state.slice()
   const { coords, color } = action.piece
   const ymin = Math.min(...coords.map(([x, y]) => y))
@@ -64,13 +42,15 @@ const putPiece2 = (state, action) => {
 
 const removeLines = state => {
   const output = state.slice()
-  for (let y = 0; y < output.length; y++) {
+  let count = 0;
+  for (let y = output.length - 1; y >= 0; y--) {
     if (isComplete(output[y])) {
+      count++
       output.splice(y, 1)
-      if (output.length < 20)
-        output.unshift(getEmptyLine())
     }
   }
+  while (count > 0 && output.length < 20)
+    output.unshift(getEmptyLine())
   return output
 }
 
@@ -83,13 +63,13 @@ export default function tetris(state=null, action) {
       return newTetris()
 
     case 'PUT_PIECE':
-      return putPiece2(state, action)
+      return putPiece(state, action)
 
     case 'REMOVE_LINES':
       return removeLines(state)
 
     case 'BLACK_LINES':
-      return addBlackLines2(state, action)
+      return addBlackLines(state, action)
 
     default:
       return state

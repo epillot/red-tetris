@@ -7,10 +7,18 @@ const movePiece = (state, { coords, rotate }) => {
   return updateObject(state, update)
 }
 
-const blackLines = (state, { nbLines }) => {
-  if (!state || Math.max(...state.coords.map(([x, y]) => y)) < 0)
-    return state
-  return updateObject(state, {coords: state.coords.map(([x, y]) => [x, y - nbLines])})
+const blackLines = (state, { nbLines, tetris }) => {
+  const startY = tetris.length - 20
+  const maxY =  Math.max(...state.coords.map(([x, y]) => y))
+  let yi
+  if (maxY > startY) {
+    yi = nbLines
+    while (maxY - yi < startY - 1)
+      yi--
+  } else {
+    yi = maxY - startY
+  }
+  return updateObject(state, {coords: state.coords.map(([x, y]) => [x, y - yi])})
 }
 
 export default function piece(state=null, action) {
@@ -30,7 +38,7 @@ export default function piece(state=null, action) {
       return null
 
     case 'BLACK_LINES':
-      return blackLines(state, action)
+      return state && blackLines2(state, action)
 
     default:
       return state

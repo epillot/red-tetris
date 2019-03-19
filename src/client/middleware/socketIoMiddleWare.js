@@ -1,10 +1,10 @@
-import { tryNewPiece, blackLines, keyEvents } from '../actions'
+import * as actions from '../actions'
 
 export const socketIoMiddleWare = socket => ({dispatch, getState}) => {
 
   addEventListener('keydown', ({ keyCode }) => {
     if (keyCode === 27 && getState().tetris)
-      dispatch(blackLines(2))
+      dispatch(actions.tetris.blackLines(2))
   })
 
   if (socket) {
@@ -14,11 +14,11 @@ export const socketIoMiddleWare = socket => ({dispatch, getState}) => {
       if (action.type === 'NEW_PIECE') {
         if (action.room)
           dispatch({type: 'UPDATE_ROOM', room: action.room})
-        dispatch(tryNewPiece(action))
+        dispatch(actions.tryNewPiece(action))
       } else if (action.type === 'UPDATE_GHOST') {
         dispatch(action)
         if (action.lines > 0 && getState().roomUsers.find(user => user.id === socket.id && user.isPlaying))
-          dispatch(blackLines(action.lines))
+          dispatch(actions.tetris.blackLines(action.lines))
       } else if (action.type === 'UPDATE_ROOM') {
         dispatch(action)
         const winner = action.room.users.find(user => user.win === true)
@@ -26,7 +26,7 @@ export const socketIoMiddleWare = socket => ({dispatch, getState}) => {
           const piece = getState().piece
           if (piece) {
             clearInterval(piece.interval)
-            removeEventListener('keydown', keyEvents)
+            removeEventListener('keydown', actions.keyEvents)
           }
         }
       } else

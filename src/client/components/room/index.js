@@ -7,7 +7,7 @@ import * as actions from '../../actions'
 
 import './style.css'
 
-const room = ({ roomId, isMaster, isPlaying, startGame }) => (
+const room = ({ roomId, isMaster, isPlaying, startGame, pause }) => (
   <div className='roomContainer'>
   <div className='inGameGrid' />
     <div className='roomSide roomSideLeft'>
@@ -36,6 +36,7 @@ const room = ({ roomId, isMaster, isPlaying, startGame }) => (
           ? <button className='startGame' onClick={startGame}>Start game</button>
           : <p className='waitingMaster'>Waiting for the master to start the game...</p>)}
         {isPlaying && <p className='waitingMaster'>A game is in progress !</p>}
+        {isPlaying && <button className='startGame' onClick={pause}>PAUSE</button>}
       </div>
     </div>
 
@@ -70,6 +71,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     startGame: () => {
       dispatch(actions.server.startGame())
+    },
+    pause: () => {
+      dispatch(actions.pause())
     },
   }
 }

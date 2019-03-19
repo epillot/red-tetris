@@ -1,6 +1,3 @@
-import { movePiece } from '../actions'
-import { isPossible } from '../tools'
-
 export const animationMiddleWare = ({ dispatch, getState }) => next => action => {
 
   if (!action.isAnimation)

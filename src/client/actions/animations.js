@@ -1,5 +1,4 @@
-import * as types from '../constants/actionTypes'
-import { movePiece } from '.'
+import { movePiece } from './piece'
 import { getCompleteLines, isPossible, isComplete, isEmpty } from '../tools'
 
 export const spaceAnimation = () => {
@@ -47,6 +46,17 @@ const getLineAnimationStyle = (lines, opacity, b) => {
   return output
 }
 
+const getLineAnimationStyle2 = (lines, opacity, b) => {
+  const output = []
+  const style = {opacity, transform: `scale(b)`}
+  lines.forEach(y => {
+    for (let x = 0; x < 10; x++) {
+      output[x + y*10] = style
+    }
+  })
+  return output
+}
+
 const getTranslateAnimationStyle = (lines, data, yi) => {
   const output = []
   for (let y = 0; y < 20; y++) {
@@ -85,10 +95,11 @@ export const disparitionLinesAnimation = (lines) => (dispatch) => {
 
   let opacity = 1
   let b = 90
-  const step = 0.01
+  const step = 0.03
   const bi = 90 / (1 / step)
   let max
   let yi = 0
+  const scale = 1
 
   return dispatch({
     isAnimation: true,
@@ -101,8 +112,7 @@ export const disparitionLinesAnimation = (lines) => (dispatch) => {
       const data = getTranslationData(getState().tetris)
       max = Math.max(...data)
       if (yi < max) {
-        console.log('kiiikiik');
-        yi += 0.5
+        yi += 6
         if (yi > max)
           yi = max
         return animationStep(getTranslateAnimationStyle(getCompleteLines(getState().tetris), data, yi))
@@ -113,7 +123,7 @@ export const disparitionLinesAnimation = (lines) => (dispatch) => {
 
 export const animationStep = (getStyle) => {
   return {
-    type: types.ANIMATION_STEP,
+    type: 'ANIMATION_STEP',
     getStyle,
   }
 }

@@ -48,22 +48,22 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createRoom: () => dispatch((_, getState) => {
       const { nickname } = getState().ui
-      if (!nickname) dispatch(actions.nicknameError())
+      if (!nickname) dispatch(actions.ui.nicknameError())
       else dispatch(actions.server.createRoom(nickname))
     }),
     joinRoom: () => dispatch((_, getState) => {
       const { nickname, partyCode } = getState().ui
-      if (!nickname) dispatch(actions.nicknameError())
+      if (!nickname) dispatch(actions.ui.nicknameError())
       else dispatch(actions.server.joinRoom(partyCode, nickname))
     }),
     editName: (e) => {
-      dispatch(actions.editName(e.target.value))
+      dispatch(actions.ui.editName(e.target.value))
     },
     editCode: (e) => {
-      dispatch(actions.editCode(e.target.value))
+      dispatch(actions.ui.editCode(e.target.value))
     },
     removeError: (name) => () => {
-      dispatch(actions.removeError(name))
+      dispatch(actions.ui.removeError(name))
     }
   }
 }
