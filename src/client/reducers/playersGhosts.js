@@ -11,9 +11,8 @@ const getPlayersGhosts = (state, { room }) => {
 
   users.forEach(user => {
     if (!output[user.id])
-      output[user.id] = user.tetris
+      output[user.id] = user.ghost
   })
-  console.log(output);
   return output
 }
 
@@ -34,7 +33,7 @@ export default function playersGhosts(state={}, action) {
 
     case 'UPDATE_GHOST':
       return updateObject(state, {
-        [action.id]: action.tetris,
+        [action.id]: action.ghost,
       })
 
     case 'BEGIN_GAME':

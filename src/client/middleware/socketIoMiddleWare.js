@@ -17,8 +17,10 @@ export const socketIoMiddleWare = socket => ({dispatch, getState}) => {
         dispatch(actions.tryNewPiece(action))
       } else if (action.type === 'UPDATE_GHOST') {
         dispatch(action)
-        if (action.lines > 0 && getState().roomUsers.find(user => user.id === socket.id && user.isPlaying))
+        if (action.lines > 0 && getState().roomUsers.find(user => user.id === socket.id && user.isPlaying)) {
           dispatch(actions.tetris.blackLines(action.lines))
+          dispatch(actions.server.updateTetris())
+        }
       } else if (action.type === 'UPDATE_ROOM') {
         dispatch(action)
         const winner = action.room.users.find(user => user.win === true)

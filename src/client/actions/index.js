@@ -57,7 +57,7 @@ const nextTurn = () => (dispatch, getState) => {
     const lines = f.getCompleteLines(getState().tetris).length
     dispatch(disparitionLinesAnimation(lines)).then(() => {
       dispatch(tetris.removeLines())
-      dispatch(server.updateTetris(getState().tetris, lines - 1))
+      dispatch(server.updateTetris(lines - 1, true))
     })
   })
 }

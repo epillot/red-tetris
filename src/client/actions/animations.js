@@ -35,20 +35,10 @@ export const pieceAnimation = () => {
   }
 }
 
-const getLineAnimationStyle = (lines, opacity, b) => {
+const getLineAnimationStyle = (lines, opacity, s) => {
   const output = []
-  const style = {opacity, filter: `brightness(${b}%)`}
-  lines.forEach(y => {
-    for (let x = 0; x < 10; x++) {
-      output[x + y*10] = style
-    }
-  })
-  return output
-}
-
-const getLineAnimationStyle2 = (lines, opacity, b) => {
-  const output = []
-  const style = {opacity, transform: `scale(b)`}
+  let r = 360*s
+  const style = {opacity, transform: `rotate(${r}deg) scale(${s})`}
   lines.forEach(y => {
     for (let x = 0; x < 10; x++) {
       output[x + y*10] = style
@@ -94,20 +84,19 @@ export const disparitionLinesAnimation = (lines) => (dispatch) => {
     return Promise.resolve()
 
   let opacity = 1
-  let b = 90
-  const step = 0.03
-  const bi = 90 / (1 / step)
+  const step = 0.05
   let max
   let yi = 0
-  const scale = 1
+  let s = 1
+  const si = 1 / (1 / step)
 
   return dispatch({
     isAnimation: true,
     nextAction: getState => {
       if (opacity > 0) {
         opacity -= step
-        b -= bi
-        return animationStep(getLineAnimationStyle(getCompleteLines(getState().tetris), opacity, b))
+        s -= si
+        return animationStep(getLineAnimationStyle(getCompleteLines(getState().tetris), opacity, s))
       }
       const data = getTranslationData(getState().tetris)
       max = Math.max(...data)

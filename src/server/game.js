@@ -27,7 +27,7 @@ class Game {
   }
 
   newRoomId() {
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    const possible = 'abcdefghijklmnopqrstuvwxyz0123456789'
     let id = ""
     while (true) {
       for (let i = 0; i < 5; i++)

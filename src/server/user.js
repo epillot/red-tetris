@@ -38,7 +38,7 @@ export default class User {
     return {
       name: this.name,
       id: this.id,
-      tetris: this.tetris,
+      ghost: this.ghost,
       isPlaying: this.isPlaying,
       gameOver: this.gameOver,
       win: this.win,

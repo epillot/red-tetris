@@ -38,7 +38,7 @@ export default function piece(state=null, action) {
       return null
 
     case 'BLACK_LINES':
-      return state && blackLines2(state, action)
+      return state && blackLines(state, action)
 
     default:
       return state

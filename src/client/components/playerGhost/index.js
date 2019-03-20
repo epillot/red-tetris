@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import './style.css'
 
 const getBoardClassName = (ghost, isPlaying, gameOver, win) => {
-  let boardClass = 'boardGhost'
+  let boardClass = 'ghostContainer'
   if (ghost === null)
     boardClass += ' waitingGhost'
   if (ghost === undefined && !isPlaying)
@@ -13,22 +13,36 @@ const getBoardClassName = (ghost, isPlaying, gameOver, win) => {
   return boardClass
 }
 
-const playerGhost = ({ name, ghost, num, isPlaying, gameOver, win }) => console.log(`-------${name || num} ghost is rendered----------`) || (
+const getGhost = ghost => {
+  console.log(ghost);
+  const output = []
+  let x, y, blockclass
+  const offset = ghost.length - 20
+  for (let i = 0; i < 200; i++) {
+    x = Math.floor(i % 10)
+    y = offset + Math.floor(i / 10)
+    blockclass = 'blockGhost'
+    if (y >= ghost.length - ghost.nbLine)
+      blockclass += ' black'
+    else if (ghost.data[x] !== -1 && y >= ghost.data[x])
+      blockclass += ' plain'
+    output.push(<div key={i} className={blockclass}></div>)
+  }
+  return output
+}
+
+const playerGhost = ({ name, ghost, num, isPlaying, gameOver, win }) => (
   <div className='ghostWrapper'>
-  <div className='ghostContainer'>
-    <span className='ghostPlayerName'>{name}</span>
+    <div className='ghostPlayerName'>{name}</div>
     <div className={getBoardClassName(ghost, isPlaying, gameOver, win)}>
-      {ghost && ghost.map((col, i) => col.map((c, j) => (
-        <div key={`${i}${j}`} className={'blockGhost' + (c === 'black' ? ' black' : (c ? ' plain' : ''))}></div>
-      )))}
-      <div className='wrapper'>
-        {ghost === undefined && !isPlaying && <p>READY</p>}
-        {ghost === null && <p>Waiting for player</p>}
-        {gameOver && <i className='material-icons md-48 md-dark'>sentiment_very_dissatisfied</i>}
-        {win && <i className='material-icons md-48 md-dark'>sentiment_very_satisfied</i>}
-      </div>
+      {ghost === undefined && !isPlaying && <p>READY</p>}
+      {ghost === null && <p>Waiting for player</p>}
+      {gameOver && <i className='material-icons md-48 md-blue'>sentiment_very_dissatisfied</i>}
+      {win && <i className='material-icons md-48 md-blue'>sentiment_very_satisfied</i>}
     </div>
-  </div>
+    <div className='boardGhost'>
+      {ghost && getGhost(ghost)}
+    </div>
   </div>
 )
 
@@ -41,6 +55,8 @@ const mapStateToProps = (state, ownProps) => {
   //     isPlaying: true,
   //     gameOver: true,
   //   }
+  // if (user)
+  //   console.log(state.playersGhosts[user.id]);
   return {
     name: user ? user.name : '',
     ghost: user ? state.playersGhosts[user.id] : null,

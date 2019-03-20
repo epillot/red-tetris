@@ -29,6 +29,7 @@ const store = createStore(
         //case 'REMOVE_LINES':
         //case 'PUT_PIECE':
         case 'BLACK_LINES':
+        case 'UPDATE_GHOST':
         //case 'MOVE_PIECE':
           return true
         default: return false

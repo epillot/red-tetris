@@ -45,15 +45,14 @@ const getBlocks = (len) => {
 
 const board = ({ timer, gameOver, win, len }) => (
   <div className='boardWrapper'>
-  <div className='board-container'>
+    <div className='board-container'>
       {timer && <div className='timer'>{timer}</div>}
       {gameOver && <span className='gameOver'>GAME OVER</span>}
       {win && <span className='gameOver'>YOU WIN !</span>}
     </div>
-  <div className={'board' + (gameOver || win ? ' boardGameOver' : '')}>
-    {!timer && getBlocks(len)}
-
-  </div>
+    <div className={'board' + (gameOver || win ? ' boardGameOver' : '')}>
+      {!timer && getBlocks(len)}
+    </div>
   </div>
 )
 

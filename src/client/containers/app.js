@@ -8,10 +8,16 @@ const App = ({ nickname, nicknameError, partyCode, room, roomError, editName, ed
   if (isLoading || roomLoading) {
     return (
       <div className='appContainer'>
+      <div className='grid-container'>
+      <div className='test'>
+      <div className='main-container'>
        <h1>Red Tetris</h1>
         <div className='connecting'>
           Connecting...
         </div>
+      </div>
+      </div>
+      </div>
       </div>
     )
   }
