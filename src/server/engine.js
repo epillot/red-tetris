@@ -76,7 +76,7 @@ export default class Engine {
               lines: action.lines,
             })
 
-            if (action.newPiece) {
+            if (action.newPiece && !user.win) {
               user.indexPiece++
               user.sendAction({
                 type: 'NEW_PIECE',

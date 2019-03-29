@@ -8,7 +8,16 @@ const logerror = debug('tetris:error')
 const initApp = (app, params, cb) => {
   const {host, port} = params
   const handler = (req, res) => {
-    const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html'
+    let file
+    if (req.url === '/bundle.js')
+      file = '/../../build/bundle.js'
+    else if (req.url === '/fonts/midnight_drive.otf')
+      file = '/../../build/fonts/midnight_drive.otf'
+    else if (req.url === '/fonts/Orbitron-Regular.ttf')
+      file = '/../../build/fonts/Orbitron-Regular.ttf'
+    else
+      file = '/../../index.html'
+    //const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html'
     fs.readFile(__dirname + file, (err, data) => {
       if (err) {
         logerror(err)

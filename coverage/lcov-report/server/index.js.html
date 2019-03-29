@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
-        <span class="quiet">Statements</span>
-        <span class='fraction'>2/3</span>
-      </div>
-      <div class='fl pad1y space-right2'>
         <span class="strong">12.5% </span>
-        <span class="quiet">Branches</span>
+        <span class="quiet">Statements</span>
         <span class='fraction'>1/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75% </span>
-        <span class="quiet">Functions</span>
-        <span class='fraction'>9/12</span>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">12.5% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/3</span>
+        <span class='fraction'>1/8</span>
       </div>
     </div>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -102,8 +102,7 @@
 57
 58
 59
-60
-61</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+60</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -115,9 +114,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -143,14 +149,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -165,14 +163,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import fs  from 'fs'
 import debug from 'debug'
+import Engine from './engine'
 &nbsp;
 const logerror = debug('tetris:error')
   , loginfo = debug('tetris:info')
 &nbsp;
-const initApp = (app, params, cb) =&gt; {
+const initApp = <span class="fstat-no" title="function not covered" >(app, params, cb) =&gt; {</span>
   const {host, port} = params
   const handler = <span class="fstat-no" title="function not covered" >(req, res) =&gt; {</span>
-    const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : (req.url === '/tetris.css' ? '/../../tetris.css' : '/../../index.html')
+    let file
+<span class="cstat-no" title="statement not covered" >    if (req.url === '/bundle.js')</span>
+<span class="cstat-no" title="statement not covered" >      file = '/../../build/bundle.js'</span>
+    else <span class="cstat-no" title="statement not covered" >if (req.url === '/fonts/midnight_drive.otf')</span>
+<span class="cstat-no" title="statement not covered" >      file = '/../../build/fonts/midnight_drive.otf'</span>
+    else <span class="cstat-no" title="statement not covered" >if (req.url === '/fonts/Orbitron-Regular.ttf')</span>
+<span class="cstat-no" title="statement not covered" >      file = '/../../build/fonts/Orbitron-Regular.ttf'</span>
+    else
+      file = '/../../index.html'
+    //const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html'
     fs.readFile(__dirname + file, <span class="fstat-no" title="function not covered" >(err, data) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      if (err) {</span>
         logerror(err)
@@ -186,30 +194,20 @@ const initApp = (app, params, cb) =&gt; {
 &nbsp;
   app.on('request', handler)
 &nbsp;
-  app.listen({host, port}, () =&gt;{
+  app.listen({host, port}, <span class="fstat-no" title="function not covered" >() =&gt;{</span>
     loginfo(`tetris listen on ${params.url}`)
     cb()
   })
 }
 &nbsp;
-const initEngine = io =&gt; {
-  io.on('connection', function(socket){
-    loginfo("Socket connected: " + socket.id)
-    socket.on('action', (action) =&gt; {
-      <span class="missing-if-branch" title="else path not taken" >E</span>if(action.type === 'server/ping'){
-        socket.emit('action', {type: 'pong'})
-      }
-    })
-  })
-}
 &nbsp;
-export function create(params){
-  const promise = new Promise( (resolve, reject) =&gt; {
+export <span class="fstat-no" title="function not covered" >function create(params){</span>
+  const promise = new Promise( <span class="fstat-no" title="function not covered" >(resolve, reject) =&gt; {</span>
     const app = require('http').createServer()
-    initApp(app, params, () =&gt;{
-      const io = require('socket.io')(app)
-      const stop = (cb) =&gt; {
-        io.close()
+    initApp(app, params, <span class="fstat-no" title="function not covered" >() =&gt;{</span>
+      const engine = new Engine(app)
+      const stop = <span class="fstat-no" title="function not covered" >(cb) =&gt; {</span>
+        engine.stop()
         app.close( <span class="fstat-no" title="function not covered" >() =&gt; {</span>
           app.unref()
         })
@@ -217,7 +215,6 @@ export function create(params){
         cb()
       }
 &nbsp;
-      initEngine(io)
       resolve({stop})
     })
   })
@@ -229,7 +226,7 @@ export function create(params){
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 25 2018 15:39:44 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 29 2019 17:04:04 GMT+0100 (CET)
 </div>
 </div>
 <script src="../prettify.js"></script>

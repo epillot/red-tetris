@@ -23,15 +23,38 @@ var Game = function () {
 
   _createClass(Game, [{
     key: 'createRoom',
-    value: function createRoom(socketId) {
-      var room = new _room2.default(this.newRoomId(), socketId);
+    value: function createRoom(user) {
+      var room = new _room2.default(this.newRoomId());
+      room.addUser(user);
       this.rooms.push(room);
-      return room.id;
+      console.log(this.rooms);
+      return room;
+    }
+  }, {
+    key: 'deleteRoom',
+    value: function deleteRoom(room) {
+      this.rooms = this.rooms.filter(function (r) {
+        return r !== room;
+      });
+    }
+  }, {
+    key: 'getRoomById',
+    value: function getRoomById(id) {
+      return this.rooms.find(function (room) {
+        return room.id === id;
+      });
+    }
+  }, {
+    key: 'getRoomByMaster',
+    value: function getRoomByMaster(user) {
+      return this.rooms.find(function (room) {
+        return room.users[0] === user;
+      });
     }
   }, {
     key: 'newRoomId',
     value: function newRoomId() {
-      var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      var possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
       var id = "";
       while (true) {
         for (var i = 0; i < 5; i++) {
@@ -44,6 +67,35 @@ var Game = function () {
         }
         return id;
       }
+    }
+  }, {
+    key: 'addUserToRoom',
+    value: function addUserToRoom(roomId, user) {
+      var room = this.getRoomById(roomId);
+      if (room) {
+        if (room.addUser(user)) return room;
+        this.currentError = 'This room is full';
+        return null;
+      }
+      this.currentError = 'This room doesn\'t exist';
+      return null;
+    }
+  }, {
+    key: 'removeUserFromRoom',
+    value: function removeUserFromRoom(roomId, user) {
+      var _this = this;
+
+      var room = this.getRoomById(roomId);
+      if (room) {
+        room.removeUser(user);
+        setTimeout(function () {
+          if (!room.users.length) {
+            console.log('deleting room: ' + room.id);
+            _this.deleteRoom(room);
+          }
+        }, 60000);
+      }
+      return this.getRoomById(roomId);
     }
   }]);
 

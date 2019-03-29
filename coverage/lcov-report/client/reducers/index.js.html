@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/2</span>
+        <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">41.67% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>5/12</span>
+        <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/2</span>
+        <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/2</span>
+        <span class='fraction'>0/0</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -67,57 +67,12 @@
 22
 23
 24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+25</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -136,121 +91,37 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as types from '../constants/actionTypes'
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { combineReducers } from 'redux'
+import * as types from '../constants/actionTypes'
 import * as f from '../tools'
+import animations from './animations'
+import connecting from './connecting'
+import game from './game'
+import piece from './piece'
+import playersGhosts from './playersGhosts'
+import room from './room'
+import roomUsers from './roomUsers'
+import tetris from './tetris'
+import ui from './ui'
 &nbsp;
-const newTetris = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
-  const tetris = [];
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 10; i++) {</span>
-    tetris.push([]);
-<span class="cstat-no" title="statement not covered" >    for (var j = 0; j &lt; 20; j++) {</span>
-      tetris[i][j] = '';
-    }
-  }
-  return tetris;
-}
-&nbsp;
-const copyState = (state, newState) =&gt; Object.assign({}, state, newState)
-&nbsp;
-const reducer = (state = <span class="branch-1 cbranch-no" title="branch not covered" >{} , action) =&gt; {</span>
-  switch(action.type){
-&nbsp;
-<span class="branch-0 cbranch-no" title="branch not covered" >    case types.START_GAME:</span>
-      return copyState(state, {tetris: newTetris()})
-&nbsp;
-    case 'ALERT_POP':
-      return copyState(state, {message: action.message})
-&nbsp;
-    // case types.NEW_PIECE:
-    //   return copyState(state, {
-    //     ...action.piece,
-    //     tetris: f.putPiece(f.copyTetris(state.tetris), action.piece.coords, action.piece.color),
-    //     ghost: f.getPieceGhost(state.tetris, action.piece.coords)
-    //   })
-&nbsp;
-<span class="branch-2 cbranch-no" title="branch not covered" >    case types.NEW_PIECE:</span>
-      return copyState(state, {
-        ...action.piece,
-        interval: action.interval,
-        ghost: f.getPieceGhost(state.tetris, action.piece.coords)
-      })
-&nbsp;
-    // case types.MOVE_PIECE:
-    //   const newGrid = f.movePiece(f.copyTetris(state.tetris), state.coords, action.coords, state.color)
-    //   return copyState(state, {
-    //     tetris: newGrid,
-    //     coords: action.coords,
-    //     rotate: action.rotate !== null ? action.rotate : state.rotate,
-    //     ghost: f.getPieceGhost(newGrid, action.coords)
-    //   })
-&nbsp;
-<span class="branch-3 cbranch-no" title="branch not covered" >    case types.MOVE_PIECE:</span>
-      return copyState(state, {
-        coords: action.coords,
-        rotate: action.rotate !== null ? action.rotate : state.rotate,
-        ghost: f.getPieceGhost(state.tetris, action.coords)
-      })
-&nbsp;
-<span class="branch-4 cbranch-no" title="branch not covered" >    case types.PUT_PIECE:</span>
-      return copyState(state, {
-        tetris: f.putPiece(state.tetris, action.coords, state.color),
-      })
-&nbsp;
-&nbsp;
-    default:
-      return state
-  }
-}
-&nbsp;
-export default reducer;
+export default combineReducers({
+  getStyle: animations,
+  connecting,
+  game,
+  piece,
+  playersGhosts,
+  room,
+  roomUsers,
+  tetris,
+  ui,
+})
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 25 2018 15:39:44 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 29 2019 17:04:04 GMT+0100 (CET)
 </div>
 </div>
 <script src="../../prettify.js"></script>

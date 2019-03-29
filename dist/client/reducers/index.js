@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _redux = require('redux');
 
 var _actionTypes = require('../constants/actionTypes');
 
@@ -14,71 +14,54 @@ var _tools = require('../tools');
 
 var f = _interopRequireWildcard(_tools);
 
+var _animations = require('./animations');
+
+var _animations2 = _interopRequireDefault(_animations);
+
+var _connecting = require('./connecting');
+
+var _connecting2 = _interopRequireDefault(_connecting);
+
+var _game = require('./game');
+
+var _game2 = _interopRequireDefault(_game);
+
+var _piece = require('./piece');
+
+var _piece2 = _interopRequireDefault(_piece);
+
+var _playersGhosts = require('./playersGhosts');
+
+var _playersGhosts2 = _interopRequireDefault(_playersGhosts);
+
+var _room = require('./room');
+
+var _room2 = _interopRequireDefault(_room);
+
+var _roomUsers = require('./roomUsers');
+
+var _roomUsers2 = _interopRequireDefault(_roomUsers);
+
+var _tetris = require('./tetris');
+
+var _tetris2 = _interopRequireDefault(_tetris);
+
+var _ui = require('./ui');
+
+var _ui2 = _interopRequireDefault(_ui);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var copyState = function copyState(state, newState) {
-  return Object.assign({}, state, newState);
-};
-
-var defaultAnimationState = {
-  getStyle: false
-};
-
-var reducer = function reducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var action = arguments[1];
-
-  switch (action.type) {
-
-    // case types.START_GAME:
-    //   return copyState(state, {tetris: newTetris()})
-
-    case types.CREATE_ROOM:
-      return copyState(state, { room: null });
-
-    case types.EDIT_NAME:
-      return copyState(state, { nickname: action.value.trim().substr(0, 15).trim() });
-
-    case types.NEW_PIECE:
-      return copyState(state, _extends({}, action.piece, {
-        interval: action.interval
-      }));
-
-    case types.MOVE_PIECE:
-      return copyState(state, {
-        coords: action.coords,
-        rotate: action.rotate !== null ? action.rotate : state.rotate
-      });
-
-    case types.UPDATE_TETRIS:
-      return copyState(state, _extends({
-        tetris: action.tetris,
-        coords: null
-      }, defaultAnimationState));
-
-    case types.ANIMATION_STEP:
-      return copyState(state, {
-        getStyle: action.getStyle
-      });
-
-    case types.ANIMATION_OVER:
-      return copyState(state, {
-        getStyle: false
-      });
-
-    case 'ROOM_CREATED':
-      return copyState(state, {
-        room: action.id
-      });
-
-    case 'NICKNAME_ERROR':
-      return copyState(state, {
-        nicknameError: 'Please enter a nickname'
-      });
-
-    default:
-      return state;
-  }
-};
-
-exports.default = reducer;
+exports.default = (0, _redux.combineReducers)({
+  getStyle: _animations2.default,
+  connecting: _connecting2.default,
+  game: _game2.default,
+  piece: _piece2.default,
+  playersGhosts: _playersGhosts2.default,
+  room: _room2.default,
+  roomUsers: _roomUsers2.default,
+  tetris: _tetris2.default,
+  ui: _ui2.default
+});

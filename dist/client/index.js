@@ -18,8 +18,6 @@ var _store = require('./store');
 
 var _store2 = _interopRequireDefault(_store);
 
-var _alert = require('./actions/alert');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 addEventListener('keydown', function (_ref) {
@@ -32,5 +30,3 @@ _reactDom2.default.render(_react2.default.createElement(
   { store: _store2.default },
   _react2.default.createElement(_app2.default, null)
 ), document.getElementById('tetris'));
-
-_store2.default.dispatch((0, _alert.alert)('Soon, will be here a fantastic Tetris ...'));

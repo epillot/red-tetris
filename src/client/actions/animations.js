@@ -84,7 +84,7 @@ export const disparitionLinesAnimation = (lines) => (dispatch) => {
     return Promise.resolve()
 
   let opacity = 1
-  const step = 0.05
+  const step = 0.01
   let max
   let yi = 0
   let s = 1

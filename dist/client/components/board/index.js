@@ -4,64 +4,109 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _tools = require('../../tools/');
+var _block = require('../block/');
+
+var _block2 = _interopRequireDefault(_block);
 
 require('./style.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var getBlocks = function getBlocks(tetris, piece, pieceColor, getStyle) {
-  var ghost = (0, _tools.getPieceProjection)(tetris, piece);
-  return tetris.map(function (col, i) {
-    return col.map(function (color, j) {
-      if (color) color += ' colored';
-      var style = {};
-      if (getStyle) style = getStyle(i, j);
-      if (piece && piece.filter(function (_ref) {
-        var _ref2 = _slicedToArray(_ref, 2),
-            x = _ref2[0],
-            y = _ref2[1];
+// const getBlocks = (tetris, piece, pieceColor, getStyle) => {
+//   if (!tetris)
+//     return null
+//   const ghost = getPieceProjection(tetris, piece)
+//   return tetris.map((col, y) => {
+//     return col.map((color, x) => {
+//       if (color) color += ' colored'
+//       let style = {}
+//       if (getStyle)
+//         style = getStyle(x, y)
+//       if (piece && piece.filter(([px, py]) => px==x && py==y).length)
+//         color = pieceColor + ' colored'
+//       if (ghost && ghost.filter(([px, py]) => px==x && py==y).length && color === '')
+//         color = 'ghost'
+//       return <div key={`${x}${y}`} className={`block ${color}`} style={style}></div>
+//     });
+//   });
+// }
 
-        return x == i && y == j;
-      }).length) color = pieceColor + ' colored';
-      if (ghost && ghost.filter(function (_ref3) {
-        var _ref4 = _slicedToArray(_ref3, 2),
-            x = _ref4[0],
-            y = _ref4[1];
-
-        return x == i && y == j;
-      }).length && color === '') color = 'ghost';
-      return _react2.default.createElement('div', { key: '' + i + j, className: 'block ' + color, style: style });
-    });
-  });
+var getBlocks = function getBlocks(len) {
+  var output = [];
+  console.log(len);
+  for (var i = 0; i < len * 10; i++) {
+    console.log('salut');
+    output.push(_react2.default.createElement(_block2.default, { key: i, x: 9 - Math.floor(i % 10), y: len - 1 - Math.floor(i / 10) }));
+    //output.push(<Block key={i} num={i % 2} />)
+  }
+  return output;
 };
 
-var board = function board(_ref5) {
-  var tetris = _ref5.tetris,
-      coords = _ref5.coords,
-      color = _ref5.color,
-      getStyle = _ref5.getStyle;
+// const board = ({ tetris, coords, color, getStyle, isPlaying, timer, gameOver }) => (
+//   <div className={'board' + (gameOver ? ' boardGameOver' : '')}>
+//     {getBlocks(tetris, coords, color, getStyle)}
+//     <div className='wrapper'>
+//       {timer && <div className='timer'>{timer}</div>}
+//       {gameOver && <span className='gameOver'>GAME OVER</span>}
+//     </div>
+//   </div>
+// )
+
+var board = function board(_ref) {
+  var timer = _ref.timer,
+      gameOver = _ref.gameOver,
+      win = _ref.win,
+      len = _ref.len;
   return _react2.default.createElement(
     'div',
-    { className: 'board' },
-    getBlocks(tetris, coords, color, getStyle)
+    { className: 'boardWrapper' },
+    _react2.default.createElement(
+      'div',
+      { className: 'board-container' },
+      timer && _react2.default.createElement(
+        'div',
+        { className: 'timer' },
+        timer
+      ),
+      gameOver && _react2.default.createElement(
+        'span',
+        { className: 'gameOver' },
+        'GAME OVER'
+      ),
+      win && _react2.default.createElement(
+        'span',
+        { className: 'gameOver' },
+        'YOU WIN !'
+      )
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: 'board' + (gameOver || win ? ' boardGameOver' : '') },
+      !timer && getBlocks(len)
+    )
   );
 };
 
 var mapStateToProps = function mapStateToProps(state) {
+  var self = state.roomUsers.find(function (user) {
+    return user.id === state.connecting.playerID;
+  });
   return {
-    tetris: state.tetris,
-    coords: state.coords,
-    color: state.color,
-    getStyle: state.getStyle
+    //tetris: state.tetris,
+    //coords: state.coords,
+    //color: state.color,
+    //getStyle: state.getStyle,
+    //isPlaying: state.isPlaying,
+    len: state.tetris ? state.tetris.length : 0,
+    timer: state.game.timer,
+    gameOver: self.gameOver,
+    win: self.win
   };
 };
 
