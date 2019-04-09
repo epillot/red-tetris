@@ -22,7 +22,7 @@ export const animationMiddleWare = ({ dispatch, getState }) => next => action =>
 
     const loop = () => {
       const animAction = nextAction(action.nextAction)
-      //console.log('la', animAction);
+      console.log('la', animAction);
       if (animAction && !stopped) {
         dispatch(animAction)
         requestAnimationFrame(loop)

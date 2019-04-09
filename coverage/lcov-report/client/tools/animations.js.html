@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for server/room.js</title>
+    <title>Code coverage report for client/tools/animations.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../prettify.css" />
-    <link rel="stylesheet" href="../base.css" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../index.html">all files</a> / <a href="index.html">server/</a> room.js
+      <a href="../../index.html">all files</a> / <a href="index.html">client/tools/</a> animations.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">16.67% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>1/6</span>
+        <span class='fraction'>0/9</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/10</span>
+        <span class='fraction'>0/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">28.57% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>2/7</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
-        <span class="quiet">Functions</span>
-        <span class='fraction'>0/1</span>
-      </div>
-      <div class='fl pad1y space-right2'>
-        <span class="strong">16.67% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>1/6</span>
+        <span class='fraction'>0/9</span>
       </div>
     </div>
   </div>
@@ -96,25 +96,7 @@
 51
 52
 53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+54</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -138,6 +120,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -150,23 +139,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -174,72 +149,58 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Tetris from './tetris'
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { isComplete, isEmpty } from '../tools'
 &nbsp;
-export default class Room {
+export const getPieceAnimationStyle = (coords, opacity) =&gt; {
+  const output = []
+  coords.forEach(([x, y]) =&gt; {
+    output[x + y*10] = {opacity}
+  })
+  return output
+}
 &nbsp;
-<span class="fstat-no" title="function not covered" >  constructor(id) {</span>
-    this.id = id
-    this.users = []
-    this.pieces = []
-    this.isPlaying = false
-  }
+export const getLineAnimationStyle = <span class="fstat-no" title="function not covered" >(lines, opacity, s) =&gt; {</span>
+  const output = []
+  let r = 360*s
+  const style = {opacity, transform: `rotate(${r}deg) scale(${s})`}
+  lines.forEach(<span class="fstat-no" title="function not covered" >y =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    for (let x = 0; x &lt; 10; x++) {</span>
+      output[x + y*10] = style
+    }
+  })
+  return output
+}
 &nbsp;
-  getData() {
-    return {
-      id: this.id,
-      users: this.users.map(user =&gt; user.getData()),
-      isPlaying: this.isPlaying,
+export const getTranslateAnimationStyle = <span class="fstat-no" title="function not covered" >(lines, data, yi) =&gt; {</span>
+  const output = []
+<span class="cstat-no" title="statement not covered" >  for (let y = 0; y &lt; 20; y++) {</span>
+    let translateY = data[y]
+<span class="cstat-no" title="statement not covered" >    if (translateY &gt; yi) t</span>ranslateY = yi
+<span class="cstat-no" title="statement not covered" >    for (let x = 0; x &lt; 10; x++) {</span>
+      output[x + y*10] = {transform: 'translate(0px, ' +(-translateY)+ 'px)'}
     }
   }
-&nbsp;
-  addUser(user) {
-<span class="cstat-no" title="statement not covered" >    if (this.users.length &gt;= 5)</span>
-      return false
-    this.users.push(user)
-    user.joinRoom(this.id)
-    return true
-  }
-&nbsp;
-  removeUser(user) {
-    user.leaveRoom(this.id)
-    this.users = this.users.filter(u =&gt; u !== user)
-<span class="cstat-no" title="statement not covered" >    if (!this.users.length)</span>
-      this.isPlaying = false
-  }
-&nbsp;
-  getHash(user) {
-    return {
-      to: user.id,
-      hash: this.id + '[' + user.name + ']',
+  lines.forEach(<span class="fstat-no" title="function not covered" >y =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    for (let x = 0; x &lt; 10; x++) {</span>
+      output[x + y*10] = {opacity: 0}
     }
-  }
+  })
+  return output
+}
 &nbsp;
-  initGame() {
-    this.pieces = []
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 3; i++) {</span>
-      this.pieces.push(Tetris.newTetriminos())
-    }
-    this.users.forEach(user =&gt; user.initGame())
-    this.isPlaying = true
+export const getTranslationData = <span class="fstat-no" title="function not covered" >(tetris) =&gt; {</span>
+  const data = []
+  let nbLine = 0
+  let ydiff
+<span class="cstat-no" title="statement not covered" >  for (let y = tetris.length-1; y &gt;= 0; y--) {</span>
+    ydiff = 0
+<span class="cstat-no" title="statement not covered" >    if (isComplete(tetris[y]))</span>
+<span class="cstat-no" title="statement not covered" >      nbLine++</span>
+    else <span class="cstat-no" title="statement not covered" >if (!isEmpty(tetris[y]))</span>
+      ydiff = nbLine * 40
+    data[y] = ydiff
   }
-&nbsp;
-  getNextPiece(i) {
-    const piece = this.pieces[i]
-    this.pieces.push(Tetris.newTetriminos())
-    return piece
-  }
-&nbsp;
-  checkWinner() {
-    const usersLeft = this.users.filter(user =&gt; user.isPlaying &amp;&amp; user.gameOver !== true)
-<span class="cstat-no" title="statement not covered" >    if (usersLeft.length &lt;= 1) {</span>
-<span class="cstat-no" title="statement not covered" >      if (usersLeft.length == 1)</span>
-        usersLeft[0].win = true
-      this.isPlaying = false
-    }
-  }
-&nbsp;
+  return data
 }
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -250,7 +211,7 @@ export default class Room {
   generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 09 2019 16:58:14 GMT+0200 (CEST)
 </div>
 </div>
-<script src="../prettify.js"></script>
+<script src="../../prettify.js"></script>
 <script>
 window.onload = function () {
         if (typeof prettyPrint === 'function') {
@@ -258,6 +219,6 @@ window.onload = function () {
         }
 };
 </script>
-<script src="../sorter.js"></script>
+<script src="../../sorter.js"></script>
 </body>
 </html>

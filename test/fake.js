@@ -1,14 +1,9 @@
 import chai from "chai"
 import * as tools from '../src/client/tools'
+import * as animationsTools from '../src/client/tools/animations'
 
 const should = chai.should()
 
-// describe('Check Sum', () => {
-//   it('1+1 == 2', () => {
-//     const res = 1 + 1
-//     res.should.equal(2)
-//   })
-// })
 
 describe('Tools', () => {
 
@@ -116,4 +111,23 @@ describe('Tools', () => {
     })
   })
 
+})
+
+describe('Animations tools', () => {
+
+  describe('getPieceAnimationStyle', () => {
+    it('return an array of style with the given opacity', () => {
+      const opacity = 0.1
+      const coords = [[0,0], [1,0], [2,0], [3,0]]
+      const res = animationsTools.getPieceAnimationStyle(coords, opacity)
+      res.should.be.an('array')
+      coords.forEach(coord => {
+        res[coord[0] + coord[1]*10].should.deep.equal({opacity})
+      })
+    })
+  })
+
+  describe('getLineAnimationStyle', () => {
+
+  })
 })

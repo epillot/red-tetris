@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/6</span>
+        <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/12</span>
+        <span class='fraction'>8/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/6</span>
+        <span class='fraction'>5/5</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/6</span>
+        <span class='fraction'>0/0</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -81,41 +81,7 @@
 36
 37
 38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+39</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -147,60 +113,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const startGame = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { getGhostData } from '../tools'
+&nbsp;
+export const startGame = () =&gt; {
   return {
     type: 'server/START_GAME',
   }
 }
 &nbsp;
-export const createRoom = <span class="fstat-no" title="function not covered" >(nickname) =&gt; {</span>
+export const createRoom = (nickname) =&gt; {
   return {
     type: 'server/CREATE_ROOM',
     nickname,
   }
 }
 &nbsp;
-export const joinRoom = <span class="fstat-no" title="function not covered" >(id, nickname) =&gt; {</span>
+export const joinRoom = (id, nickname) =&gt; {
   return {
     type: 'server/JOIN_ROOM',
     id,
@@ -208,43 +142,7 @@ export const joinRoom = <span class="fstat-no" title="function not covered" >(id
   }
 }
 &nbsp;
-// export const updateTetris = (tetris, lines) =&gt; {
-//
-//   return {
-//     type: 'server/UPDATE_TETRIS',
-//     tetris,
-//     lines,
-//   }
-// }
-&nbsp;
-const getGhostData = <span class="fstat-no" title="function not covered" >(tetris) =&gt; {</span>
-  let nbLine = 0
-<span class="cstat-no" title="statement not covered" >  for (let y = tetris.length - 1; y &gt;= 0; y--) {</span>
-<span class="cstat-no" title="statement not covered" >    if (tetris[y][0] === 'black')</span>
-<span class="cstat-no" title="statement not covered" >      nbLine++</span>
-    else
-      break
-  }
-  const data = []
-  let firstY
-<span class="cstat-no" title="statement not covered" >  for (let x = 0; x &lt; 10; x++) {</span>
-    firstY = -1
-<span class="cstat-no" title="statement not covered" >    for (let y = 0; y &lt; tetris.length; y++) {</span>
-<span class="cstat-no" title="statement not covered" >      if (tetris[y][x] !== '') {</span>
-        firstY = y
-        break
-      }
-    }
-    data.push(firstY)
-  }
-  return {
-    nbLine,
-    data,
-    length: tetris.length,
-  }
-}
-&nbsp;
-export const updateTetris = (lines=0, newPiece=false) =&gt; <span class="fstat-no" title="function not covered" >(dispatch, getState) =&gt; {</span>
+export const updateTetris = (lines=0, newPiece=false) =&gt; (dispatch, getState) =&gt; {
   const ghost = getGhostData(getState().tetris)
   dispatch({
     type: 'server/UPDATE_TETRIS',
@@ -254,7 +152,7 @@ export const updateTetris = (lines=0, newPiece=false) =&gt; <span class="fstat-n
   })
 }
 &nbsp;
-export const gameOver = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+export const gameOver = () =&gt; {
   return {
     type: 'server/GAME_OVER',
   }
@@ -265,7 +163,7 @@ export const gameOver = <span class="fstat-no" title="function not covered" >() 
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 29 2019 17:04:04 GMT+0100 (CET)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 09 2019 16:58:14 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../prettify.js"></script>
