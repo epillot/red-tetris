@@ -31,7 +31,7 @@ export default function piece(state=null, action) {
     case 'MOVE_PIECE':
       return movePiece(state, action)
 
-    case 'GRAVITY':
+    case 'PIECE_INTERVAL':
       return updateObject(state, {interval: action.interval})
 
     case 'PUT_PIECE':

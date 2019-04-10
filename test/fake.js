@@ -116,7 +116,7 @@ describe('Tools', () => {
 describe('Animations tools', () => {
 
   describe('getPieceAnimationStyle', () => {
-    it('return an array of style with the given opacity', () => {
+    it('return an array of style filled at the right coords', () => {
       const opacity = 0.1
       const coords = [[0,0], [1,0], [2,0], [3,0]]
       const res = animationsTools.getPieceAnimationStyle(coords, opacity)
@@ -128,6 +128,59 @@ describe('Animations tools', () => {
   })
 
   describe('getLineAnimationStyle', () => {
-
+    it('return an array of style filled at the right coords', () => {
+      const opacity = 0.1
+      const scale = 0.5
+      const tetris = [
+        ['', 'red', ''],
+        ['red', 'red', 'red'],
+        ['', '', 'red'],
+        ['red', 'red', 'red'],
+      ]
+      const res = animationsTools.getLineAnimationStyle(tetris, opacity, scale)
+      res.should.be.an('array')
+      tools.getCompleteLines(tetris).forEach(y => {
+        for (let x = 0; x < tetris[0].length; x++) {
+          res[x + y*10].should.deep.equal({
+            opacity,
+            transform: `rotate(${scale*360}deg) scale(${scale})`
+          })
+        }
+      })
+    })
   })
+
+  describe('getTranslationData & getTranslateAnimationStyle', () => {
+    const tetris = [
+      ['', '', ''],
+      ['', 'red', ''],
+      ['red', 'red', 'red'],
+      ['', '', 'red'],
+      ['red', 'red', 'red'],
+    ]
+    const data = animationsTools.getTranslationData(tetris)
+    it('getTranslationData', () => {
+      data.should.have.ordered.members([0, 80, 0, 40, 0])
+    })
+    it('getTranslateAnimationStyle', () => {
+      const yi = 45
+      const res = animationsTools.getTranslateAnimationStyle(tetris, data, yi)
+      res.should.be.an('array')
+      for (let x = 0; x < tetris[0].length; x++) {
+        res[x].should.deep.equal({transform: 'translate(0px, 0px)'})
+      }
+      for (let x = 0; x < tetris[0].length; x++) {
+        res[x + 10].should.deep.equal({transform: 'translate(0px, -45px)'})
+      }
+      for (let x = 0; x < tetris[0].length; x++) {
+        res[x + 30].should.deep.equal({transform: 'translate(0px, -40px)'})
+      }
+      [2, 4].forEach(y => {
+        for (let x = 0; x < tetris[0].length; x++) {
+          res[x + y*10].should.deep.equal({opacity: 0})
+        }
+      })
+    })
+  })
+
 })

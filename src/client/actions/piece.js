@@ -5,3 +5,10 @@ export const movePiece = (coords, rotate=null) => {
     rotate,
   }
 }
+
+export const interval = id => {
+  return {
+    type: 'PIECE_INTERVAL',
+    interval: id,
+  }
+}

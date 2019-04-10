@@ -1,8 +1,6 @@
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import chai from "chai"
-import { animationMiddleWare } from '../src/client/middleware/animationMiddleWare'
-import rootReducer from '../src/client/reducers'
 import { movePiece } from '../src/client/actions/piece'
 import * as serverActions from '../src/client/actions/server'
 import * as tetrisActions from '../src/client/actions/tetris'
@@ -14,38 +12,6 @@ const should = chai.should()
 
 const middlewares = [thunk] // add your middlewares like `redux-thunk`
 const mockStore = configureStore(middlewares)
-
-// describe('Fake redux test', function(){
-//   it('alert it', function(done){
-//     const initialState = {}
-//     const store =  configureStore(rootReducer, null, initialState, {
-//       ALERT_POP: ({dispatch, getState}) =>  {
-//         const state = getState()
-//         state.message.should.equal(MESSAGE)
-//         done()
-//       }
-//     })
-//     // store.dispatch(alert(MESSAGE))
-//   })
-//
-// })
-
-// it('Piece reducer', done => {
-//   const piece = tools.newTetriminos()
-//   const initialState = {piece}
-//   const coords = [[0, 0], [0, 1], [0, 2], [0, 3]]
-//   const rotate = 1
-//   const store = configureStore(rootReducer, null, initialState, {
-//     MOVE_PIECE: ({ dispatch, getState }) => {
-//       getState().piece.coords.should.have.deep.members(coords)
-//       getState().piece.rotate.should.equal(1)
-//       done()
-//     }
-//   })
-//   const action = movePiece(coords, rotate)
-//   store.dispatch(action)
-// })
-
 
 describe('Redux actions test', () => {
   describe('Piece actions', () => {

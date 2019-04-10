@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/9</span>
+        <span class='fraction'>9/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/6</span>
+        <span class='fraction'>6/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">28.57% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/7</span>
+        <span class='fraction'>7/7</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/9</span>
+        <span class='fraction'>9/9</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -96,7 +96,9 @@
 51
 52
 53
-54</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+54
+55
+56</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -111,7 +113,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -120,18 +123,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -139,17 +140,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { isComplete, isEmpty } from '../tools'
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { isComplete, isEmpty, getCompleteLines } from '../tools'
 &nbsp;
 export const getPieceAnimationStyle = (coords, opacity) =&gt; {
   const output = []
@@ -159,44 +163,46 @@ export const getPieceAnimationStyle = (coords, opacity) =&gt; {
   return output
 }
 &nbsp;
-export const getLineAnimationStyle = <span class="fstat-no" title="function not covered" >(lines, opacity, s) =&gt; {</span>
+export const getLineAnimationStyle = (tetris, opacity, s) =&gt; {
+  const lines = getCompleteLines(tetris)
   const output = []
   let r = 360*s
   const style = {opacity, transform: `rotate(${r}deg) scale(${s})`}
-  lines.forEach(<span class="fstat-no" title="function not covered" >y =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    for (let x = 0; x &lt; 10; x++) {</span>
+  lines.forEach(y =&gt; {
+    for (let x = 0; x &lt; tetris[0].length; x++) {
       output[x + y*10] = style
     }
   })
   return output
 }
 &nbsp;
-export const getTranslateAnimationStyle = <span class="fstat-no" title="function not covered" >(lines, data, yi) =&gt; {</span>
+export const getTranslateAnimationStyle = (tetris, data, yi) =&gt; {
   const output = []
-<span class="cstat-no" title="statement not covered" >  for (let y = 0; y &lt; 20; y++) {</span>
+  for (let y = 0; y &lt; tetris.length; y++) {
     let translateY = data[y]
-<span class="cstat-no" title="statement not covered" >    if (translateY &gt; yi) t</span>ranslateY = yi
-<span class="cstat-no" title="statement not covered" >    for (let x = 0; x &lt; 10; x++) {</span>
+    if (translateY &gt; yi) translateY = yi
+    for (let x = 0; x &lt; tetris[0].length; x++) {
       output[x + y*10] = {transform: 'translate(0px, ' +(-translateY)+ 'px)'}
     }
   }
-  lines.forEach(<span class="fstat-no" title="function not covered" >y =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    for (let x = 0; x &lt; 10; x++) {</span>
+  const lines = getCompleteLines(tetris)
+  lines.forEach(y =&gt; {
+    for (let x = 0; x &lt; tetris[0].length; x++) {
       output[x + y*10] = {opacity: 0}
     }
   })
   return output
 }
 &nbsp;
-export const getTranslationData = <span class="fstat-no" title="function not covered" >(tetris) =&gt; {</span>
+export const getTranslationData = (tetris) =&gt; {
   const data = []
   let nbLine = 0
   let ydiff
-<span class="cstat-no" title="statement not covered" >  for (let y = tetris.length-1; y &gt;= 0; y--) {</span>
+  for (let y = tetris.length-1; y &gt;= 0; y--) {
     ydiff = 0
-<span class="cstat-no" title="statement not covered" >    if (isComplete(tetris[y]))</span>
-<span class="cstat-no" title="statement not covered" >      nbLine++</span>
-    else <span class="cstat-no" title="statement not covered" >if (!isEmpty(tetris[y]))</span>
+    if (isComplete(tetris[y]))
+      nbLine++
+    else if (!isEmpty(tetris[y]))
       ydiff = nbLine * 40
     data[y] = ydiff
   }
@@ -208,7 +214,7 @@ export const getTranslationData = <span class="fstat-no" title="function not cov
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 09 2019 16:58:14 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 10 2019 15:52:37 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../prettify.js"></script>

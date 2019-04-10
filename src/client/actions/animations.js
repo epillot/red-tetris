@@ -1,6 +1,6 @@
 import { movePiece } from './piece'
 import * as tools from '../tools/animations'
-import { getCompleteLines, isPossible } from '../tools'
+import { isPossible } from '../tools'
 
 export const spaceAnimation = () => {
   return {
@@ -35,7 +35,7 @@ export const disparitionLinesAnimation = (lines) => (dispatch) => {
     return Promise.resolve()
 
   let opacity = 1
-  const step = 0.01
+  const step = 0.05
   let max
   let yi = 0
   let s = 1
@@ -48,7 +48,7 @@ export const disparitionLinesAnimation = (lines) => (dispatch) => {
       if (opacity > 0) {
         opacity -= step
         s -= si
-        return animationStep(tools.getLineAnimationStyle(getCompleteLines(getState().tetris), opacity, s))
+        return animationStep(tools.getLineAnimationStyle(getState().tetris, opacity, s))
       }
       const data = tools.getTranslationData(getState().tetris)
       max = Math.max(...data)
@@ -56,7 +56,7 @@ export const disparitionLinesAnimation = (lines) => (dispatch) => {
         yi += 6
         if (yi > max)
           yi = max
-        return animationStep(tools.getTranslateAnimationStyle(getCompleteLines(getState().tetris), data, yi))
+        return animationStep(tools.getTranslateAnimationStyle(getState().tetris, data, yi))
       }
     },
   })

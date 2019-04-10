@@ -1,4 +1,4 @@
-import { isComplete, isEmpty } from '../tools'
+import { isComplete, isEmpty, getCompleteLines } from '../tools'
 
 export const getPieceAnimationStyle = (coords, opacity) => {
   const output = []
@@ -8,29 +8,31 @@ export const getPieceAnimationStyle = (coords, opacity) => {
   return output
 }
 
-export const getLineAnimationStyle = (lines, opacity, s) => {
+export const getLineAnimationStyle = (tetris, opacity, s) => {
+  const lines = getCompleteLines(tetris)
   const output = []
   let r = 360*s
   const style = {opacity, transform: `rotate(${r}deg) scale(${s})`}
   lines.forEach(y => {
-    for (let x = 0; x < 10; x++) {
+    for (let x = 0; x < tetris[0].length; x++) {
       output[x + y*10] = style
     }
   })
   return output
 }
 
-export const getTranslateAnimationStyle = (lines, data, yi) => {
+export const getTranslateAnimationStyle = (tetris, data, yi) => {
   const output = []
-  for (let y = 0; y < 20; y++) {
+  for (let y = 0; y < tetris.length; y++) {
     let translateY = data[y]
     if (translateY > yi) translateY = yi
-    for (let x = 0; x < 10; x++) {
+    for (let x = 0; x < tetris[0].length; x++) {
       output[x + y*10] = {transform: 'translate(0px, ' +(-translateY)+ 'px)'}
     }
   }
+  const lines = getCompleteLines(tetris)
   lines.forEach(y => {
-    for (let x = 0; x < 10; x++) {
+    for (let x = 0; x < tetris[0].length; x++) {
       output[x + y*10] = {opacity: 0}
     }
   })
