@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">33.33% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>1/3</span>
+        <span class='fraction'>1/1</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">25% </span>
+        <span class="strong">75% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>4/16</span>
+        <span class='fraction'>9/12</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">33.33% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/3</span>
+        <span class='fraction'>1/1</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">33.33% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>1/3</span>
+        <span class='fraction'>1/1</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -91,12 +91,8 @@
 46
 47
 48
-49</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+49
+50</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -104,7 +100,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -140,42 +142,43 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { updateObject } from '../tools'
+import { movePiece, blackLines } from '../tools/reducers'
 &nbsp;
-const movePiece = <span class="fstat-no" title="function not covered" >(state, { coords, rotate }) =&gt; {</span>
-  const update = {coords}
-<span class="cstat-no" title="statement not covered" >  if (rotate !== null)</span>
-    update.rotate = rotate
-  return updateObject(state, update)
-}
+// const movePiece = (state, { coords, rotate }) =&gt; {
+//   const update = {coords}
+//   if (rotate !== null)
+//     update.rotate = rotate
+//   return updateObject(state, update)
+// }
+//
+// const blackLines = (state, { nbLines, tetris }) =&gt; {
+//   const startY = tetris.length - 20
+//   const maxY =  Math.max(...state.coords.map(([x, y]) =&gt; y))
+//   let yi
+//   if (maxY &gt; startY) {
+//     yi = nbLines
+//     while (maxY - yi &lt; startY - 1)
+//       yi--
+//   } else {
+//     yi = maxY - startY
+//   }
+//   return updateObject(state, {coords: state.coords.map(([x, y]) =&gt; [x, y - yi])})
+// }
 &nbsp;
-const blackLines = <span class="fstat-no" title="function not covered" >(state, { nbLines, tetris }) =&gt; {</span>
-  const startY = tetris.length - 20
-  const maxY =  Math.max(...state.coords.map(([x, y]) =&gt; y))
-  let yi
-<span class="cstat-no" title="statement not covered" >  if (maxY &gt; startY) {</span>
-    yi = nbLines
-    while (maxY - yi &lt; startY - 1)
-      yi--
-  } else {
-    yi = maxY - startY
-  }
-  return updateObject(state, {coords: state.coords.map(([x, y]) =&gt; [x, y - yi])})
-}
-&nbsp;
-export default function piece(state=</span>null, action) <span class="branch-0 cbranch-no" title="branch not covered" >{
+export default function piece(state=null, action) {
 &nbsp;
   switch (action.type) {
 &nbsp;
-<span class="branch-0 cbranch-no" title="branch not covered" >    case 'NEW_PIECE':</span>
+    case 'NEW_PIECE':
       return action.piece
 &nbsp;
-<span class="branch-1 cbranch-no" title="branch not covered" >    case 'MOVE_PIECE':</span>
+    case 'MOVE_PIECE':
       return movePiece(state, action)
 &nbsp;
-<span class="branch-2 cbranch-no" title="branch not covered" >    case 'GRAVITY':</span>
+    case 'PIECE_INTERVAL':
       return updateObject(state, {interval: action.interval})
 &nbsp;
-<span class="branch-3 cbranch-no" title="branch not covered" >    case 'PUT_PIECE':</span>
+    case 'PUT_PIECE':
       return null
 &nbsp;
 <span class="branch-4 cbranch-no" title="branch not covered" >    case 'BLACK_LINES':</span>
@@ -193,7 +196,7 @@ export default function piece(state=</span>null, action) <span class="branch-0 c
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 10 2019 15:52:37 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 11 2019 17:08:27 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../prettify.js"></script>

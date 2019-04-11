@@ -1,6 +1,7 @@
 import chai from "chai"
 import * as tools from '../src/client/tools'
 import * as animationsTools from '../src/client/tools/animations'
+import * as reducersTools from '../src/client/tools/reducers'
 
 const should = chai.should()
 
@@ -184,3 +185,22 @@ describe('Animations tools', () => {
   })
 
 })
+
+// describe('Reducer tools', () => {
+//
+//   describe('movePiece', () => {
+//     const piece = {
+//       coords: [[0, 0], [0, 1], [0, 2], [0, 3]],
+//       rotate: 0,
+//     }
+//     it('returns a new objects updated with the given coords and the given rotate', () => {
+//       const coords = [[0, 1], [0, 2], [0, 3], [0, 4]]
+//       const rotate = 1
+//       const res = reducersTools.movePiece(piece, {coords, rotate})
+//       res.should.not.equal(piece)
+//       res.should.have.property('coords').which.have.deep.ordered.members(coords)
+//       res.should.have.property('rotate').which.is.equal(rotate)
+//     })
+//   })
+//
+// })

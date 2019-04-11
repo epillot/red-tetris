@@ -1,7 +1,7 @@
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import chai from "chai"
-import { movePiece } from '../src/client/actions/piece'
+import * as pieceActions from '../src/client/actions/piece'
 import * as serverActions from '../src/client/actions/server'
 import * as tetrisActions from '../src/client/actions/tetris'
 import * as uiActions from '../src/client/actions/ui'
@@ -18,8 +18,10 @@ describe('Redux actions test', () => {
     const store = mockStore({})
     const coords = [[0, 0], [0, 1], [0, 2], [0, 3]]
     const rotate = 1
-    store.dispatch(movePiece(coords))
-    store.dispatch(movePiece(coords, rotate))
+    const interval = 1
+    store.dispatch(pieceActions.movePiece(coords))
+    store.dispatch(pieceActions.movePiece(coords, rotate))
+    store.dispatch(pieceActions.interval(interval))
     const actions = store.getActions()
     it('movePiece', () => {
       actions[0].should.deep.equal({
@@ -31,6 +33,12 @@ describe('Redux actions test', () => {
         type: 'MOVE_PIECE',
         coords,
         rotate,
+      })
+    })
+    it('interval', () => {
+      actions[2].should.deep.equal({
+        type: 'PIECE_INTERVAL',
+        interval,
       })
     })
   })
