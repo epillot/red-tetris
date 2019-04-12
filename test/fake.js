@@ -186,21 +186,108 @@ describe('Animations tools', () => {
 
 })
 
-// describe('Reducer tools', () => {
-//
-//   describe('movePiece', () => {
-//     const piece = {
-//       coords: [[0, 0], [0, 1], [0, 2], [0, 3]],
-//       rotate: 0,
-//     }
-//     it('returns a new objects updated with the given coords and the given rotate', () => {
-//       const coords = [[0, 1], [0, 2], [0, 3], [0, 4]]
-//       const rotate = 1
-//       const res = reducersTools.movePiece(piece, {coords, rotate})
-//       res.should.not.equal(piece)
-//       res.should.have.property('coords').which.have.deep.ordered.members(coords)
-//       res.should.have.property('rotate').which.is.equal(rotate)
-//     })
-//   })
-//
-// })
+describe('Reducer tools', () => {
+
+  describe('movePiece', () => {
+    const piece = {
+      coords: [[0, 0], [0, 1], [0, 2], [0, 3]],
+      rotate: 0,
+    }
+    const coords = [[0, 1], [0, 2], [0, 3], [0, 4]]
+    it('returns a new objects updated with the given coords and the given rotate', () => {
+      const rotate = 1
+      const res = reducersTools.movePiece(piece, {coords, rotate})
+      res.should.not.equal(piece)
+      res.should.have.property('coords').which.have.deep.ordered.members(coords)
+      res.should.have.property('rotate').which.is.equal(rotate)
+    })
+
+    it('does not upate the rotate if the give rotate is null', () => {
+      const res = reducersTools.movePiece(piece, {coords, rotate:null})
+      res.should.have.property('rotate').which.is.equal(piece.rotate)
+    })
+  })
+
+  describe('newTetris', () => {
+    it('return a new 2d array with a length of 20 * 10 containing only empty blocks', () => {
+      const res = reducersTools.newTetris()
+      res.should.be.an('array').which.have.lengthOf(20)
+      res.forEach(line => {
+        line.should.be.an('array').which.have.lengthOf(10)
+        line.forEach(block => {
+          block.should.be.equal('')
+        })
+      })
+    })
+  })
+
+  describe('blackLines', () => {
+    let tetris = reducersTools.newTetris()
+    const piece = {
+      coords: [[0, 0], [0, 1], [0, 2], [0, 3]],
+      rotate: 0,
+    }
+    it('update the piece coordinates to increase the position of the piece if the max Y of the piece is greater than the start Y (i.e tetris.length-20) of the tetris', () => {
+      const nbLines = 2
+      const res = reducersTools.blackLines(piece, {tetris, nbLines})
+      res.should.have.property('coords').which.have.deep.ordered.members(piece.coords.map(([x, y]) =>[x, y-nbLines]))
+    })
+    it('does not increase the position of the piece more than startY - 1', () => {
+      const nbLines = 5
+      const res = reducersTools.blackLines(piece, {tetris, nbLines})
+      res.should.have.property('coords').which.have.deep.ordered.members(piece.coords.map(([x, y]) =>[x, y-4]))
+    })
+    it('decrease the position of the piece if the maxY is lower than the start Y due to an increase of the tetris length', () => {
+      tetris = tetris.concat([
+        ['', '', '', '', '', '', '', '', '', ''],
+        ['', '', '', '', '', '', '', '', '', ''],
+        ['', '', '', '', '', '', '', '', '', ''],
+        ['', '', '', '', '', '', '', '', '', ''],
+      ])
+      const nbLines = 4
+      const res = reducersTools.blackLines(piece, {tetris, nbLines})
+      res.should.have.property('coords').which.have.deep.ordered.members(piece.coords.map(([x, y]) =>[x, y+1]))
+    })
+  })
+
+  describe('getPlayersGhosts', () => {
+    const playersGhosts = {
+      1: {},
+      2: {},
+      3: {},
+      4: {},
+    }
+    const room = {
+      users: [
+        {
+          id: '1',
+          ghost: {},
+        },
+        {
+          id: '2',
+          ghost: {},
+        },
+        {
+          id: '3',
+          ghost: {},
+        },
+        {
+          id: '4',
+          ghost: {},
+        },
+      ]
+    }
+    let res = reducersTools.getPlayersGhosts(playersGhosts, {room})
+    it('return a new objects', () => {
+      res.should.not.equal(playersGhosts)
+    })
+    room.users[3].id = '5'
+    res = reducersTools.getPlayersGhosts(playersGhosts, {room})
+    it('delete the keys in the playersGhost output that are missing in the users array', () => {
+      res.should.not.have.property('4')
+    })
+    it('add the keys of the users array int the players ghost output if they are missing', () => {
+      res.should.have.property('5')
+    })
+  })
+})

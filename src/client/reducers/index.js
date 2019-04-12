@@ -15,10 +15,10 @@ export default combineReducers({
   getStyle: animations,
   connecting,
   game,
+  tetris,
   piece,
   playersGhosts,
   room,
   roomUsers,
-  tetris,
   ui,
 })
