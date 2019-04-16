@@ -24,9 +24,9 @@ const getBlockClass = (x, y, tetris, piece) => {
   return block
 }
 
-export const block = ({ x, y, blockClass, style }) => /*console.log(`block is rendered`) ||*/ (
-   <div className={`block ${blockClass}`} style={style}></div>
-)
+export const block = ({ x, y, blockClass, style }) => {
+  return (<div className={`block ${blockClass}`} style={style}></div>)
+}
 
 const mapStateToProps = (state, ownProps) => {
   const { x, y, num } = ownProps

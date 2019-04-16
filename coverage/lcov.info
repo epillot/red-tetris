@@ -204,10 +204,12 @@ end_of_record
 TN:
 SF:/Users/epillot/red-tetris/src/client/components/block/index.js
 FN:8,getBlockClass
+FN:27,block
 FN:31,mapStateToProps
-FNF:2
-FNH:0
+FNF:3
+FNH:1
 FNDA:0,getBlockClass
+FNDA:1,block
 FNDA:0,mapStateToProps
 DA:10,0
 DA:16,0
@@ -391,8 +393,8 @@ TN:
 SF:/Users/epillot/red-tetris/src/client/components/test.js
 FN:3,Tetris
 FNF:1
-FNH:1
-FNDA:1,Tetris
+FNH:0
+FNDA:0,Tetris
 LF:0
 LH:0
 BRF:0
