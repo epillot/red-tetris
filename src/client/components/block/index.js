@@ -24,7 +24,7 @@ const getBlockClass = (x, y, tetris, piece) => {
   return block
 }
 
-const block = ({ x, y, blockClass, style }) => /*console.log(`block is rendered`) ||*/ (
+export const block = ({ x, y, blockClass, style }) => /*console.log(`block is rendered`) ||*/ (
    <div className={`block ${blockClass}`} style={style}></div>
 )
 
