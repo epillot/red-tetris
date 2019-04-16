@@ -22,22 +22,22 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/6</span>
+        <span class='fraction'>14/14</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>8/8</span>
+        <span class='fraction'>16/16</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>6/6</span>
+        <span class='fraction'>14/14</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/6</span>
+        <span class='fraction'>14/14</span>
       </div>
     </div>
   </div>
@@ -143,7 +143,19 @@
 98
 99
 100
-101</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -203,6 +215,35 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -216,30 +257,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">20×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -282,13 +306,13 @@ export const getPlayersGhosts = (state, { room }) =&gt; {
   return output
 }
 &nbsp;
-// export const initGhosts = state =&gt; {
-//   const output = Object.assign({}, state)
-//   Object.keys(output).forEach(id =&gt; {
-//     output[id] = undefined
-//   })
-//   return output
-// }
+export const initGhosts = state =&gt; {
+  const output = Object.assign({}, state)
+  Object.keys(output).forEach(id =&gt; {
+    output[id] = undefined
+  })
+  return output
+}
 &nbsp;
 export const newTetris = () =&gt; {
   const tetris = []
@@ -300,56 +324,68 @@ export const newTetris = () =&gt; {
   }
   return tetris;
 }
-//
-// const getBlackLine = () =&gt; ['black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black']
-//
-// const getEmptyLine = () =&gt; ['', '', '', '', '', '', '', '', '', '']
-//
-// export const addBlackLines = (state, action) =&gt; {
-//   const output = state.slice()
-//   for (let i = 0; i &lt; action.nbLines; i++) {
-//     output.push(getBlackLine())
-//     if (isEmpty(output[0]))
-//       output.shift()
-//   }
-//   return output
-// }
-//
-// export const putPiece = (state, action) =&gt; {
-//   const output = state.slice()
-//   const { coords, color } = action.piece
-//   const ymin = Math.min(...coords.map(([x, y]) =&gt; y))
-//   for (let i = 0; i &gt; ymin; i--) {
-//     output.unshift(getEmptyLine())
-//   }
-//   const newCoords = ymin &lt; 0 ? coords.map(([x, y]) =&gt; [x, y - ymin]) : coords
-//   newCoords.forEach(([x, y]) =&gt; {
-//     output[y][x] = color
-//   })
-//   return output
-// }
-//
-//
-// export const removeLines = state =&gt; {
-//   const output = state.slice()
-//   let count = 0;
-//   for (let y = output.length - 1; y &gt;= 0; y--) {
-//     if (isComplete(output[y])) {
-//       count++
-//       output.splice(y, 1)
-//     }
-//   }
-//   while (count &gt; 0 &amp;&amp; output.length &lt; 20)
-//     output.unshift(getEmptyLine())
-//   return output
-// }
+&nbsp;
+const getBlackLine = (len) =&gt; {
+  const output = []
+  for (let i = 0; i &lt; len; i++) {
+    output.push('black')
+  }
+  return output
+}
+&nbsp;
+const getEmptyLine = (len) =&gt; {
+  const output = []
+  for (let i = 0; i &lt; len; i++) {
+    output.push('')
+  }
+  return output
+}
+&nbsp;
+export const addBlackLines = (state, action) =&gt; {
+  const output = state.slice()
+  for (let i = 0; i &lt; action.nbLines; i++) {
+    output.push(getBlackLine(state[0].length))
+    if (isEmpty(output[0]))
+      output.shift()
+  }
+  return output
+}
+&nbsp;
+export const putPiece = (state, action) =&gt; {
+  const output = state.map(line =&gt; line.map(b =&gt; b))
+  const { coords, color } = action.piece
+  const ymin = Math.min(...coords.map(([x, y]) =&gt; y))
+  for (let i = 0; i &gt; ymin; i--) {
+    output.unshift(getEmptyLine(state[0].length))
+  }
+  const newCoords = ymin &lt; 0 ? coords.map(([x, y]) =&gt; [x, y - ymin]) : coords
+  newCoords.forEach(([x, y]) =&gt; {
+    output[y][x] = color
+  })
+  return output
+}
+&nbsp;
+&nbsp;
+export const removeLines = state =&gt; {
+  const output = state.slice()
+  let count = 0;
+  for (let y = output.length - 1; y &gt;= 0; y--) {
+    if (isComplete(output[y])) {
+      count++
+      output.splice(y, 1)
+    }
+  }
+  while (count &gt; 0 &amp;&amp; output.length &lt; 20)
+    output.unshift(getEmptyLine(state[0].length))
+  return output
+}
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 16 2019 13:28:51 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 16 2019 17:15:47 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../prettify.js"></script>

@@ -10,7 +10,6 @@ class Game {
     const room = new Room(this.newRoomId())
     room.addUser(user)
     this.rooms.push(room)
-    console.log(this.rooms)
     return room
   }
 

@@ -290,4 +290,137 @@ describe('Reducer tools', () => {
       res.should.have.property('5')
     })
   })
+
+  describe('initGhosts', () => {
+    const playersGhosts = {
+      1: {},
+      2: {},
+      3: {},
+      4: {},
+    }
+    const res = reducersTools.initGhosts(playersGhosts)
+    it('create a new object', () => {
+      res.should.be.not.equal(playersGhosts)
+    })
+    it('set all the values of th object to undefined', () => {
+      Object.keys(res).forEach(id => {
+        should.not.exist(res[id])
+      })
+    })
+  })
+
+  describe('addBlackLines', () => {
+    const tetris = [
+      ['', 'red', '', ''],
+      ['', 'red', '', ''],
+      ['', 'red', '', ''],
+      ['', 'red', '', ''],
+    ]
+    const nbLines = 2
+    it('add black lines at the end of the tetris and increase the length of the tetris if the line at the top is not empty', () => {
+      const res = reducersTools.addBlackLines(tetris, {nbLines})
+      res.should.have.deep.ordered.members([
+        ['', 'red', '', ''],
+        ['', 'red', '', ''],
+        ['', 'red', '', ''],
+        ['', 'red', '', ''],
+        ['black', 'black', 'black', 'black'],
+        ['black', 'black', 'black', 'black'],
+      ])
+    })
+    it('remove [nbLines] lines at the top if they are empty to keep the length of the tetris', () => {
+      tetris[0][1] = ''
+      const res = reducersTools.addBlackLines(tetris, {nbLines})
+      res.should.have.deep.ordered.members([
+        ['', 'red', '', ''],
+        ['', 'red', '', ''],
+        ['', 'red', '', ''],
+        ['black', 'black', 'black', 'black'],
+        ['black', 'black', 'black', 'black'],
+      ])
+    })
+  })
+
+  describe('putPiece', () => {
+    const tetris = [
+      ['', '', '', ''],
+      ['', '', '', ''],
+      ['', '', '', ''],
+      ['', '', '', ''],
+    ]
+    const piece = {
+      color: 'red',
+      coords: [[0, 2], [1, 2], [0, 3], [1, 3]]
+    }
+    it('put the given piece in the given tetris', () => {
+      const res = reducersTools.putPiece(tetris, {piece})
+      res.should.have.deep.ordered.members([
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['red', 'red', '', ''],
+        ['red', 'red', '', ''],
+      ])
+    })
+    it('increase the size of the tetris if the given piece has negative Y coordinates', () => {
+      piece.coords = [[0, -1], [1, -1], [0, 0], [1, 0]]
+      const res = reducersTools.putPiece(tetris, {piece})
+      res.should.have.deep.ordered.members([
+        ['red', 'red', '', ''],
+        ['red', 'red', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+      ])
+    })
+  })
+
+  describe('removeLines', () => {
+    it('remove the complete lines of the given tetris and add empty lines at the top to keep a minimum length of 20', () => {
+      const tetris = [
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['red', 'red', 'red', 'red'],
+        ['red', 'red', 'red', 'red'],
+      ]
+      const res = reducersTools.removeLines(tetris)
+      res.should.have.deep.ordered.members([
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+        ['', '', '', ''],
+      ])
+    })
+  })
 })

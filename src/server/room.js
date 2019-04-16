@@ -28,7 +28,7 @@ export default class Room {
   removeUser(user) {
     user.leaveRoom(this.id)
     this.users = this.users.filter(u => u !== user)
-    if (!this.users.length)
+    if (!this.users.filter(u => u.isPlaying).length)
       this.isPlaying = false
   }
 
