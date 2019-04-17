@@ -1,6 +1,7 @@
 import * as server from '../../src/server/index'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
+import { socketIoMiddleWare } from '../../src/client/middleware/socketIoMiddleWare'
 
 export const startServer = (params, cb) => {
   server.create(params)
@@ -8,12 +9,12 @@ export const startServer = (params, cb) => {
     .catch( err => cb(err) )
 }
 
-export const configureStore = (reducer, socket, initialState, types) => createStore( 
-  reducer, 
-  initialState, 
+export const configureStore = (reducer, socket, initialState, types) => createStore(
+  reducer,
+  initialState,
   applyMiddleware(
-    myMiddleware(types), 
-    socketIoMiddleWare(socket),  
+    myMiddleware(types),
+    socketIoMiddleWare(socket),
     thunk
   )
 )
@@ -34,10 +35,10 @@ const myMiddleware = (types={}) => {
   }
 }
 
-const socketIoMiddleWare = socket => ({dispatch, getState}) => {
-  if(socket) socket.on('action', dispatch)
-  return next => action => {
-    if(socket && action.type && action.type.indexOf('server/') === 0) socket.emit('action', action)
-    return next(action)
-  }
-}
+// const socketIoMiddleWare = socket => ({dispatch, getState}) => {
+//   if(socket) socket.on('action', dispatch)
+//   return next => action => {
+//     if(socket && action.type && action.type.indexOf('server/') === 0) socket.emit('action', action)
+//     return next(action)
+//   }
+// }

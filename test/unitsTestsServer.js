@@ -179,8 +179,8 @@ describe('Class Room', () => {
   })
 })
 
-describe('Class Game', () => {
-  it('is instanciate with an empty array of rooms', () => {
-    Game.should.have.property('rooms').which.is.an('array').which.is.empty
-  })
-})
+// describe('Class Game', () => {
+//   it('is instanciate with an empty array of rooms', () => {
+//     Game.should.have.property('rooms').which.is.an('array').which.is.empty
+//   })
+// })

@@ -28,7 +28,8 @@ export const socketIoMiddleWare = socket => ({dispatch, getState}) => {
           const piece = getState().piece
           if (piece) {
             clearInterval(piece.interval)
-            removeEventListener('keydown', actions.keyEvents)
+            //removeEventListener('keydown', actions.keyEvents)
+            actions.removeKeyEvents()
           }
         }
       } else

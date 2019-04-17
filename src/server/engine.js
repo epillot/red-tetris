@@ -34,10 +34,8 @@ export default class Engine {
           user.name = action.nickname
 
         //console.log(action)
-        if(action.type === 'server/ping')
-          socket.emit('action', {type: 'pong'})
 
-        else if (action.type === 'server/CREATE_ROOM') {
+        if (action.type === 'server/CREATE_ROOM') {
           const room = Game.createRoom(user)
           //console.log(Game.rooms[0].master.name)
           user.sendAction({

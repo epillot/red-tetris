@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">9.09% </span>
+        <span class="strong">72.73% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>1/11</span>
+        <span class='fraction'>8/11</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.86% </span>
+        <span class="strong">54.29% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>1/35</span>
+        <span class='fraction'>19/35</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">25% </span>
+        <span class="strong">75% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/4</span>
+        <span class='fraction'>3/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">9.09% </span>
+        <span class="strong">72.73% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>1/11</span>
+        <span class='fraction'>8/11</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -86,7 +86,8 @@
 41
 42
 43
-44</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+44
+45</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -95,24 +96,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -124,7 +125,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -138,36 +140,37 @@ export const socketIoMiddleWare = socket =&gt; ({dispatch, getState}) =&gt; {
       dispatch(actions.tetris.blackLines(2))
   })
 &nbsp;
-  <span class="missing-if-branch" title="else path not taken" >E</span>if (socket) {
-    socket.on('action', <span class="fstat-no" title="function not covered" >action =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      if (action.hash &amp;&amp; action.hash.to === socket.id)</span>
+  if (socket) {
+    socket.on('action', action =&gt; {
+      if (action.hash &amp;&amp; action.hash.to === socket.id)
         window.location.hash = action.hash.hash
-<span class="cstat-no" title="statement not covered" >      if (action.type === 'NEW_PIECE') {</span>
-<span class="cstat-no" title="statement not covered" >        if (action.room)</span>
+      if (action.type === 'NEW_PIECE') {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (action.room)
           dispatch({type: 'UPDATE_ROOM', room: action.room})
         dispatch(actions.tryNewPiece(action))
-      } else <span class="cstat-no" title="statement not covered" >if (action.type === 'UPDATE_GHOST') {</span>
+      } else <span class="missing-if-branch" title="if path not taken" >I</span>if (action.type === 'UPDATE_GHOST') {
         dispatch(action)
 <span class="cstat-no" title="statement not covered" >        if (action.lines &gt; 0 &amp;&amp; getState().roomUsers.find(user =&gt; user.id === socket.id &amp;&amp; user.isPlaying)) {</span>
           dispatch(actions.tetris.blackLines(action.lines))
           dispatch(actions.server.updateTetris())
         }
-      } else <span class="cstat-no" title="statement not covered" >if (action.type === 'UPDATE_ROOM') {</span>
+      } else if (action.type === 'UPDATE_ROOM') {
         dispatch(action)
         const winner = action.room.users.find(user =&gt; user.win === true)
-<span class="cstat-no" title="statement not covered" >        if (winner &amp;&amp; winner.id === socket.id) {</span>
+        <span class="missing-if-branch" title="if path not taken" >I</span>i</span>f (winner &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >winner.id === socket.id) {
           const piece = getState().piece
 <span class="cstat-no" title="statement not covered" >          if (piece) {</span>
             clearInterval(piece.interval)
-            removeEventListener('keydown', actions.keyEvents)
+            //removeEventListener('keydown', actions.keyEvents)
+            actions.removeKeyEvents()
           }
         }
       } else
         dispatch(action)
     })
   }
-  return next =&gt; <span class="fstat-no" title="function not covered" >action =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (socket &amp;&amp; action.type &amp;&amp; action.type.indexOf('server/') === 0)</span>
+  return next =&gt; action =&gt; {
+    if (socket &amp;&amp; action.type &amp;&amp; action.type.indexOf('server/') === 0)
       socket.emit('action', action)
     return next(action)
   }
@@ -178,7 +181,7 @@ export const socketIoMiddleWare = socket =&gt; ({dispatch, getState}) =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 16 2019 17:15:47 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 17 2019 17:10:11 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../prettify.js"></script>
