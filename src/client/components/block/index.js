@@ -6,35 +6,33 @@ import './style.css'
 const defaultStyle = {}
 
 const getBlockClass = (x, y, tetris, piece) => {
-  //console.log(x, y);
   if (!tetris)
-    return ''
-  // const len = tetris.length - 20
-  //const board = tetris.reverse().map(line => line.reverse())
-  //console.log(board);
+    return 'block'
 
-  if (piece && piece.coords/*.map(([px, py]) => [px, py - len])*/.filter(([px, py]) => px==x && py==y).length)
-    return piece.color + ' colored'
-  const block = tetris[y][x]
+  if (piece && piece.coords.filter(([px, py]) => px==x && py==y).length)
+    return 'block ' + piece.color + ' colored'
+
   const ghost = getPieceProjection(tetris, piece)
-  if (ghost && ghost/*.map(([px, py]) => [px, py - len])*/.filter(([px, py]) => px==x && py==y).length && block === '')
+  if (ghost && ghost.filter(([px, py]) => px==x && py==y).length)
     return 'ghost'
-  if (block)
-    return block + ' colored'
-  return block
+
+  const color = tetris[y][x]
+  if (color)
+    return 'block ' + color + ' colored'
+  return 'block'
 }
 
 export const block = ({ x, y, blockClass, style }) => {
-  return (<div className={`block ${blockClass}`} style={style}></div>)
+  return (<div className={blockClass} style={style}></div>)
 }
 
 const mapStateToProps = (state, ownProps) => {
   const { x, y, num } = ownProps
-  const blockClass = /*num === 1 ? 'red' : 'green'*/getBlockClass(x, y, state.tetris, state.piece)
+  const blockClass = getBlockClass(x, y, state.tetris, state.piece)
   return {
     blockClass,
     //we don't need to animate an empty block
-    style: (blockClass && state.getStyle[x + y*10]) || defaultStyle,
+    style: (blockClass !== 'block' && state.getStyle[x + y*10]) || defaultStyle,
   }
 }
 
