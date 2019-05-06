@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">42.86% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/7</span>
+        <span class='fraction'>3/7</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">47.06% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/34</span>
+        <span class='fraction'>16/34</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">66.67% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/3</span>
+        <span class='fraction'>2/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">42.86% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/7</span>
+        <span class='fraction'>3/7</span>
       </div>
     </div>
   </div>
@@ -102,28 +102,17 @@
 57
 58
 59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+60</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -139,15 +128,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -185,19 +165,18 @@
 import { connect } from 'react-redux'
 import './style.css'
 &nbsp;
-const getBoardClassName = <span class="fstat-no" title="function not covered" >(ghost, isPlaying, gameOver, win) =&gt; {</span>
+const getBoardClassName = (ghost, isPlaying, gameOver, win) =&gt; {
   let boardClass = 'ghostContainer'
-<span class="cstat-no" title="statement not covered" >  if (ghost === null)</span>
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (ghost === null)
     boardClass += ' waitingGhost'
-<span class="cstat-no" title="statement not covered" >  if (ghost === undefined &amp;&amp; !isPlaying)</span>
+  <span class="missing-if-branch" title="if path not taken" >I</span>i</span>f (ghost === undefined &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!isPlaying)
     boardClass += ' readyGhost'
-<span class="cstat-no" title="statement not covered" >  if (gameOver || win)</span>
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (gameOver || win)
     boardClass += ' boardGhostGameEnded'
   return boardClass
 }
 &nbsp;
 const getGhost = <span class="fstat-no" title="function not covered" >ghost =&gt; {</span>
-  console.log(ghost);
   const output = []
   let x, y, blockclass
   const offset = ghost.length - 20
@@ -218,9 +197,9 @@ const playerGhost = ({ name, ghost, num, isPlaying, gameOver, win }) =&gt; (
   &lt;div className='ghostWrapper'&gt;
     &lt;div className='ghostPlayerName'&gt;{name}&lt;/div&gt;
     &lt;div className={getBoardClassName(ghost, isPlaying, gameOver, win)}&gt;
-      {ghost === undefined &amp;&amp; !isPlaying &amp;&amp; &lt;p&gt;READY&lt;/p&gt;}
+      {g</span>host === undefined &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!isPlaying &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >&lt;p&gt;READY&lt;/p&gt;}</span>
       {ghost === null &amp;&amp; &lt;p&gt;Waiting for player&lt;/p&gt;}
-      {gameOver &amp;&amp; &lt;i className='material-icons md-48 md-blue'&gt;sentiment_very_dissatisfied&lt;/i&gt;}
+      {gameOver &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >&lt;i className='material-icons md-48 md-blue'&gt;sentiment_very_dissatisfied&lt;/i&gt;}</span>
       {win &amp;&amp; &lt;i className='material-icons md-48 md-blue'&gt;sentiment_very_satisfied&lt;/i&gt;}
     &lt;/div&gt;
     &lt;div className='boardGhost'&gt;
@@ -229,22 +208,13 @@ const playerGhost = ({ name, ghost, num, isPlaying, gameOver, win }) =&gt; (
   &lt;/div&gt;
 )
 &nbsp;
-const mapStateToProps = <span class="fstat-no" title="function not covered" >(state, ownProps) =&gt; {</span>
+const mapStateToProps = (state, ownProps) =&gt; {
   const user = state.roomUsers.filter(user =&gt; user.id !== state.connecting.playerID)[ownProps.num]
-  // if (ownProps.num == 0)
-  //   return {
-  //     name: 'test',
-  //     ghost: undefined,
-  //     isPlaying: true,
-  //     gameOver: true,
-  //   }
-  // if (user)
-  //   console.log(state.playersGhosts[user.id]);
   return {
-    name: user ? user.name : '',
-    ghost: user ? state.playersGhosts[user.id] : null,
-    isPlaying: user ? user.isPlaying : false,
-    gameOver: user ? user.gameOver : false,
+    name: u</span>ser ? <span class="branch-0 cbranch-no" title="branch not covered" >user.name : '',
+    ghost: u</span>ser ? <span class="branch-0 cbranch-no" title="branch not covered" >state.playersGhosts[user.id] : null,
+    isPlaying: u</span>ser ? <span class="branch-0 cbranch-no" title="branch not covered" >user.isPlaying : false,
+    gameOver: u</span>ser ? <span class="branch-0 cbranch-no" title="branch not covered" >user.gameOver : false,
     win: user ? user.win : false,
   }
 }
@@ -256,7 +226,7 @@ export default connect(mapStateToProps, null)(playerGhost)
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 18 2019 14:58:33 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon May 06 2019 14:59:32 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

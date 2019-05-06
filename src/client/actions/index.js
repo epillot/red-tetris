@@ -1,4 +1,3 @@
-//import store from '../store'
 import * as f from '../tools'
 import rotations from '../tools/rotations'
 import { spaceAnimation, pieceAnimation, disparitionLinesAnimation } from './animations'
@@ -8,21 +7,6 @@ import * as tetris from './tetris'
 import * as server from './server'
 
 export {server, ui, tetris, piece}
-
-// export const gravity = () => {
-//   return setInterval(() => {
-//     store.dispatch((dispatch, getState) => {
-//       const newCoords = getState().piece.coords.map(([x, y]) => [x, y+1])
-//       if (f.isPossible(getState().tetris, newCoords)) {
-//         dispatch(piece.movePiece(newCoords))
-//       } else {
-//         clearInterval(getState().piece.interval)
-//         removeEventListener('keydown', keyEvents)
-//         dispatch(nextTurn())
-//       }
-//     })
-//   }, 700)
-// }
 
 
 const gravity = () => (dispatch, getState) => {
@@ -34,7 +18,6 @@ const gravity = () => (dispatch, getState) => {
       } else {
         clearInterval(interval)
         dispatch(piece.interval(null))
-        //removeEventListener('keydown', keyEvents)
         removeKeyEvents()
         dispatch(nextTurn())
       }
@@ -50,17 +33,14 @@ export const setKeyEvents = () => (dispatch) => {
   addEventListener('keydown', keyEvents)
 }
 
-const removeKeyEvents = () => {
+export const removeKeyEvents = () => {
   if (keyEvents) {
     removeEventListener('keydown', keyEvents)
     keyEvents = undefined
   }
 }
 
-//export const keyEvents = ({ keyCode }) => store.dispatch(keyEvent(keyCode))
-
 const keyEvent = keyCode => (dispatch, getState) => {
-  //const { tetris, piece: { coords, rotate, type, interval } } = getState()
   if (keyCode === 37 || keyCode === 39 || keyCode === 40) {
     const i = keyCode === 37 ? -1 : (keyCode === 39 ? 1 : 0)
     const j = keyCode === 40 ? 1 : 0
@@ -76,7 +56,6 @@ const keyEvent = keyCode => (dispatch, getState) => {
     }
   } else if (keyCode === 32) {
     clearInterval(getState().piece.interval)
-    //removeEventListener('keydown', keyEvents)
     removeKeyEvents()
     dispatch(spaceAnimation()).then(() => {
       dispatch(piece.movePiece(f.getPieceProjection(getState().tetris, getState().piece)))
@@ -101,12 +80,9 @@ export const tryNewPiece = action => async (dispatch, getState) => {
     await dispatch(startGame())
   const len = getState().tetris.length - 20
   action.piece.coords = action.piece.coords.map(([x, y]) => [x, y + len])
-  // console.log(action.piece.coords);
   if (f.isPossible(getState().tetris, action.piece.coords)) {
     dispatch(action)
-    //addEventListener('keydown', keyEvents)
     dispatch(setKeyEvents())
-    //dispatch({type: 'GRAVITY', interval: gravity()})
     dispatch(gravity())
   } else {
     dispatch(server.gameOver())
@@ -143,13 +119,13 @@ const beginGame = () => {
   }
 }
 
-export const pause = () => (dispatch, getState) => {
-  if (getState().piece && getState().piece.interval) {
-    clearInterval(getState().piece.interval)
-    removeKeyEvents()
-    dispatch(piece.interval(null))
-  } else if (getState().piece) {
-    dispatch(gravity())
-    dispatch(setKeyEvents())
-  }
-}
+// export const pause = () => (dispatch, getState) => {
+//   if (getState().piece && getState().piece.interval) {
+//     clearInterval(getState().piece.interval)
+//     removeKeyEvents()
+//     dispatch(piece.interval(null))
+//   } else if (getState().piece) {
+//     dispatch(gravity())
+//     dispatch(setKeyEvents())
+//   }
+// }

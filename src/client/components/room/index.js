@@ -36,7 +36,6 @@ const room = ({ roomId, isMaster, isPlaying, startGame, pause }) => (
           ? <button className='startGame' onClick={startGame}>Start game</button>
           : <p className='waitingMaster'>Waiting for the master to start the game...</p>)}
         {isPlaying && <p className='waitingMaster'>A game is in progress !</p>}
-        {isPlaying && <button className='startGame' onClick={pause}>PAUSE</button>}
       </div>
     </div>
 

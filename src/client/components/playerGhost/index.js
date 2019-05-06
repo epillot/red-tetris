@@ -14,7 +14,6 @@ const getBoardClassName = (ghost, isPlaying, gameOver, win) => {
 }
 
 const getGhost = ghost => {
-  console.log(ghost);
   const output = []
   let x, y, blockclass
   const offset = ghost.length - 20
@@ -48,15 +47,6 @@ const playerGhost = ({ name, ghost, num, isPlaying, gameOver, win }) => (
 
 const mapStateToProps = (state, ownProps) => {
   const user = state.roomUsers.filter(user => user.id !== state.connecting.playerID)[ownProps.num]
-  // if (ownProps.num == 0)
-  //   return {
-  //     name: 'test',
-  //     ghost: undefined,
-  //     isPlaying: true,
-  //     gameOver: true,
-  //   }
-  // if (user)
-  //   console.log(state.playersGhosts[user.id]);
   return {
     name: user ? user.name : '',
     ghost: user ? state.playersGhosts[user.id] : null,

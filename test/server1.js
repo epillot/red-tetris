@@ -74,18 +74,30 @@ describe('Server test', function() {
   })
 
 
-  it('START_GAME', done => {
+  it('START_GAME / UPDATE_TETRIS / GAME_OVER', done => {
     const initialState = {}
-    const socket = io(params.server.url)
-    const store =  configureStore(rootReducer, socket, initialState, {
-      'UPDATE_ROOM': ({ dispatch }) => {
+
+    const socket1 = io(params.server.url)
+    const store1 =  configureStore(rootReducer, socket1, initialState, {
+      'UPDATE_ROOM': ({ dispatch, getState }) => {
+        store2.dispatch(serverActions.joinRoom(getState().room.id, 'titi'))
         dispatch(serverActions.startGame())
       },
       'NEW_PIECE': ({ dispatch, getState }) => {
-        getState().piece.should.exist
-        done()
+        getState().piece.should.be.an('object')
+        dispatch(serverActions.updateTetris(1))
       }
     })
-    store.dispatch(serverActions.createRoom('toto'))
+
+    const socket2 = io(params.server.url)
+    const store2 =  configureStore(rootReducer, socket2, initialState, {
+      'UPDATE_GHOST': ({ dispatch, getState }) => {
+        getState().playersGhosts[socket1.id].should.be.an('object')
+        store1.dispatch(serverActions.gameOver())
+        done()
+      },
+    })
+
+    store1.dispatch(serverActions.createRoom('toto'))
   })
 })

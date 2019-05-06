@@ -1,27 +1,6 @@
 import { updateObject } from '../tools'
 import { movePiece, blackLines } from '../tools/reducers'
 
-// const movePiece = (state, { coords, rotate }) => {
-//   const update = {coords}
-//   if (rotate !== null)
-//     update.rotate = rotate
-//   return updateObject(state, update)
-// }
-//
-// const blackLines = (state, { nbLines, tetris }) => {
-//   const startY = tetris.length - 20
-//   const maxY =  Math.max(...state.coords.map(([x, y]) => y))
-//   let yi
-//   if (maxY > startY) {
-//     yi = nbLines
-//     while (maxY - yi < startY - 1)
-//       yi--
-//   } else {
-//     yi = maxY - startY
-//   }
-//   return updateObject(state, {coords: state.coords.map(([x, y]) => [x, y - yi])})
-// }
-
 export default function piece(state=null, action) {
 
   switch (action.type) {

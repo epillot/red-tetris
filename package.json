@@ -9,8 +9,8 @@
     "client-dev": "webpack-dev-server --colors --hot --inline --host 0.0.0.0 --port 8080",
     "srv-dev": "DEBUG=tetris:* babel-watch -w src src/server/main.js",
     "srv-dist": "DEBUG=tetris:* babel src --out-dir dist",
-    "test": "mocha --require babel-core/register --reporter spec",
-    "coverage": "NODE_ENV=test nyc --include src --all -r text -r lcov -r text --require babel-core/register mocha "
+    "test": "mocha --require babel-core/register --require ignore-styles --reporter spec",
+    "coverage": "NODE_ENV=test nyc --include src --all -r text -r lcov -r text --require babel-core/register --require ignore-styles mocha "
   },
   "dependencies": {
     "react": "^15.0.2",
@@ -44,6 +44,7 @@
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-react": "^5.2.2",
     "file-loader": "^3.0.1",
+    "ignore-styles": "^5.0.1",
     "jsdom": "14.0.0",
     "jsdom-global": "3.0.2",
     "mocha": "^2.4.5",

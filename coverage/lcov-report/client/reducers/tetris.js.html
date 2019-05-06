@@ -25,9 +25,9 @@
         <span class='fraction'>1/1</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
+        <span class="strong">77.78% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>6/9</span>
+        <span class='fraction'>7/9</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -67,117 +67,7 @@
 22
 23
 24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+25</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -203,61 +93,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { newTetris, addBlackLines, putPiece, removeLines } from '../tools/reducers'
 &nbsp;
-// const newTetris = () =&gt; {
-//   const tetris = []
-//   for (let i = 0; i &lt; 20; i++) {
-//     tetris.push([])
-//     for (let j = 0; j &lt; 10; j++) {
-//       tetris[i][j] = ''
-//     }
-//   }
-//   return tetris;
-// }
-//
-// const getBlackLine = () =&gt; ['black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black']
-//
-// const getEmptyLine = () =&gt; ['', '', '', '', '', '', '', '', '', '']
-//
-// const addBlackLines = (state, action) =&gt; {
-//   const output = state.slice()
-//   for (let i = 0; i &lt; action.nbLines; i++) {
-//     output.push(getBlackLine())
-//     if (isEmpty(output[0]))
-//       output.shift()
-//   }
-//   return output
-// }
-//
-// const putPiece = (state, action) =&gt; {
-//   const output = state.slice()
-//   const { coords, color } = action.piece
-//   const ymin = Math.min(...coords.map(([x, y]) =&gt; y))
-//   for (let i = 0; i &gt; ymin; i--) {
-//     output.unshift(getEmptyLine())
-//   }
-//   const newCoords = ymin &lt; 0 ? coords.map(([x, y]) =&gt; [x, y - ymin]) : coords
-//   newCoords.forEach(([x, y]) =&gt; {
-//     output[y][x] = color
-//   })
-//   return output
-// }
-//
-//
-// const removeLines = state =&gt; {
-//   const output = state.slice()
-//   let count = 0;
-//   for (let y = output.length - 1; y &gt;= 0; y--) {
-//     if (isComplete(output[y])) {
-//       count++
-//       output.splice(y, 1)
-//     }
-//   }
-//   while (count &gt; 0 &amp;&amp; output.length &lt; 20)
-//     output.unshift(getEmptyLine())
-//   return output
-// }
-&nbsp;
-&nbsp;
 export default function tetris(state=null, action) {
 &nbsp;
   switch (action.type) {
@@ -271,7 +106,7 @@ export default function tetris(state=null, action) {
 <span class="branch-2 cbranch-no" title="branch not covered" >    case 'REMOVE_LINES':</span>
       return removeLines(state)
 &nbsp;
-<span class="branch-3 cbranch-no" title="branch not covered" >    case 'BLACK_LINES':</span>
+    case 'BLACK_LINES':
       return addBlackLines(state, action)
 &nbsp;
     default:
@@ -286,7 +121,7 @@ export default function tetris(state=null, action) {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 18 2019 14:58:33 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon May 06 2019 14:59:32 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../prettify.js"></script>

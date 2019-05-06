@@ -4,7 +4,6 @@ import thunk from 'redux-thunk'
 import io from 'socket.io-client'
 import params from '../../../params'
 import reducer from '../reducers'
-//import { storeStateMiddleWare } from '../middleware/storeStateMiddleWare'
 import { socketIoMiddleWare } from '../middleware/socketIoMiddleWare'
 import { animationMiddleWare } from '../middleware/animationMiddleWare'
 
@@ -28,10 +27,10 @@ const store = createStore(
       switch (action.type) {
         //case 'REMOVE_LINES':
         //case 'PUT_PIECE':
-        case 'BLACK_LINES':
-        case 'UPDATE_GHOST':
+        //case 'BLACK_LINES':
+        //case 'UPDATE_GHOST':
         //case 'MOVE_PIECE':
-          return true
+          //return true
         default: return false
       }
     }

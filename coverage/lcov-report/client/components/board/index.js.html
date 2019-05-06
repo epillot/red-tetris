@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/1</span>
+        <span class='fraction'>1/1</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">66.67% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/12</span>
+        <span class='fraction'>8/12</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/2</span>
+        <span class='fraction'>2/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/1</span>
+        <span class='fraction'>1/1</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -80,88 +80,14 @@
 35
 36
 37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+38</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -196,68 +122,31 @@ import { connect } from 'react-redux'
 import Block from '../block/'
 import './style.css'
 &nbsp;
-// const getBlocks = (tetris, piece, pieceColor, getStyle) =&gt; {
-//   if (!tetris)
-//     return null
-//   const ghost = getPieceProjection(tetris, piece)
-//   return tetris.map((col, y) =&gt; {
-//     return col.map((color, x) =&gt; {
-//       if (color) color += ' colored'
-//       let style = {}
-//       if (getStyle)
-//         style = getStyle(x, y)
-//       if (piece &amp;&amp; piece.filter(([px, py]) =&gt; px==x &amp;&amp; py==y).length)
-//         color = pieceColor + ' colored'
-//       if (ghost &amp;&amp; ghost.filter(([px, py]) =&gt; px==x &amp;&amp; py==y).length &amp;&amp; color === '')
-//         color = 'ghost'
-//       return &lt;div key={`${x}${y}`} className={`block ${color}`} style={style}&gt;&lt;/div&gt;
-//     });
-//   });
-// }
-&nbsp;
-const getBlocks = <span class="fstat-no" title="function not covered" >(len) =&gt; {</span>
+const getBlocks = (len) =&gt; {
   const output = []
-  console.log(len);
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; len*10; i++) {</span>
-    console.log('salut');
+  for (let i = 0; i &lt; len*10; i++) {
     output.push(&lt;Block key={i} x={9 - Math.floor(i % 10)} y={len-1 - Math.floor(i / 10)} /&gt;)
-    //output.push(&lt;Block key={i} num={i % 2} /&gt;)
   }
   return output
 }
 &nbsp;
-// const board = ({ tetris, coords, color, getStyle, isPlaying, timer, gameOver }) =&gt; (
-//   &lt;div className={'board' + (gameOver ? ' boardGameOver' : '')}&gt;
-//     {getBlocks(tetris, coords, color, getStyle)}
-//     &lt;div className='wrapper'&gt;
-//       {timer &amp;&amp; &lt;div className='timer'&gt;{timer}&lt;/div&gt;}
-//       {gameOver &amp;&amp; &lt;span className='gameOver'&gt;GAME OVER&lt;/span&gt;}
-//     &lt;/div&gt;
-//   &lt;/div&gt;
-// )
-&nbsp;
 const board = ({ timer, gameOver, win, len }) =&gt; (
   &lt;div className='boardWrapper'&gt;
     &lt;div className='board-container'&gt;
-      {timer &amp;&amp; &lt;div className='timer'&gt;{timer}&lt;/div&gt;}
-      {gameOver &amp;&amp; &lt;span className='gameOver'&gt;GAME OVER&lt;/span&gt;}
+      {timer &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >&lt;div className='timer'&gt;{timer}&lt;/div&gt;}</span>
+      {gameOver &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >&lt;span className='gameOver'&gt;GAME OVER&lt;/span&gt;}</span>
       {win &amp;&amp; &lt;span className='gameOver'&gt;YOU WIN !&lt;/span&gt;}
     &lt;/div&gt;
-    &lt;div className={'board' + (gameOver || win ? ' boardGameOver' : '')}&gt;
+    &lt;div className={'board' + (g</span>ameOver || win ? <span class="branch-0 cbranch-no" title="branch not covered" >' boardGameOver' : '')}&gt;
       {!timer &amp;&amp; getBlocks(len)}
     &lt;/div&gt;
   &lt;/div&gt;
 )
 &nbsp;
-const mapStateToProps = <span class="fstat-no" title="function not covered" >(state) =&gt; {</span>
+const mapStateToProps = (state) =&gt; {
   const self = state.roomUsers.find(user =&gt; user.id === state.connecting.playerID)
   return {
-    //tetris: state.tetris,
-    //coords: state.coords,
-    //color: state.color,
-    //getStyle: state.getStyle,
-    //isPlaying: state.isPlaying,
-    len: state.tetris ? state.tetris.length : 0,
+    len: s</span>tate.tetris ? <span class="branch-0 cbranch-no" title="branch not covered" >state.tetris.length : 0,
     timer: state.game.timer,
     gameOver: self.gameOver,
     win: self.win,
@@ -271,7 +160,7 @@ export default connect(mapStateToProps, null)(board)
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 18 2019 14:58:33 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon May 06 2019 14:59:32 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

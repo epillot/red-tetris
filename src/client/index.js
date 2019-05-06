@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import App from './containers/app'
 import store from './store'
 
-addEventListener('keydown', ({keyCode}) => console.log(keyCode))
+//addEventListener('keydown', ({keyCode}) => console.log(keyCode))
 
 ReactDom.render((
   <Provider store={store}>

@@ -14,7 +14,7 @@ const getBlockClass = (x, y, tetris, piece) => {
 
   const ghost = getPieceProjection(tetris, piece)
   if (ghost && ghost.filter(([px, py]) => px==x && py==y).length)
-    return 'ghost'
+    return 'block ghost'
 
   const color = tetris[y][x]
   if (color)
@@ -27,7 +27,7 @@ export const block = ({ x, y, blockClass, style }) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { x, y, num } = ownProps
+  const { x, y } = ownProps
   const blockClass = getBlockClass(x, y, state.tetris, state.piece)
   return {
     blockClass,
